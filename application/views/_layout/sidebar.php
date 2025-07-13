@@ -21,7 +21,8 @@
         Main Menu
     </div>
 
-    <?php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?>
+    <?php if (canAccessMenu('user_manage', $this->session->userdata('user_role'))): ?>
+    <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('user/all'); ?>">
                 <i class="fas fa-fw fa-user"></i>
@@ -30,7 +31,8 @@
         </li>
     <?php endif; ?>
 
-    <?php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?>
+    <?php if (canAccessMenu('lookup_manage', $this->session->userdata('user_role'))): ?>
+    <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('lookup/all'); ?>">
                 <i class="fas fa-fw fa-table"></i>
@@ -39,7 +41,8 @@
         </li>
     <?php endif; ?>
 
-    <?php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?>
+    <?php if (canAccessMenu('settings_manage', $this->session->userdata('user_role'))): ?>
+    <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?> -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('settings/edit'); ?>">
                 <i class="fas fa-fw fa-table"></i>
@@ -48,7 +51,8 @@
         </li>
     <?php endif; ?>
 
-    <?php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?>
+    <?php if (canAccessMenu('page_test', $this->session->userdata('user_role'))): ?>
+    <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?> -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('pagetest/all'); ?>">
                 <i class="fab fa-fw fa-wpforms"></i>
@@ -57,7 +61,8 @@
         </li>
     <?php endif; ?>
     
-    <?php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?>
+    <?php if (canAccessMenu('page_test', $this->session->userdata('user_role'))): ?>
+    <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?> -->
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('pagetest/all'); ?>">
                 <i class="fab fa-fw fa-wpforms"></i>

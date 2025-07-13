@@ -18,6 +18,12 @@ TODO
 - API key
 
 
+07/14/2025		- improve RBAC
+				- modify cloudgate.php
+				- added rbac_helper.php
+				- modify the sidebar menu
+				- 
+				
 07/11/2025		- added a responsive site page
 				- added a full flyer page
 				- added logo in the full flyer

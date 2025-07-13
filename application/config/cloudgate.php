@@ -69,12 +69,21 @@ $config['allowlogin']               = true;             // Allow user to login i
 $config['autoreg']                  = false;             // Allow user to register themselves
 $config['cg_landingpage']           = true;
 
-//Define Roles and memberes
+//Define group that can be accessed by roles.
 $config['cg-roles'] = array(
     'admin-group'       => array('Admin'),
     'support-group'     => array('Admin','Support'),
     'business-group'    => array('Admin','Manager', 'User', 'Client'),
     'user-group'        => array('Admin','Support','Manager','Guest', 'Visitor')
+);
+
+//Define menu that can be access by a group
+$config['menu-access'] = array(
+    'lookup_manage'         => array('admin-group', 'support-group', 'business-group', 'user-group'),
+    'user_manage'           => array('admin-group'),
+    'settings_manage'       => array('admin-group', 'support-group'),
+    'support_dashboard'     => array('support-group'),
+    'page_test'             => array('admin-group', 'support-group', 'business-group', 'user-group'),
 );
 
 //Business
