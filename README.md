@@ -1,16 +1,15 @@
 # RuangAdmin
 
-RuangAdmin - Free Admin Control Panel Themes Based on Bootstrap 4
+CloudgateOne - Free Admin Control Panel Themes Based on Bootstrap 4
 
 -------------------
 
-**RuangAdmin** is responsive admin template. Based on Bootstrap 4 Framework. Highly cusmtomizable and easy to use. 
+**CloudGateOne** is responsive admin template. Based on Bootstrap 4 Framework. Highly cusmtomizable and easy to use. 
 
-!["RuangAdmin Screenshot"](https://indrijunanda.github.io/RuangAdmin/img/screenshot/ss1.png "RuangAdmin Screenshot")
 
 ## Table of contents
 
-- [Link RuangAdmin](https://github.com/indrijunanda/RuangAdmin.git)
+- [Link CloudGateOne](https://github.com/jammidee/cloudgateone.git)
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#License)
