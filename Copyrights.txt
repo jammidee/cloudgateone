@@ -1,0 +1,19 @@
+/**
+ * Copyright (C) 2012 Lalulla OPC. All rights reserved.
+ * Copyright (c) 2014-2022 - Joel M. Damaso - mailto:jammi_dee@yahoo.com Manila/Philippines
+ * This file is part of Lalulla System.
+ * 
+ * Lalulla System is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * 
+ * Framework Designed by: Jammi Dee (jammi_dee@yahoo.com)
+ * Framework Owner: Joel M. Damaso
+ * 08/13/2017
+ *
+ * This is to allowed ServX Global Inc. to use the Lalulla framework to develop another system based on it
+ * as part of the deal that Joel Damaso will be part/co-owner of the ServX Global Company. The resulting application
+ * as a by product of development for a specific purpose will be owned by ServX Global Inc. The Lalulla framework will
+ * remain under the ownership of Joel M. Damaso.
+ * 
+*/

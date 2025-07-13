@@ -1,0 +1,122 @@
+//===============================================
+// Lallula Framework Configuration Guide Notes
+// Added By: Jammi Dee
+// Date: 06/28/2025
+//
+//
+//
+// This file will guide the developer during the
+// configuration of the template prior to the
+// the development of any specific application it
+// it is intended to be deployed.
+//===============================================
+
+======================
+DATABASE Configuration
+======================
+1. Open /application/config/database.php.
+2. Edit it to resemble like below:
+
+	$db['default'] = array(
+		'dsn'	=> '',
+		'hostname' => 'localhost',
+		'username' => 'hospuser',
+		'password' => 'hosppass@!!',
+		'database' => 'hapsearch70',
+		'dbdriver' => 'mysqli',
+		'dbprefix' => '',
+		'pconnect' => FALSE,
+		//'db_debug' => (ENVIRONMENT !== 'production'),
+		'db_debug' => TRUE,
+		'cache_on' => FALSE,
+		'cachedir' => '',
+		'char_set' => 'utf8',
+		'dbcollat' => 'utf8_general_ci',
+		'swap_pre' => '',
+		'encrypt' => FALSE,
+		'compress' => FALSE,
+		'stricton' => FALSE,
+		'failover' => array(),
+		'save_queries' => TRUE
+	);
+
+3.
+
+========================
+SETTING THE DEFAULT PAGE
+========================
+1. Edit the /application/config/route.php
+2. Edit:
+
+	$route['default_controller'] = 'welcome';
+	$route['404_override'] = 'over404/index';
+	$route['translate_uri_dashes'] = FALSE;
+
+========================
+ADDING A NEW CONFIG file
+========================
+1. Edit the /application/config/autoload.php
+2. Edit:
+
+	/*
+	| -------------------------------------------------------------------
+	|  Auto-load Config files
+	| -------------------------------------------------------------------
+	| Prototype:
+	|
+	|	$autoload['config'] = array('config1', 'config2');
+	|
+	| NOTE: This item is intended for use ONLY if you have created custom
+	| config files.  Otherwise, leave it blank.
+	|
+	*/
+	
+	$autoload['config'] = array('cloudgate');
+
+
+
+
+
+1. The Rights - During configuration of the application the developer must have a clear
+		design of the rights to be used in the system.
+
+		lalulla.js:loadRoleAssigned - will handle all the rights coming from the wavemaker for the global users
+		view/layout/cgJsControl.pug - handles all the control of the cgSidebar.pug for the menu.
+		genmodules/genusers//views/add.pug, edit.pug has the roles harded-coded during the creation of the users.
+
+2.Global variables from config - settings that will be fixed in the app during its entire deployment. Can be changed by 
+		developer only.
+
+		cgconfig.js
+
+3. Config variables (direct accessed by modules) - this is the lowest level of config. Here the developer will set the database
+		password, security strings, port to use, etc.
+
+		config.json.
+		
+		
+		
+//=====================================================
+// Configuring the rights of the application.
+//=====================================================
+// JMD - 06/28/2025
+
+1. While the application is running, open a browser
+2. Access the following URL on the localhost to generate
+   rights for this application.
+   
+   localhost:3000/global/master/init/genrights?entity=[ENTITY]&appid=[APPID]&prefix=[PREFIX]
+   
+   	[ENTITY] 	- 	the entity where the rights will be generated.
+   	[APPID] 	- 	the application ID of the application here the rights will be used.
+   	[PREFIX] 	- 	the prefix to be used during the generation of the rightd. Usually
+					this is a 3 character code.
+   
+   
+   ========
+   Example:
+   ========
+   
+   localhost:3000/global/master/init/genrights?entity=LALULLA&appid=NODETEMP&prefix=NJS
+   
+   

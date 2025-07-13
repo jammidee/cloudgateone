@@ -1,0 +1,32 @@
+Jammi Dee
+06/22/2025
+
+The codeigniter is CI3 with compatibility with latest 8.2 database.
+pocketarc library is used.
+
+
+  Listen 8340
+  ##NameVirtualHost *:8340
+  <VirtualHost *:8340>
+        ServerName cloudgateone
+      ServerAlias cloudgateone
+	    DirectoryIndex index.php
+        DocumentRoot "C:/xampp/htdocs/cloudgateone/html"
+	
+     <Directory C:/xampp/htdocs/cloudgateone/html>
+	  Options Indexes FollowSymLinks
+	  	  AllowOverride All
+		  UnsetEnv PHPRC
+		  Require all granted
+          <FilesMatch "\.php$">
+              php_flag engine off
+              SetHandler application/x-httpd-php821-cgi
+          </FilesMatch>
+     </Directory>	
+	
+     ##ErrorLog "C:/xampp/htdocs/cloudgateone/log/error.log"
+     ##CustomLog "C:/xampp/htdocs/cloudgateone/log/requests.log" common
+	
+  </VirtualHost>
+  
+  
