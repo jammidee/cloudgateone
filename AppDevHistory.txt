@@ -22,6 +22,7 @@ TODO
 				- modify cloudgate.php
 				- added rbac_helper.php
 				- modify the sidebar menu
+				- added access in the config
 				- 
 				
 07/11/2025		- added a responsive site page

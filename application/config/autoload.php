@@ -107,7 +107,7 @@ $autoload['helper'] = array('url', 'file', 'cloudgate', 'logger', 'rbac');
 */
 // $autoload['config'] = array();
 // Add Cloudgate Config 06/28/2025
-$autoload['config'] = array('cloudgate');
+$autoload['config'] = array('cloudgate', 'access');
 
 /*
 | -------------------------------------------------------------------

@@ -17,7 +17,7 @@
  * AUTHOR       : Jammi Dee (Joel M. Damaso)
  * LOCATION     : Manila, Philippines
  * EMAIL        : jammi_dee@yahoo.com
- * CREATED DATE : June 28, 2025
+ * CREATED DATE : July 14, 2025
  * ------------------------------------------------------------------------
  */
 
@@ -54,20 +54,19 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// Added by Jammi Dee 06/28/2025
+//Define group that can be accessed by roles.
+$config['cg-roles'] = array(
+    'admin-group'       => array('Admin'),
+    'support-group'     => array('Admin','Support'),
+    'business-group'    => array('Admin','Manager', 'User', 'Client'),
+    'user-group'        => array('Admin','Support','Manager','Guest', 'Visitor')
+);
 
-$config['appid']                    = 'CGONE';
-$config['appname']                  = 'CG Admin';
-$config['appdesc']                  = 'Cloudgate Application Template';
-$config['appprefix']                = 'FEA';
-$config['appversion']               = '1.07.1972';
-$config['appcopyright']             = 'Lalulla OPC';
-$config['appentity']                = 'LALULLA';
-
-$config['cg_version']               = '1.19.72';
-$config['allowlogin']               = true;             // Allow user to login in the system
-$config['autoreg']                  = false;             // Allow user to register themselves
-$config['cg_landingpage']           = true;
-
-//Business
-$config['max_user_cap']             = 50;
+//Define menu that can be access by a group
+$config['menu-access'] = array(
+    'lookup_manage'         => array('admin-group', 'support-group', 'business-group', 'user-group'),
+    'user_manage'           => array('admin-group'),
+    'settings_manage'       => array('admin-group', 'support-group'),
+    'support_dashboard'     => array('support-group'),
+    'page_test'             => array('admin-group', 'support-group', 'business-group', 'user-group'),
+);
