@@ -12,15 +12,21 @@
     <div class="col-lg-12">
         <div class="card mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">User List</h6>
+
+                <div class="d-flex align-items-center">
+
+                    <i class="fas fa-users text-primary mr-2"></i>
+                    <h6 class="m-0 font-weight-bold text-primary mr-3">User List</h6>
+
+                </div>
 
                 <!-- Add Button -->
                 <a href="<?= base_url('user/add'); ?>" class="btn btn-sm btn-primary" id="btnAddUser">
                     <i class="fas fa-plus mr-1"></i> Add User
                 </a>
 
-
             </div>
+
             <div class="table-responsive p-3">
 
                 <!-- <form method="get" class="form-inline mb-3">
