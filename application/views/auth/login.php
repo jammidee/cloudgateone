@@ -15,12 +15,14 @@
                             <form class="user" method="post" action="<?php echo base_url('auth/checkinguser'); ?>" accept-charset="utf-8">
                                 <div class="form-group">
                                     <label>Email Address <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" name="email" placeholder="Enter Email Address" required>
+                                    <!-- <input type="email" class="form-control" name="email" placeholder="Enter Email Address" required> -->
+                                    <input type="email" name="email" class="form-control" placeholder="Email" value="<?= isset($remember_email) ? $remember_email : '' ?>" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password" placeholder="Password" required>
+                                    <!-- <input type="password" class="form-control" name="password" placeholder="Password" required> -->
+                                    <input type="password" name="password" class="form-control" placeholder="Password" value="<?= isset($remember_password) ? $remember_password : '' ?>" required>
                                 </div>
 
                                 <div class="form-group">

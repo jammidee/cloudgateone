@@ -45,6 +45,10 @@ class Auth extends CI_Controller {
 
             $data['title'] = 'Login';
 
+            // Load saved email and password from cookies
+            $data['remember_email']     = get_cookie('remember_email');
+            $data['remember_password']  = get_cookie('remember_password');
+
             $this->load->view('_layout/auth-header', $data);
             $this->load->view('auth/login', $data);
             $this->load->view('_layout/auth-footers', $data);

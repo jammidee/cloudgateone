@@ -18,12 +18,16 @@ TODO
 - API key
 
 
+07/18/2025		- added remember me code behinds
+				- 
+				
 07/14/2025		- improve RBAC
 				- modify cloudgate.php
 				- added rbac_helper.php
 				- modify the sidebar menu
 				- added access in the config
 				- added proper icon to the pages
+				- added firebase/php-jwt
 				- 
 				
 07/11/2025		- added a responsive site page
