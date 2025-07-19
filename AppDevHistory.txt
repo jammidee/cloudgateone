@@ -18,6 +18,9 @@ TODO
 - API key
 
 
+07/19/2025		- added a redirect login when accessing a page that is not logged yet.
+				- 
+				
 07/18/2025		- added remember me code behinds
 				- 
 				

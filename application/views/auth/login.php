@@ -25,6 +25,10 @@
                                     <input type="password" name="password" class="form-control" placeholder="Password" value="<?= isset($remember_password) ? $remember_password : '' ?>" required>
                                 </div>
 
+                                <?php if (!empty($redirect_url)): ?>
+                                    <input type="hidden" name="redirect" value="<?= htmlspecialchars($redirect_url) ?>">
+                                <?php endif; ?>
+
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox small">
                                         <input type="checkbox" class="custom-control-input" id="rememberMe" name="remember">

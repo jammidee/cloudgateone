@@ -33,29 +33,32 @@ class Auth extends CI_Controller {
 
     }
 
-	public function login()
-	{
+    public function login()
+    {
+        // Redirect to dashboard if already logged in
+        if (isLogged()) {
 
-        //Redirect to dashboard if logged
-        if( isLogged() ){
-
-            redirect('dashboard?t=' . time() , 'refresh');
+            redirect('dashboard?t=' . time(), 'refresh');
 
         } else {
 
             $data['title'] = 'Login';
 
             // Load saved email and password from cookies
-            $data['remember_email']     = get_cookie('remember_email');
-            $data['remember_password']  = get_cookie('remember_password');
+            $data['remember_email']    = get_cookie('remember_email');
+            $data['remember_password'] = get_cookie('remember_password');
+
+            // Pass redirect URL to the view, if provided
+            $url = $this->input->get('redirect');
+            if (!empty($url)) {
+                $data['redirect_url'] = urldecode($url); // decode just in case it's encoded
+            }
 
             $this->load->view('_layout/auth-header', $data);
             $this->load->view('auth/login', $data);
             $this->load->view('_layout/auth-footers', $data);
-
         }
-
-	}
+    }
 
 
     function checkinguser() {
@@ -134,6 +137,7 @@ class Auth extends CI_Controller {
 
                 log_action('login', 'User logged in successfully');
 
+
             } catch (Exception $e) {
 
                 // Handle the exception or log it
@@ -143,7 +147,17 @@ class Auth extends CI_Controller {
 
             }
 
-            redirect('dashboard?t=' . time(), 'refresh');
+            //Go to the redirect URL
+            $redirect_url = $this->input->post('redirect');
+            if (!empty($redirect_url)) {
+
+                redirect($redirect_url . '?t=' . time(), 'refresh');
+
+            } else {
+
+                redirect('dashboard?t=' . time(), 'refresh');
+
+            }
 
         } else {
 
@@ -188,7 +202,7 @@ class Auth extends CI_Controller {
         $this->session->unset_userdata('user_email');
         $this->session->unset_userdata('logged_in', FALSE);
 
-
+        $this->session->set_flashdata('error', 'User Successfully Updated');
         redirect('welcome?t=' . time(), 'refresh');
 
     }

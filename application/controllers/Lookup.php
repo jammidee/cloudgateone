@@ -28,7 +28,9 @@ class Lookup extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        isLogin();
+        
+        $uri = uri_string();
+        isLoginRedirect($uri);
 
         $this->load->model('mainmodel');
         $this->load->model('lookupmodel');

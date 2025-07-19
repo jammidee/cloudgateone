@@ -73,6 +73,44 @@ if (!function_exists('isLogin')) {
     }
 }
 
+//Added by Jammi Dee 07/19/2025 - My bday
+if (!function_exists('isLoginRedirect')) {
+    function isLoginRedirect($url = null) {
+        $ci = & get_instance();
+        $loggedIn = $ci->session->userdata('logged_in');
+
+        if (!$loggedIn) {
+            // Get caller info (controller and method)
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+            $caller = $backtrace[1] ?? null;
+
+            $called_from = 'Unknown';
+            if ($caller && isset($caller['class'], $caller['function'])) {
+                $called_from = $caller['class'] . '::' . $caller['function'];
+            }
+
+            // Capture the current URI if $url is not passed
+            $redirectUrl = $url ?? uri_string(); // e.g., 'admin/settings'
+
+            log_action(
+                'unauthorized_access',
+                'Unauthorized access attempt to ' . $called_from . ' at URI: ' . $redirectUrl,
+                'WARNING',
+                true
+            );
+
+            // Build the redirect path
+            $loginRedirect = 'auth/login';
+            if (!empty($redirectUrl)) {
+                $loginRedirect .= '?redirect=' . urlencode($redirectUrl);
+            }
+
+            return redirect($loginRedirect, 'refresh');
+        }
+    }
+}
+
+
 if (!function_exists('isLogged')) {
     function isLogged() {
         $ci = & get_instance(); //get main CodeIgniter object
