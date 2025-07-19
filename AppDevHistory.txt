@@ -19,6 +19,7 @@ TODO
 
 
 07/19/2025		- added a redirect login when accessing a page that is not logged yet.
+				- added a show/hide password
 				- 
 				
 07/18/2025		- added remember me code behinds

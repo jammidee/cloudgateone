@@ -19,10 +19,18 @@
                                     <input type="email" name="email" class="form-control" placeholder="Email" value="<?= isset($remember_email) ? $remember_email : '' ?>" required>
                                 </div>
 
+                                <!-- <div class="form-group"> -->
+                                    <!-- <label>Password <span class="text-danger">*</span></label> -->
+                                    <!-- <input type="password" class="form-control" name="password" placeholder="Password" required> -->
+                                    <!-- <input type="password" name="password" class="form-control" placeholder="Password" value="<!= isset($remember_password) ? $remember_password : '' ?>" required> -->
+                                <!-- </div> -->
+
                                 <div class="form-group">
                                     <label>Password <span class="text-danger">*</span></label>
-                                    <!-- <input type="password" class="form-control" name="password" placeholder="Password" required> -->
-                                    <input type="password" name="password" class="form-control" placeholder="Password" value="<?= isset($remember_password) ? $remember_password : '' ?>" required>
+                                    <div style="position: relative;">
+                                        <input type="password" name="password" id="password" class="form-control pr-5" placeholder="Password" value="<?= isset($remember_password) ? $remember_password : '' ?>" required>
+                                        <span toggle="#password" class="fa fa-fw fa-eye toggle-password" style="position: absolute; top: 50%; right: 15px; transform: translateY(-50%); cursor: pointer;"></span>
+                                    </div>
                                 </div>
 
                                 <?php if (!empty($redirect_url)): ?>
@@ -66,3 +74,20 @@
      </div>
 </div>
 <!-- End Login Content -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        //Added by Jammi Dee 07/19/2025
+        const toggle        = document.querySelector('.toggle-password');
+        const passwordInput = document.querySelector('#password');
+
+        toggle.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+    });
+</script>
