@@ -64,7 +64,7 @@
                                 <a class="font-weight-bold small" href="<?php echo base_url('register'); ?>">Create an Account!</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="<?php echo base_url('forgot-password'); ?>">Forgot Password?</a>
+                                <a class="small" href="<?php echo base_url('auth/forgotpassword'); ?>">Forgot Password?</a>
                             </div>
                         </div>
                     </div>

@@ -20,11 +20,16 @@ TODO
 
 07/19/2025		- added a redirect login when accessing a page that is not logged yet.
 				- added a show/hide password
+				- created an account in mailjet: https://app.mailjet.com/ jammi_dee@yahoo.com
+				- mailjet API Key: ae6d6fbf53f804bbb7b753e58ed66970
+				- mailjet Secret Key: 8cf78ed0415e57bf03ef953fa655fba2
+				- added email info in the config.php
+				- create a page for login reset
 				- 
-				
+
 07/18/2025		- added remember me code behinds
-				- 
-				
+
+
 07/14/2025		- improve RBAC
 				- modify cloudgate.php
 				- added rbac_helper.php
@@ -32,33 +37,33 @@ TODO
 				- added access in the config
 				- added proper icon to the pages
 				- added firebase/php-jwt
-				- 
-				
+				-
+
 07/11/2025		- added a responsive site page
 				- added a full flyer page
 				- added logo in the full flyer
-				- 
-				
+				-
+
 07/09/2025 		- added remember me
 				- Added helper for logging
 				- added logging on the isLogin helper function
 				- added site controller and basic pages.
 				- Create sample pages for site
-				- 
-				
+				-
+
 07/06/2025		- completed the Profile Page
 				- added Add User Page
 				- added activity log
 				- completed the index for activitylog
 				- created sessionapi for injecting data to session.
 				- successfully passed parameter via session
-				- 
-				
+				-
+
 07/03/2025		- completed the lookup CRUD
 				- added profile class
 				- added index and edit functions in profile class
 				- added settings class with index
-				- 
+				-
 
 07/02/2025		- Make the datatable responsive, sortable
 				- Added lookup module / CRUD
