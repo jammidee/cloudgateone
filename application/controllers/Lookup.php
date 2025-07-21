@@ -37,6 +37,7 @@ class Lookup extends CI_Controller
 
     }
 
+   
     public function index()
     {
         $data['title'] = 'Lookup';

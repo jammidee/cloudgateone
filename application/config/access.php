@@ -59,14 +59,29 @@ $config['cg-roles'] = array(
     'admin-group'       => array('Admin'),
     'support-group'     => array('Admin','Support'),
     'business-group'    => array('Admin','Manager', 'User', 'Client'),
-    'user-group'        => array('Admin','Support','Manager','Guest', 'Visitor')
+    'user-group'        => array('Admin','Support','Manager','Guest', 'Visitor'),
+    'guest-group'       => array('Admin','Support','Manager','Guest', 'Visitor')
 );
 
 //Define menu that can be access by a group
 $config['menu-access'] = array(
-    'lookup_manage'         => array('admin-group', 'support-group', 'business-group', 'user-group'),
+    
+    //Lookup right controls
+    'lookup_manage'         => array('admin-group','support-group','business-group','user-group'),
+    'lookup_create'         => array('admin-group','support-group'),
+    'lookup_read'           => array('admin-group','support-group','business-group','user-group'),
+    'lookup_update'         => array('admin-group','support-group'),
+    'lookup_delete'         => array('admin-group','support-group'),
+
+    //User right controls
     'user_manage'           => array('admin-group'),
+    'user_create'           => array('admin-group'),
+    'user_read'             => array('admin-group'),
+    'user_update'           => array('admin-group'),
+    'user_delete'           => array('admin-group'),
+
     'settings_manage'       => array('admin-group', 'support-group'),
+
     'support_dashboard'     => array('support-group'),
     'page_test'             => array('admin-group', 'support-group', 'business-group', 'user-group'),
 );

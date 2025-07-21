@@ -32,9 +32,11 @@
                 </div>
 
                 <!-- Add Button -->
-                <button class="btn btn-sm btn-primary" id="btnAddLookup">
-                    <i class="fas fa-plus mr-1"></i>
-                </button>
+                <?php if (canAccessMenu('lookup_create', $this->session->userdata('user_role'))): ?>
+                    <button class="btn btn-sm btn-primary" id="btnAddLookup">
+                        <i class="fas fa-plus mr-1"></i>
+                    </button>
+                <?php endif; ?>
 
             </div>
 
@@ -70,14 +72,18 @@
                                     <!-- <a href="<!= base_url('/lookup/view/' . $row->id . '?t=' . time() ); ?>" class="btn btn-sm btn-info" title="View">
                                         <i class="fas fa-eye"></i>
                                     </a> -->
+                                    <?php if (canAccessMenu('lookup_update', $this->session->userdata('user_role'))): ?>
+                                        <a href="#" class="btn btn-sm btn-primary ml-1 btn-edit" data-id="<?= $row->id ?>"  data-toggle="modal" data-target="#editLookupModal" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    <?php endif; ?>
 
-                                    <a href="#" class="btn btn-sm btn-primary ml-1 btn-edit" data-id="<?= $row->id ?>"  data-toggle="modal" data-target="#editLookupModal" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                    <?php if (canAccessMenu('lookup_delete', $this->session->userdata('user_role'))): ?>
+                                        <a href="<?= base_url('/lookup/delete/' . $row->id . '?t=' . time() . '&keyid=' . $row->keyid); ?>" class="btn btn-sm btn-danger ml-1 btn-delete" data-id="<?= $row->id ?>" title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    <?php endif; ?>
 
-                                    <a href="<?= base_url('/lookup/delete/' . $row->id . '?t=' . time() . '&keyid=' . $row->keyid); ?>" class="btn btn-sm btn-danger ml-1 btn-delete" data-id="<?= $row->id ?>" title="Delete">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
 
                                 </td>
                                 <!-- Actions -->

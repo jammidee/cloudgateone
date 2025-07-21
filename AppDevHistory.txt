@@ -18,6 +18,13 @@ TODO
 - API key
 
 
+07/21/2025		- added a user delete function
+				- 
+
+07/20/2025		- added full right config/setup to user page
+				- added full right config/setup to lookup page
+				-
+
 07/19/2025		- added a redirect login when accessing a page that is not logged yet.
 				- added a show/hide password
 				- created an account in mailjet: https://app.mailjet.com/ jammi_dee@yahoo.com
@@ -25,7 +32,7 @@ TODO
 				- mailjet Secret Key: 8cf78ed0415e57bf03ef953fa655fba2
 				- added email info in the config.php
 				- create a page for login reset
-				- 
+				-
 
 07/18/2025		- added remember me code behinds
 

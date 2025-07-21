@@ -18,7 +18,7 @@
                     </h6>
                 </div>
                 <div class="card-body">
-                    <form class="form-horizontal form-label-left" role="form" enctype="multipart/form-data" method="post" action="<?= base_url(); ?>user/insert" accept-charset="utf-8">
+                    <form class="form-horizontal form-label-left" role="form" enctype="multipart/form-data" method="post" action="<?= base_url(); ?>user/create" accept-charset="utf-8">
 
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Photo</label>

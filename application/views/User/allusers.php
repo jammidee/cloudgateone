@@ -73,15 +73,25 @@
 
                                 <!-- Actions -->
                                 <td>
-                                    <a href="<?= base_url('/user/view/' . $row->id . '?t=' . time() ); ?>" class="btn btn-sm btn-info" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="<?= base_url('/user/edit/' . $row->id . '?t=' . time() ); ?>" class="btn btn-sm btn-primary ml-1" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="<?= base_url('/user/delete/' . $row->id . '?t=' . time() ); ?>" class="btn btn-sm btn-danger ml-1" title="Delete" onclick="return confirm('Are you sure you want to delete this item?');">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
+                                    <?php if (canAccessMenu('user_read', $this->session->userdata('user_role'))): ?>
+                                        <a href="<?= base_url('/user/view/' . $row->id . '?t=' . time()); ?>"
+                                            class="btn btn-sm btn-info"
+                                            title="View"><i class="fas fa-eye"></i>
+                                        </a>
+                                    <?php endif; ?>
+
+                                    <?php if (canAccessMenu('user_update', $this->session->userdata('user_role'))): ?>
+                                        <a href="<?= base_url('/user/edit/' . $row->id . '?t=' . time()); ?>"
+                                            class="btn btn-sm btn-primary ml-1"
+                                            title="Edit"><i class="fas fa-edit"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if (canAccessMenu('user_delete', $this->session->userdata('user_role'))): ?>
+                                        <a href="<?= base_url('/user/delete/' . $row->id . '?t=' . time()); ?>"
+                                            class="btn btn-sm btn-danger btn-delete ml-1"
+                                            title="Delete"><i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    <?php endif; ?>
                                 </td>
                                 <!-- Actions -->
 
@@ -126,6 +136,33 @@
             console.warn("#dataTableHolder table not found.");
         }
 
+        // Added click on delete button with SweetAlert
+        document.querySelectorAll(".btn-delete").forEach(function (button) {
+            button.addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
+                const url = this.getAttribute("href");
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel',
+                    heightAuto: false, // Fix layout issue on mobile
+                    customClass: {
+                        confirmButton: 'btn btn-danger',
+                        cancelButton: 'btn btn-secondary ml-2'
+                    },
+                    buttonsStyling: false // Let Bootstrap handle button styles
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
 
     });
 </script>

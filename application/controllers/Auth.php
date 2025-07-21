@@ -274,7 +274,7 @@ class Auth extends CI_Controller {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-            
+
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //remove if cert already available
 
             $response = curl_exec($ch);
@@ -285,7 +285,7 @@ class Auth extends CI_Controller {
             // }
             // curl_close($ch);
             // exit();
-            
+
             $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
 

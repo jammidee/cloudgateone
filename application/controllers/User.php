@@ -69,6 +69,101 @@ class User extends CI_Controller
 
     }
 
+    //Added by Jammi Dee 07/20/2025
+    public function create()
+    {
+        $data = array();
+
+        /* Uploading Profile Images */
+        $imagePath = realpath(APPPATH . '../assets/images/');
+        $photo = $_FILES['photo']['tmp_name'];
+        if ($photo !== "") {
+            $config['upload_path']      = $imagePath;
+            $config['allowed_types']    = 'jpg|png|jpeg|gif';
+            $config['file_name']        = date('Ymd_his_') . rand(100, 999) . rand(100, 999);
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('photo')) {
+                $uploadData = $this->upload->data();
+                $data['photo'] = $uploadData['file_name'];
+
+                $config['image_library']    = 'gd2';
+                $config['source_image']     = $uploadData['full_path'];
+                $config['new_image']        = $imagePath . '/crop';
+                $config['quality']          = '100%';
+                $config['maintain_ratio']   = FALSE;
+
+                if ($uploadData['image_width'] > $uploadData['image_height']) {
+                    $config['width']    = $uploadData['image_height'];
+                    $config['height']   = $uploadData['image_height'];
+                    $config['x_axis']   = (($uploadData['image_width'] / 2) - ($config['width'] / 2));
+                } else {
+                    $config['height']   = $uploadData['image_width'];
+                    $config['width']    = $uploadData['image_width'];
+                    $config['y_axis']   = (($uploadData['image_height'] / 2) - ($config['height'] / 2));
+                }
+
+                $this->image_lib->clear();
+                $this->image_lib->initialize($config);
+                $this->image_lib->crop();
+
+                $config['source_image']     = $imagePath . '/crop/' . $uploadData['file_name'];
+                $config['new_image']        = $imagePath . '/final';
+                $config['width']            = 250;
+                $config['height']           = 250;
+
+                $this->image_lib->clear();
+                $this->image_lib->initialize($config);
+                $this->image_lib->resize();
+
+                unlink($uploadData['full_path']);
+            }
+        }
+
+        // Sanitize and gather input data
+        $fields = [
+            'name', 'mobile', 'package', 'area', 'staff', 'user_id',
+            'password', 'join_date', 'role', 'status', 'location',
+            'lat', 'lon', 'model', 'serial_no', 'number_of_ports',
+            'wan_bandwidth', 'property_id', 'remarks', 'petc_code',
+            'starttime', 'endtime'
+        ];
+
+        foreach ($fields as $field) {
+            $value = $this->input->post($field);
+            if (!empty($value)) {
+                $data[$field] = $value;
+            }
+        }
+
+        // Fields requiring special handling
+        $data['amount'] = " ";
+        $data['advance'] = " ";
+
+        if (!empty($this->input->post('accpass'))) {
+            $data['pass'] = md5($this->input->post('accpass'));
+        }
+
+        $data['search_quota'] = $this->input->post('search_quota') !== null
+            ? $this->input->post('search_quota') : 100;
+
+        $data['search_unli'] = $this->input->post('search_unli') ? 1 : 0;
+        $data['time_unli']   = $this->input->post('time_unli') ? 1 : 0;
+
+        //Log user creation
+        log_action('create', 'Created new user');
+
+        // Insert into database
+        $insert_true = $this->db->insert('users', $data);
+        if ($insert_true) {
+            $this->session->set_flashdata('success', 'User Successfully Created');
+            redirect('user/all', 'refresh');
+        } else {
+            $this->session->set_flashdata('error', 'Oops! Something went wrong');
+            redirect('user/add', 'refresh');
+        }
+    }
+
+
     public function all() {
 
         //Setup pagination
@@ -343,9 +438,51 @@ class User extends CI_Controller
             $this->session->set_flashdata('error', 'Opps! Something Wrong');
             redirect('user/all', 'refresh');
         }
-        
+
     }
 
+    public function delete($id = null)
+    {
+        if ($id === null) {
+            $this->session->set_flashdata('error', 'Invalid user ID');
+            redirect('user/all', 'refresh');
+        }
+
+        // Get user data for logging and possible file removal
+        $user = $this->db->get_where('users', ['id' => $id])->row();
+
+        if (!$user) {
+            $this->session->set_flashdata('error', 'User not found');
+            redirect('user/all', 'refresh');
+        }
+
+        // Remove profile images if they exist
+        if (!empty($user->photo)) {
+            $paths = [
+                realpath(APPPATH . '../assets/images/') . '/' . $user->photo,
+                realpath(APPPATH . '../assets/images/crop/') . '/' . $user->photo,
+                realpath(APPPATH . '../assets/images/final/') . '/' . $user->photo,
+            ];
+
+            foreach ($paths as $path) {
+                if (file_exists($path)) {
+                    @unlink($path);
+                }
+            }
+        }
+
+        // Delete from DB
+        $deleted = $this->db->delete('users', ['id' => $id]);
+
+        if ($deleted) {
+            log_action('delete', 'Deleted user with ID ' . $id);
+            $this->session->set_flashdata('success', 'User Successfully Deleted');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete user');
+        }
+
+        redirect('user/all', 'refresh');
+    }
 
 
 

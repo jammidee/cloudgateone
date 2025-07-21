@@ -74,8 +74,8 @@ $config['max_user_cap']             = 50;
 
 
 //Mail Notification Settings
-$config['mail_api_key']             = 'ae6d6fbf53f804bbb7b753e58ed66970';
-$config['mail_api_secret']          = '8cf78ed0415e57bf03ef953fa655fba2';
+$config['mail_api_key']             = '111-ae6d6fbf53f804bbb7b753e58ed66970-xyz';
+$config['mail_api_secret']          = '222-8cf78ed0415e57bf03ef953fa655fba2-xyz';
 $config['mail_url']                 = 'https://api.mailjet.com/v3.1/send';
 $config['mail_from']                = 'jammi_dee@yahoo.com';
 $config['mail_app_name']            = 'Cloudgate One';
