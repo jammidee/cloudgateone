@@ -69,6 +69,25 @@ class User extends CI_Controller
 
     }
 
+    public function view($id = null)
+    {
+        if (!$id) {
+            show_404();
+        }
+
+        $id = $this->uri->segment(3);
+        $data['view_user']  = $this->usermodel->getUserByID($id);
+
+        $data['title'] = 'User Details';
+
+        // Load view
+        $this->load->view('_layout/header', $data);
+        $this->load->view('_layout/sidebar', $data);
+        $this->load->view('_layout/topbar', $data);
+        $this->load->view('user/userview', $data);
+        $this->load->view('_layout/footer');
+    }
+    
     //Added by Jammi Dee 07/20/2025
     public function create()
     {
