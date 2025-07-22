@@ -23,18 +23,23 @@
 
     <?php if (canAccessMenu('user_manage', $this->session->userdata('user_role'))): ?>
     <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('user/all'); ?>">
+        <li class="nav-item <?= is_active_menu('user', 'all'); ?>">
+            <a class="nav-link" href="<?= base_url('user/all') . '?t=' . time(); ?>">
                 <i class="fas fa-fw fa-user"></i>
-                <span>Manage Users</span>
+                <span>Manage Users</span> 
             </a>
         </li>
     <?php endif; ?>
 
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Settings Menu
+    </div>
+    
     <?php if (canAccessMenu('lookup_manage', $this->session->userdata('user_role'))): ?>
     <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('lookup/all'); ?>">
+        <li class="nav-item <?= is_active_menu('lookup', 'all'); ?>">
+            <a class="nav-link" href="<?= base_url('lookup/all') . '?t=' . time(); ?>">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Manage Lookup</span>
             </a>
@@ -43,8 +48,8 @@
 
     <?php if (canAccessMenu('settings_manage', $this->session->userdata('user_role'))): ?>
     <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?> -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('settings/edit'); ?>">
+        <li class="nav-item <?= is_active_menu('settings', 'edit'); ?>">
+            <a class="nav-link" href="<?= base_url('settings/edit') . '?t=' . time(); ?>">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Manage Settings</span>
             </a>

@@ -91,7 +91,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'file', 'cloudgate', 'logger', 'rbac');
+$autoload['helper'] = array('url', 'file', 'cloudgate', 'logger', 'rbac', 'menu');
 
 /*
 | -------------------------------------------------------------------
