@@ -175,10 +175,10 @@ class User extends CI_Controller
         $insert_true = $this->db->insert('users', $data);
         if ($insert_true) {
             $this->session->set_flashdata('success', 'User Successfully Created');
-            redirect('user/all', 'refresh');
+            redirect('user/all?t=' . time(), 'refresh');
         } else {
             $this->session->set_flashdata('error', 'Oops! Something went wrong');
-            redirect('user/add', 'refresh');
+            redirect('user/add?t=' . time(), 'refresh');
         }
     }
 
@@ -452,10 +452,10 @@ class User extends CI_Controller
         $update_true = $this->db->update('users', $data);
         if ($update_true) {
             $this->session->set_flashdata('success', 'User Successfully Updated');
-            redirect('user/all', 'refresh');
+            redirect('user/all?t=' . time(), 'refresh');
         } else {
             $this->session->set_flashdata('error', 'Opps! Something Wrong');
-            redirect('user/all', 'refresh');
+            redirect('user/all?t=' . time(), 'refresh');
         }
 
     }
@@ -464,7 +464,7 @@ class User extends CI_Controller
     {
         if ($id === null) {
             $this->session->set_flashdata('error', 'Invalid user ID');
-            redirect('user/all', 'refresh');
+            redirect('user/all?t=' . time(), 'refresh');
         }
 
         // Get user data for logging and possible file removal
@@ -472,7 +472,7 @@ class User extends CI_Controller
 
         if (!$user) {
             $this->session->set_flashdata('error', 'User not found');
-            redirect('user/all', 'refresh');
+            redirect('user/all?t=' . time(), 'refresh');
         }
 
         // Remove profile images if they exist
@@ -500,7 +500,7 @@ class User extends CI_Controller
             $this->session->set_flashdata('error', 'Failed to delete user');
         }
 
-        redirect('user/all', 'refresh');
+        redirect('user/all?t=' . time(), 'refresh');
     }
 
 

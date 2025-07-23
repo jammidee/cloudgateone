@@ -18,8 +18,11 @@ TODO
 - API key
 
 
-07/22/2025		- added menu highlighting
+07/23/2025		- added t variables in the endpoints
 				- 
+
+07/22/2025		- added menu highlighting
+				-
 
 07/21/2025		- added a user delete function
 				- added user view
