@@ -116,6 +116,9 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+        const canAccessbuttons = <?= canAccessMenu('user_report', $this->session->userdata('user_role')) ? 'true' : 'false' ?>;
+
         // Check if jQuery is loaded
         if (typeof jQuery === "undefined") {
             console.error("jQuery is not loaded. DataTables requires jQuery.");
@@ -125,8 +128,12 @@
         // Initialize DataTable if target table exists
         if ($('#dataTableHolder').length) {
             $('#dataTableHolder').DataTable({
-                responsive: true, // ✅ enables responsive layout
-                order: [],        // no initial ordering
+                responsive: true,
+                pageLength: 25,
+                lengthMenu: [ [5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"] ],
+                order: [],
+                dom: '<"text-center mb-2"B><"d-flex justify-content-between align-items-center mb-2"l f>rt<"text-center"p>i',
+                buttons: canAccessbuttons ? ['copy', 'csv', 'excel', 'pdf', 'print'] : [],
                 columnDefs: [{
                     targets: 'nosort',
                     orderable: false

@@ -23,6 +23,15 @@
 <script src="<?= base_url('assets/'); ?>vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/datatables/dataTables.responsive.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<script src="<?= base_url('assets/'); ?>vendor/jszip/jszip.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/pdfmake/pdfmake.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/pdfmake/vfs_fonts.js"></script>
+
+<script src="<?= base_url('assets/'); ?>vendor/datatables/dataTables.buttons.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/datatables/buttons.print.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/datatables/buttons.html5.min.js"></script>
+
 <script src="<?= base_url('assets/'); ?>vendor/sweetalert2/sweetalert2.all.min.js"></script>
 <script src="<?= base_url('assets/'); ?>js/cg-admin.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/chart.js/Chart.min.js"></script>

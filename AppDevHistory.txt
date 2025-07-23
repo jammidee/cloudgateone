@@ -21,6 +21,7 @@ TODO
 07/23/2025		- added t variables in the endpoints
 				- added global helper
 				- added esc function in global helper
+				- added control on the datatable buttons
 				- 
 
 07/22/2025		- added menu highlighting

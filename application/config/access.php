@@ -79,6 +79,7 @@ $config['menu-access'] = array(
     'user_read'             => array('admin-group'),
     'user_update'           => array('admin-group'),
     'user_delete'           => array('admin-group'),
+    'user_report'           => array('admin-group'),
 
     'settings_manage'       => array('admin-group', 'support-group'),
 
