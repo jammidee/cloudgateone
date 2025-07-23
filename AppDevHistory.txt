@@ -22,6 +22,10 @@ TODO
 				- added global helper
 				- added esc function in global helper
 				- added control on the datatable buttons
+				- adjust column width in lookup
+				- added all page in activitylog
+				- completed the pagination of activitylog
+				- added log rotation
 				- 
 
 07/22/2025		- added menu highlighting

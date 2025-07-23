@@ -46,10 +46,10 @@
                 <table class="table table-sm align-items-center table-flush table-hover display nowrap" id="dataTableHolder" style="width:100%" >
                     <thead class="thead-light">
                         <tr>
-                            <th style="width: 5%;">ID</th>
-                            <th style="width: 25%;">ItemID</th>
-                            <th style="width: 60%;">Description</th>
-                            <th style="width: 10%;">Action</th>
+                            <th style="width: 15%;">ID</th>
+                            <th style="width: 20%;">ItemID</th>
+                            <th style="width: 50%;">Description</th>
+                            <th style="width: 15%;">Action</th>
                         </tr>
                     </thead>
                     <tfoot>
