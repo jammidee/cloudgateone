@@ -67,6 +67,15 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+
+                <div class="text-right mt-3 mb-4">
+                    <a href="<?= base_url('activitylog/rotatelogs'); ?>"
+                    class="btn btn-danger btn-sm"
+                    onclick="return confirm('Are you sure you want to rotate logs? Old records will be deleted or archived.');">
+                        <i class="fas fa-recycle"></i> Rotate Logs
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>

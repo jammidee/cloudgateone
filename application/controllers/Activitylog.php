@@ -28,7 +28,9 @@ class Activitylog extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        isLogin();
+        // isLogin();
+        $uri = uri_string();
+        isLoginRedirect($uri);
 
         $this->load->model('mainmodel');
         $this->load->model('usermodel');
@@ -154,8 +156,12 @@ class Activitylog extends CI_Controller
 
     //For log rotation. CAll via URL
     public function rotateLogs() {
+
         $this->load->model('activitylogmodel');
         $this->activitylogmodel->rotateOldLogs();
+
+        redirect('activitylog/all?t=' . time());
+
     }
 
 

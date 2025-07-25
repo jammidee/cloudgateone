@@ -17,6 +17,8 @@ TODO
 - jWT template
 - API key
 
+07/25/2025		- added redirection for not logged used in Activitylog
+				- 
 
 07/23/2025		- added t variables in the endpoints
 				- added global helper
@@ -26,7 +28,9 @@ TODO
 				- added all page in activitylog
 				- completed the pagination of activitylog
 				- added log rotation
-				- 
+				- Added activitylog listing
+				- Added log rotation in activity log
+				-
 
 07/22/2025		- added menu highlighting
 				-
