@@ -54,18 +54,37 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+$config['superadmins'] = array(
+    array(
+        'email'    => 'superadmin@cgone.com',
+        'password' => md5('supersecret123') // hash using md5()
+    ),
+    array(
+        'email'    => 'root@cgone.com',
+        'password' => md5('toor')
+    )
+);
+
 //Define group that can be accessed by roles.
 $config['cg-roles'] = array(
-    'admin-group'       => array('Admin'),
-    'support-group'     => array('Admin','Support'),
-    'business-group'    => array('Admin','Manager', 'User', 'Client'),
-    'user-group'        => array('Admin','Support','Manager','Guest', 'Visitor'),
-    'guest-group'       => array('Admin','Support','Manager','Guest', 'Visitor')
+    'super-group'       => array('Superadmin'),
+    'admin-group'       => array('Superadmin', 'Admin'),
+    'support-group'     => array('Superadmin', 'Admin','Support'),
+    'business-group'    => array('Superadmin', 'Admin','Manager', 'User', 'Client'),
+    'user-group'        => array('Superadmin', 'Admin','Support','Manager','Guest', 'Visitor'),
+    'guest-group'       => array('Superadmin', 'Admin','Support','Manager','Guest', 'Visitor')
 );
 
 //Define menu that can be access by a group
 $config['menu-access'] = array(
-    
+
+    //Top Menu controls
+    'topmenu_manage'         => array('admin-group','support-group','business-group','user-group'),
+    'topmenu_create'         => array('admin-group','support-group'),
+    'topmenu_read'           => array('admin-group','support-group','business-group','user-group'),
+    'topmenu_update'         => array('admin-group','support-group'),
+    'topmenu_delete'         => array('admin-group','support-group'),
+
     //Lookup right controls
     'lookup_manage'         => array('admin-group','support-group','business-group','user-group'),
     'lookup_create'         => array('admin-group','support-group'),
@@ -74,15 +93,15 @@ $config['menu-access'] = array(
     'lookup_delete'         => array('admin-group','support-group'),
 
     //User right controls
-    'user_manage'           => array('admin-group'),
-    'user_create'           => array('admin-group'),
-    'user_read'             => array('admin-group'),
-    'user_update'           => array('admin-group'),
-    'user_delete'           => array('admin-group'),
-    'user_report'           => array('admin-group'),
+    'user_manage'           => array('super-group','admin-group'),
+    'user_create'           => array('super-group','admin-group'),
+    'user_read'             => array('super-group','admin-group'),
+    'user_update'           => array('super-group','admin-group'),
+    'user_delete'           => array('super-group','admin-group'),
+    'user_report'           => array('super-group','admin-group'),
 
-    'settings_manage'       => array('admin-group', 'support-group'),
+    'settings_manage'       => array('super-group','admin-group', 'support-group'),
 
-    'support_dashboard'     => array('support-group'),
-    'page_test'             => array('admin-group', 'support-group', 'business-group', 'user-group'),
+    'support_dashboard'     => array('super-group','support-group'),
+    'page_test'             => array('super-group','admin-group', 'support-group', 'business-group', 'user-group'),
 );

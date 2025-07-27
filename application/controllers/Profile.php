@@ -28,7 +28,8 @@ class Profile extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        isLogin();
+        // isLogin();
+        isLoginRedirect();
 
         $this->load->model('mainmodel');
         $this->load->model('usermodel');

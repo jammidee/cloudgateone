@@ -17,8 +17,15 @@ TODO
 - jWT template
 - API key
 
-07/25/2025		- added redirection for not logged used in Activitylog
+07/27/2025		- added control on soft and hard delete
 				- 
+				
+07/26/2025		- hide profile for superadmin
+				- 
+
+07/25/2025		- added redirection for not logged used in Activitylog
+				- added support to hardcoded super admin
+				-
 
 07/23/2025		- added t variables in the endpoints
 				- added global helper

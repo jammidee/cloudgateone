@@ -30,14 +30,14 @@ class Lookupmodel extends CI_Model {
     }
 
     // GET all lookup records
-    public function getAllLookup($entityid = null, $keyid = null) {
+    public function getAllLookup($entityid = null, $keyid = null, $deleted = 0) {
         if ($entityid !== null) {
             $this->db->where('entityid', $entityid);
         }
         if ($keyid !== null) {
             $this->db->where('keyid', $keyid);
         }
-        $this->db->where('deleted', 0);
+        $this->db->where('deleted', $deleted ?? 0);
         $this->db->order_by('id', 'asc');
         $query = $this->db->get('lookup');
         return $query->result();
