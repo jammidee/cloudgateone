@@ -23,12 +23,18 @@
                     <!-- keyid Dropdown -->
                     <select id="keyidFilter" class="form-control form-control-sm">
                         <option value="">-- Select Key ID --</option>
+
                         <?php foreach ($arrKeyid as $key): ?>
                             <option value="<?= $key ?>" <?= ($pkeyid == $key) ? 'selected' : '' ?>>
                                 <?= $key ?>
                             </option>
                         <?php endforeach; ?>
+
+                        <?php if (canAccessMenu('superadmin_create', $this->session->userdata('user_role'))): ?>
+                            <option value="ENTITY" <?= ($pkeyid == 'ENTITY') ? 'selected' : '' ?>>ENTITY</option>
+                        <?php endif; ?>
                     </select>
+
                 </div>
 
                 <!-- Add Button -->

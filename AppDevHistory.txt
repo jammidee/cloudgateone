@@ -17,6 +17,10 @@ TODO
 - jWT template
 - API key
 
+07/30/2025		- altered settings, adding ALTER TABLE `settings` ADD COLUMN `entityid` VARCHAR(50) DEFAULT NULL AFTER `id`;
+				- added settings controller
+				- 
+				
 07/27/2025		- added control on soft and hard delete
 				- 
 				

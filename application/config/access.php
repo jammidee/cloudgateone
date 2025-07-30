@@ -100,6 +100,14 @@ $config['menu-access'] = array(
     'user_delete'           => array('super-group','admin-group'),
     'user_report'           => array('super-group','admin-group'),
 
+    //Setting right controls
+    'setting_manage'        => array('super-group','admin-group'),
+    'setting_create'        => array('super-group','admin-group'),
+    'setting_read'          => array('super-group','admin-group'),
+    'setting_update'        => array('super-group','admin-group'),
+    'setting_delete'        => array('super-group','admin-group'),
+    'setting_report'        => array('super-group','admin-group'),
+
     'settings_manage'       => array('super-group','admin-group', 'support-group'),
 
     'support_dashboard'     => array('super-group','support-group'),

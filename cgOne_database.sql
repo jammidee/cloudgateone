@@ -190,18 +190,69 @@ values(@varEntity, 'CGONE','lookup','Framework wide lookup table','DEFAULT', 'SY
 
 -- Added by Jammi Dee 07/09/2025
 CREATE TABLE system_logs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NULL, -- null if guest
-    action_type VARCHAR(50) NOT NULL, -- e.g., login, failed_login, update, delete
-    action_details TEXT NOT NULL,     -- more info like route, input summary
-    ip_address VARCHAR(45) NOT NULL,
-    user_agent TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    severity ENUM('INFO', 'WARNING', 'ERROR') DEFAULT 'INFO',
-    is_suspicious BOOLEAN DEFAULT FALSE
+    id             INT          AUTO_INCREMENT PRIMARY KEY,
+    user_id        INT          NULL,                          -- null if guest
+    action_type    VARCHAR(50)  NOT NULL,                      -- e.g., login, failed_login, update, delete
+    action_details TEXT         NOT NULL,                      -- more info like route, input summary
+    ip_address     VARCHAR(45)  NOT NULL,
+    user_agent     TEXT         NOT NULL,
+    created_at     DATETIME     DEFAULT CURRENT_TIMESTAMP,
+    severity       ENUM('INFO', 'WARNING', 'ERROR') DEFAULT 'INFO',
+    is_suspicious  BOOLEAN      DEFAULT FALSE
 );
 
 --# Added by Jammi Dee 07/10/2015
 insert into systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
 values(@varEntity, 'CGONE','system_logs','Framework wide log table','DEFAULT', 'SYS', 'CGONE', 9, 'ACTIVE' );
 
+--# ====================================================================
+--# Project       : Wave ERP Framework
+--# Description   : Table for system settings and configuration
+--# Owner         : Jammi Dee
+--# Date          : 10/10/2015
+--# Revision      : 1.0.0 
+--# Last Modified : 10/10/2015
+--# Modified By   : Jammi Dee
+--#
+--#                 This table stores general system-wide settings such
+--#                 as branding, contact, payment, and API configurations.
+--#
+--#                 tabletype = SYS
+--#                 appowner  = CGONE
+--#
+--# ====================================================================
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE `settings` (
+  `id`           INT          NOT NULL AUTO_INCREMENT,
+  `logo`         VARCHAR(255) NOT NULL,
+  `favicon`      VARCHAR(255) NOT NULL,
+  `name`         VARCHAR(255) NOT NULL,
+  `slogan`       VARCHAR(255) NOT NULL,
+  `mobile`       VARCHAR(255) NOT NULL,
+  `email`        VARCHAR(255) NOT NULL,
+  `currency`     VARCHAR(255) NOT NULL,
+  `paymentmethod`VARCHAR(255) NOT NULL,
+  `paymentacc`   VARCHAR(255) NOT NULL,
+  `vat`          FLOAT        NOT NULL,
+  `smsapi`       VARCHAR(50)  NOT NULL,
+  `emailapi`     VARCHAR(50)  NOT NULL,
+  `smsonbills`   INT          NOT NULL,
+  `emailonbills` INT          NOT NULL,
+  `mkipadd`      VARCHAR(50)  DEFAULT NULL,
+  `mkuser`       VARCHAR(50)  DEFAULT NULL,
+  `mkpassword`   VARCHAR(50)  DEFAULT NULL,
+  `address`      VARCHAR(255) NOT NULL,
+  `city`         VARCHAR(255) NOT NULL,
+  `country`      VARCHAR(255) NOT NULL,
+  `zip`          VARCHAR(255) NOT NULL,
+  `location`     VARCHAR(255) NOT NULL,
+  `copyright`    VARCHAR(255) NOT NULL,
+  `kenadekha`    VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `settings` ADD COLUMN `entityid` VARCHAR(50) DEFAULT NULL AFTER `id`;
+
+--# Added by Jammi Dee 10/10/2015
+INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
+VALUES (@varEntity, 'CGONE', 'settings', 'System Settings', 'DEFAULT', 'SYS', 'CGONE', 26, 'ACTIVE');

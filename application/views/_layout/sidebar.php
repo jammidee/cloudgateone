@@ -48,8 +48,8 @@
 
     <?php if (canAccessMenu('settings_manage', $this->session->userdata('user_role'))): ?>
     <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?> -->
-        <li class="nav-item <?= is_active_menu('settings', 'edit'); ?>">
-            <a class="nav-link" href="<?= base_url('settings/edit') . '?t=' . time(); ?>">
+        <li class="nav-item <?= is_active_menu('setting', 'edit'); ?>">
+            <a class="nav-link" href="<?= base_url('setting/all') . '?t=' . time(); ?>">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Manage Settings</span>
             </a>
