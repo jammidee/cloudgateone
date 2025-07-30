@@ -4,84 +4,142 @@
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/setting/index">System Settings</a></li>
-            <li class="breadcrumb-item active" aria-current="page">All Settings</li>
+            <li class="breadcrumb-item"><a href="/setting/index">Settings</a></li>
+            <li class="breadcrumb-item active" aria-current="page">All</li>
         </ol>
     </div>
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Settings List</h6>
+    <div class="col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-cogs text-primary mr-2"></i>
+                    <h6 class="m-0 font-weight-bold text-primary mr-3">Settings List</h6>
+                </div>
 
-            <?php if (canAccessMenu('setting_update', $this->session->userdata('user_role'))): ?>
-                <a href="<?= site_url('setting/edit/1'); ?>" class="btn btn-sm btn-primary">
-                    <i class="fas fa-edit mr-1"></i> Edit Settings
-                </a>
-            <?php endif; ?>
-        </div>
+                <?php if (canAccessMenu('setting_update', $this->session->userdata('user_role'))): ?>
+                    <a href="<?= site_url('setting/add/1'); ?>" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus mr-1"></i> Add Settings
+                    </a>
+                <?php endif; ?>
+            </div>
 
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-sm align-items-center table-flush table-hover display nowrap" id="dataTableSetting" style="width:100%">
+            <div class="table-responsive p-3">
+                <table class="table table-sm align-items-center table-flush table-hover display nowrap" id="dataTableHolder" style="width:100%">
                     <thead class="thead-light">
+                        <tr>
+                            <th style="width: 5%;">ID</th>
+                            <th style="width: 20%;">Name</th>
+                            <th style="width: 20%;">Email</th>
+                            <th style="width: 15%;">Mobile</th>
+                            <th style="width: 10%;">Currency</th>
+                            <th style="width: 15%;">City</th>
+                            <th style="width: 15%;">Country</th>
+                            <th style="width: 10%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Slogan</th>
                             <th>Email</th>
                             <th>Mobile</th>
                             <th>Currency</th>
                             <th>City</th>
                             <th>Country</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
-                    </thead>
+                    </tfoot>
                     <tbody>
-                        <?php foreach ($settings as $setting): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($setting->id ?? '') ?></td>
-                            <td><?= htmlspecialchars($setting->name ?? '') ?></td>
-                            <td><?= htmlspecialchars($setting->slogan ?? '') ?></td>
-                            <td><?= htmlspecialchars($setting->email ?? '') ?></td>
-                            <td><?= htmlspecialchars($setting->mobile ?? '') ?></td>
-                            <td><?= htmlspecialchars($setting->currency ?? '') ?></td>
-                            <td><?= htmlspecialchars($setting->city ?? '') ?></td>
-                            <td><?= htmlspecialchars($setting->country ?? '') ?></td>
-                            <td>
-                                <?php if (canAccessMenu('setting_update', $this->session->userdata('user_role'))): ?>
-                                    <a href="<?= base_url('setting/view/' . $setting->id); ?>" class="btn btn-sm btn-primary" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                        <?php if (!empty($settings) && is_array($settings)): ?>
+                            <?php foreach ($settings as $setting): ?>
+                                <?php if (is_object($setting)): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($setting->id ?? '') ?></td>
+                                        <td><?= htmlspecialchars($setting->name ?? '') ?></td>
+                                        <td><?= htmlspecialchars($setting->email ?? '') ?></td>
+                                        <td><?= htmlspecialchars($setting->mobile ?? '') ?></td>
+                                        <td><?= htmlspecialchars($setting->currency ?? '') ?></td>
+                                        <td><?= htmlspecialchars($setting->city ?? '') ?></td>
+                                        <td><?= htmlspecialchars($setting->country ?? '') ?></td>
+                                        <td>
+                                            <?php if (canAccessMenu('setting_read', $this->session->userdata('user_role'))): ?>
+                                                <a href="<?= base_url('/setting/view/' . $setting->id . '?t=' . time()); ?>"
+                                                    class="btn btn-sm btn-info"
+                                                    title="View"><i class="fas fa-eye"></i>
+                                                </a>
+                                            <?php endif; ?>
+
+                                            <?php if (canAccessMenu('setting_update', $this->session->userdata('user_role'))): ?>
+                                                <a href="<?= base_url('/setting/edit/' . $setting->id . '?t=' . time()); ?>"
+                                                    class="btn btn-sm btn-primary ml-1"
+                                                    title="Edit"><i class="fas fa-edit"></i>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if (canAccessMenu('setting_delete', $this->session->userdata('user_role'))): ?>
+                                                <a href="<?= base_url('/setting/delete/' . $setting->id . '?t=' . time()); ?>"
+                                                    class="btn btn-sm btn-danger btn-delete ml-1"
+                                                    title="Delete"><i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
                                 <?php endif; ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr><td colspan="8" class="text-center text-muted">No settings found.</td></tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-
     </div>
 </div>
 <!-- End Container Fluid -->
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const canAccessSettingReport = <?= canAccessMenu('setting_report', $this->session->userdata('user_role')) ? 'true' : 'false' ?>;
+        const canAccessbuttons = <?= canAccessMenu('setting_report', $this->session->userdata('user_role')) ? 'true' : 'false' ?>;
 
-        if ($('#dataTableSetting').length) {
-            $('#dataTableSetting').DataTable({
+        if ($('#dataTableHolder').length) {
+            $('#dataTableHolder').DataTable({
                 responsive: true,
                 pageLength: 25,
                 lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"]],
                 order: [],
                 dom: '<"text-center mb-2"B><"d-flex justify-content-between align-items-center mb-2"l f>rt<"text-center"p>i',
-                buttons: canAccessSettingReport ? ['copy', 'csv', 'excel', 'pdf', 'print'] : [],
+                buttons: canAccessbuttons ? ['copy', 'csv', 'excel', 'pdf', 'print'] : [],
                 columnDefs: [{
                     targets: 'nosort',
                     orderable: false
                 }]
             });
         }
+
+        document.querySelectorAll(".btn-delete").forEach(function (button) {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+                const url = this.getAttribute("href");
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "This action cannot be undone.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel',
+                    heightAuto: false,
+                    customClass: {
+                        confirmButton: 'btn btn-danger',
+                        cancelButton: 'btn btn-secondary ml-2'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
     });
 </script>

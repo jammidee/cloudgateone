@@ -5,14 +5,14 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
             <li class="breadcrumb-item"><a href="/setting/all">Settings</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            <li class="breadcrumb-item active" aria-current="page">Add</li>
         </ol>
     </div>
 
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="container-fluid">
-                <form action="<?= base_url('setting/update/' . esc($setting->id ?? '')); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?= base_url('setting/store'); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>System Name</label>
                         <input type="text" name="name" class="form-control" value="<?= esc($setting->name ?? ''); ?>" required>
@@ -43,19 +43,17 @@
                     </div>
                     <div class="form-group">
                         <label>Logo</label><br>
-                        <?php if (!empty($setting->logo)): ?>
-                            <img src="<?= base_url('uploads/' . esc($setting->logo)); ?>" alt="Logo" height="50"><br>
-                        <?php endif; ?>
                         <input type="file" name="logo">
                     </div>
                     <div class="form-group">
                         <label>Favicon</label><br>
-                        <?php if (!empty($setting->favicon)): ?>
-                            <img src="<?= base_url('uploads/' . esc($setting->favicon)); ?>" alt="Favicon" height="30"><br>
-                        <?php endif; ?>
                         <input type="file" name="favicon">
                     </div>
-                    <button type="submit" class="btn btn-primary">Update Settings</button>
+                    <div class="form-group">
+                        <label>Entity ID</label>
+                        <input type="text" name="entityid" class="form-control" value="<?= esc($setting->entityid ?? ''); ?>">
+                    </div>
+                    <button type="submit" class="btn btn-success">Save Settings</button>
                 </form>
             </div>
         </div>
