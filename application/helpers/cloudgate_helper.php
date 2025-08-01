@@ -224,11 +224,17 @@ if (!function_exists('getUsername')) {
     function getUsername() {
         $ci = & get_instance();
         $ci->load->database();
-        $userID = $ci->session->userdata('user_id');
+        $userID     = $ci->session->userdata('user_id');
+        $userRole   = $ci->session->userdata('user_role');
         $query = $ci->db->get_where('users', array('id' => $userID));
         if($query->num_rows() > 0){
             return $query->result()[0]->name;
         }else{
+            if($userRole == 'Superadmin'){
+                return "**Superadmin**";
+            } else {
+                return " ";
+            }
             return " ";
         }
     }

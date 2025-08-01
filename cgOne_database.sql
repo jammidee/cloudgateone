@@ -145,7 +145,7 @@ values(@varEntity, 'CGONE','systables','System Tables','DEFAULT', 'SYS', 'CGONE'
 drop table if exists lookup;
 CREATE TABLE lookup(
 id			        int           NOT NULL AUTO_INCREMENT,
-entityid 		    varchar(20),
+entityid 		    varchar(50),
 appid 			    varchar(36),
 keyid 			    varchar(20),
 itemid 			    varchar(20),
@@ -224,6 +224,7 @@ values(@varEntity, 'CGONE','system_logs','Framework wide log table','DEFAULT', '
 DROP TABLE IF EXISTS `settings`;
 CREATE TABLE `settings` (
   `id`           INT          NOT NULL AUTO_INCREMENT,
+  `entityid`     VARCHAR(50)  DEFAULT '_NA_',
   `logo`         VARCHAR(255) NOT NULL,
   `favicon`      VARCHAR(255) NOT NULL,
   `name`         VARCHAR(255) NOT NULL,
@@ -248,11 +249,21 @@ CREATE TABLE `settings` (
   `location`     VARCHAR(255) NOT NULL,
   `copyright`    VARCHAR(255) NOT NULL,
   `kenadekha`    VARCHAR(255) DEFAULT NULL,
+  
+  `sstatus`      VARCHAR(36)  DEFAULT 'ACTIVE',
+  `pid`          INT          DEFAULT 0,
+  `userid`       INT          DEFAULT 0,
+  `deleted`      INT          DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-ALTER TABLE `settings` ADD COLUMN `entityid` VARCHAR(50) DEFAULT NULL AFTER `id`;
 
 --# Added by Jammi Dee 10/10/2015
 INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
 VALUES (@varEntity, 'CGONE', 'settings', 'System Settings', 'DEFAULT', 'SYS', 'CGONE', 26, 'ACTIVE');
+
+ALTER TABLE `settings` ADD COLUMN `entityid` VARCHAR(50) DEFAULT 'NA' AFTER `id`;
+ALTER TABLE `settings`
+  ADD COLUMN `sstatus` VARCHAR(36) DEFAULT 'ACTIVE',
+  ADD COLUMN `pid` INT DEFAULT 0,
+  ADD COLUMN `userid` INT DEFAULT 0,
+  ADD COLUMN `deleted` INT DEFAULT 0;

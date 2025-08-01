@@ -151,7 +151,7 @@ class Setting extends CI_Controller {
         $this->load->view('_layout/footer');
     }
 
-    public function view() {
+    public function view($id) {
         $data['title']   = 'System Settings';
         $data['view_setting'] = $this->settingmodel->getAll();
 
