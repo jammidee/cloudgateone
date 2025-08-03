@@ -32,6 +32,8 @@ class Setting extends CI_Controller {
         isLoginRedirect($uri);
 
         $this->load->model('settingmodel');
+        $this->load->model('lookupmodel');
+
     }
 
     public function index() {
@@ -53,6 +55,10 @@ class Setting extends CI_Controller {
         // Set the title for the page
         $data['title'] = 'Add Setting';
 
+        // Fetch countries from the lookup table where keyid = 'country'
+        $data['countries']  = $this->lookupmodel->getAllLookup(null, 'country');
+        $data['currencies'] = $this->lookupmodel->getAllLookup(null, 'currency');
+
         // Load views in correct order with data
         $this->load->view('_layout/header',     $data);
         $this->load->view('_layout/sidebar',    $data);
@@ -60,7 +66,7 @@ class Setting extends CI_Controller {
         $this->load->view('setting/add',        $data); // Make sure this file exists
         $this->load->view('_layout/footer');
     }
-    
+
     public function store()
     {
         $data = [];
@@ -153,7 +159,7 @@ class Setting extends CI_Controller {
 
     public function view($id) {
         $data['title']   = 'System Settings';
-        $data['view_setting'] = $this->settingmodel->getAll();
+        $data['view_setting'] = $this->settingmodel->getById($id);
 
         $this->load->view('_layout/header',  $data);
         $this->load->view('_layout/sidebar', $data);
@@ -165,6 +171,10 @@ class Setting extends CI_Controller {
     public function edit($id) {
         $data['title']   = 'Edit System Settings';
         $data['setting'] = $this->settingmodel->getById($id);
+
+        // Fetch countries from the lookup table where keyid = 'country'
+        $data['countries']  = $this->lookupmodel->getAllLookup(null, 'country');
+        $data['currencies'] = $this->lookupmodel->getAllLookup(null, 'currency');
 
         if (!$data['setting']) {
             show_404();
@@ -282,12 +292,11 @@ class Setting extends CI_Controller {
         // Collect the rest of the form fields
         $post = $this->input->post();
         $fields = [
-            'name', 'slogan', 'mobile', 'email', 'currency',
-            'paymentmethod', 'paymentacc', 'vat', 'smsapi',
-            'emailapi', 'smsonbills', 'emailonbills', 'mkipadd',
-            'mkuser', 'mkpassword', 'address', 'city',
-            'country', 'zip', 'location', 'copyright',
-            'kenadekha'
+            'entityid', 'name', 'slogan', 'mobile', 'email', 'currency',
+            'paymentmethod', 'paymentacc', 'vat', 'smsapi', 'emailapi',
+            'smsonbills', 'emailonbills', 'mkipadd', 'mkuser', 'mkpassword',
+            'address', 'city', 'country', 'zip', 'location', 'copyright',
+            'kenadekha', 'sstatus', 'pid', 'userid', 'deleted'
         ];
 
         foreach ($fields as $field) {

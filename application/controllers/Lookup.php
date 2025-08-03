@@ -79,7 +79,7 @@ class Lookup extends CI_Controller
         $data['dtData']     = $this->lookupmodel->getAllLookup( $data['entityid'], $data['pkeyid'] );
 
         //Add list of keyids
-        $arrKeyid           = ['COLOR', 'SIZE', 'BRAND', 'MATERIAL', 'CATEGORY'];
+        $arrKeyid           = ['COLOR', 'SIZE', 'BRAND', 'MATERIAL', 'CATEGORY', 'COUNTRY', 'CURRENCY'];
         $data['arrKeyid']   = $arrKeyid;
 
         $data['title']  = 'Lookup';

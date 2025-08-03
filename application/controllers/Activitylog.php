@@ -55,8 +55,6 @@ class Activitylog extends CI_Controller
 
     public function all() {
 
-       
-
         $data['logs']   = $this->activitylogmodel->getAllLogs(10,0);
             //Setup pagination
         $this->load->library('pagination');
@@ -131,18 +129,18 @@ class Activitylog extends CI_Controller
         $data = [];
         foreach ($logsData as $log) {
             $data[] = [
-                $log->id,
+                // $log->id,
+                date('Y-m-d H:i:s', strtotime($log->created_at)),
                 $log->user_id ?? '<i class="text-muted">Guest</i>',
                 ucfirst($log->action_type),
-                htmlentities($log->action_details),
+                $log->ip_address,
+                $log->is_suspicious ? '<span class="text-danger">Yes</span>' : 'No',
                 '<span class="badge ' .
                     ($log->severity === 'ERROR' ? 'badge-danger' :
                     ($log->severity === 'WARNING' ? 'badge-warning' : 'badge-success')) .
                     '">' . $log->severity . '</span>',
-                $log->ip_address,
+                htmlentities($log->action_details),
                 wordwrap(htmlentities($log->user_agent), 30, "<br>"),
-                date('Y-m-d H:i:s', strtotime($log->created_at)),
-                $log->is_suspicious ? '<span class="text-danger">Yes</span>' : 'No'
             ];
         }
 

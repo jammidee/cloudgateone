@@ -22,47 +22,47 @@
                 <table class="table table-sm align-items-center table-flush table-hover display nowrap" id="dataTableHolder" style="width:100%">
                     <thead class="thead-light">
                         <tr>
-                            <!-- <th style="width: 5%;">ID</th> -->
-                            <th style="width: 10%;">Time</th>
+                            <th style="width: 5%;">ID</th>
                             <th style="width: 10%;">User ID</th>
                             <th style="width: 10%;">Type</th>
-                            <th style="width: 10%;">IP</th>
-                            <th style="width: 5%;">Suspicious</th>
-                            <th style="width: 10%;">Severity</th>
                             <th style="width: 30%;">Details</th>
+                            <th style="width: 10%;">Severity</th>
+                            <th style="width: 10%;">IP</th>
                             <th style="width: 10%;">Agent</th>
+                            <th style="width: 10%;">Time</th>
+                            <th style="width: 5%;">Suspicious</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <!-- <th>ID</th> -->
-                            <th>Time</th>
+                            <th>ID</th>
                             <th>User ID</th>
                             <th>Type</th>
-                            <th>IP</th>
-                            <th>Suspicious</th>
-                            <th>Severity</th>
                             <th>Details</th>
+                            <th>Severity</th>
+                            <th>IP</th>
                             <th>Agent</th>
+                            <th>Time</th>
+                            <th>Suspicious</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <?php foreach ($logs as $log): ?>
                             <tr>
-                                <!-- <td><!= $log->id; ?></td> -->
-                                <td><?= date('Y-m-d H:i:s', strtotime($log->created_at)); ?></td>
+                                <td><?= $log->id; ?></td>
                                 <td><?= $log->user_id ?? '<i class="text-muted">Guest</i>'; ?></td>
                                 <td><?= ucfirst($log->action_type); ?></td>
-                                <td><?= $log->ip_address; ?></td>
-                                <td><?= $log->is_suspicious ? '<span class="text-danger">Yes</span>' : 'No'; ?></td>
+                                <td><?= htmlentities($log->action_details); ?></td>
                                 <td>
                                     <span class="badge 
                                         <?= $log->severity === 'ERROR' ? 'badge-danger' : ($log->severity === 'WARNING' ? 'badge-warning' : 'badge-success'); ?>">
                                         <?= $log->severity; ?>
                                     </span>
                                 </td>
-                                <td><?= htmlentities($log->action_details); ?></td>
+                                <td><?= $log->ip_address; ?></td>
                                 <td><?= wordwrap(htmlentities($log->user_agent), 30, "<br>"); ?></td>
+                                <td><?= date('Y-m-d H:i:s', strtotime($log->created_at)); ?></td>
+                                <td><?= $log->is_suspicious ? '<span class="text-danger">Yes</span>' : 'No'; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
