@@ -29,9 +29,23 @@
 
             <div class="p-3">
                 <div class="form-row mb-3">
-                    <div class="col-md-4">
-                        <label>Date Range</label>
-                        <input type="text" id="dateRange" class="form-control" placeholder="Select range" autocomplete="off">
+                    <div class="col-md-3">
+                        <label>Date Filter</label>
+                        <select id="dateFilter" class="form-control">
+                            <option value="">All</option>
+                            <option value="today">Today</option>
+                            <option value="this_week">This Week</option>
+                            <option value="this_month">This Month</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-none" id="customDateRange">
+                        <label>From</label>
+                        <input type="date" id="fromDate" class="form-control">
+                    </div>
+                    <div class="col-md-3 d-none" id="customDateRangeTo">
+                        <label>To</label>
+                        <input type="date" id="toDate" class="form-control">
                     </div>
                     <div class="col-md-3">
                         <label>Entity ID</label>
@@ -86,38 +100,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         const canAccessbuttons = <?= canAccessMenu('user_report', $this->session->userdata('user_role')) ? 'true' : 'false' ?>;
 
-        let startDate = '';
-        let endDate = '';
-
-        $('#dateRange').daterangepicker({
-            autoUpdateInput: false,
-            opens: 'left',
-            locale: {
-                cancelLabel: 'Clear'
-            },
-            ranges: {
-                'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'This Week': [moment().startOf('week'), moment().endOf('week')],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()]
-            }
-        });
-
-        $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
-            startDate = picker.startDate.format('YYYY-MM-DD');
-            endDate = picker.endDate.format('YYYY-MM-DD');
-            $(this).val(startDate + ' to ' + endDate);
-            table.ajax.reload();
-        });
-
-        $('#dateRange').on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('');
-            startDate = '';
-            endDate = '';
-            table.ajax.reload();
-        });
-
         const table = $('#dataTableHolder').DataTable({
             responsive: true,
             pageLength: 25,
@@ -127,8 +109,9 @@
                 url: "<?= base_url('activitylog/fetchLogs'); ?>",
                 type: "POST",
                 data: function(d) {
-                    d.startDate = startDate;
-                    d.endDate = endDate;
+                    d.dateFilter = $('#dateFilter').val();
+                    d.fromDate = $('#fromDate').val();
+                    d.toDate = $('#toDate').val();
                     d.entityid = $('#entityFilter').val();
                 }
             },
@@ -137,9 +120,20 @@
             buttons: canAccessbuttons ? ['copy', 'csv', 'excel', 'pdf', 'print'] : []
         });
 
-        $('#entityFilter').on('keyup change', function () {
+        $('#dateFilter').on('change', function() {
+            const val = $(this).val();
+            if (val === 'custom') {
+                $('#customDateRange, #customDateRangeTo').removeClass('d-none');
+            } else {
+                $('#customDateRange, #customDateRangeTo').addClass('d-none');
+                $('#fromDate').val('');
+                $('#toDate').val('');
+            }
             table.ajax.reload();
         });
 
+        $('#fromDate, #toDate, #entityFilter').on('change keyup', function () {
+            table.ajax.reload();
+        });
     });
 </script>

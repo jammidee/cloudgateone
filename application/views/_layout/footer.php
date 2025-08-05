@@ -33,6 +33,9 @@
 <script src="<?= base_url('assets/'); ?>vendor/datatables/buttons.html5.min.js"></script>
 
 <script src="<?= base_url('assets/'); ?>vendor/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/daterangepicker/moment.min.js"></script>
+<script src="<?= base_url('assets/'); ?>vendor/daterangepicker/daterangepicker.js"></script>
+
 <script src="<?= base_url('assets/'); ?>js/cg-admin.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/chart.js/Chart.min.js"></script>
 <script src="<?= base_url('assets/'); ?>js/demo/chart-area-demo.js"></script>

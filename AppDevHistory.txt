@@ -17,6 +17,9 @@ TODO
 - jWT template
 - API key
 
+08/04/2025		- added daterangepicker in the header and footer
+				-
+
 08/03/2025		- completed the Settings module
 				- fixed the logs UI
 				-
