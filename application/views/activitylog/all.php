@@ -86,14 +86,19 @@
     document.addEventListener("DOMContentLoaded", function () {
         const canAccessbuttons = <?= canAccessMenu('user_report', $this->session->userdata('user_role')) ? 'true' : 'false' ?>;
 
-        let startDate = '';
-        let endDate = '';
+        // Default to this week
+        let startDate = moment().startOf('week').format('YYYY-MM-DD');
+        let endDate = moment().endOf('week').format('YYYY-MM-DD');
 
+        // Initialize the datepicker
         $('#dateRange').daterangepicker({
-            autoUpdateInput: false,
+            startDate: moment().startOf('week'),
+            endDate: moment().endOf('week'),
+            autoUpdateInput: true, // Automatically fill the input with selected range
             opens: 'left',
             locale: {
-                cancelLabel: 'Clear'
+                cancelLabel: 'Clear',
+                format: 'YYYY-MM-DD'
             },
             ranges: {
                 'Today': [moment(), moment()],
@@ -103,6 +108,9 @@
                 'Last 30 Days': [moment().subtract(29, 'days'), moment()]
             }
         });
+
+        // Set initial input display value
+        $('#dateRange').val(startDate + ' to ' + endDate);
 
         $('#dateRange').on('apply.daterangepicker', function(ev, picker) {
             startDate = picker.startDate.format('YYYY-MM-DD');
@@ -127,8 +135,8 @@
                 url: "<?= base_url('activitylog/fetchLogs'); ?>",
                 type: "POST",
                 data: function(d) {
-                    d.startDate = startDate;
-                    d.endDate = endDate;
+                    d.date_from = startDate;
+                    d.date_to = endDate;
                     d.entityid = $('#entityFilter').val();
                 }
             },
@@ -140,6 +148,6 @@
         $('#entityFilter').on('keyup change', function () {
             table.ajax.reload();
         });
-
     });
 </script>
+

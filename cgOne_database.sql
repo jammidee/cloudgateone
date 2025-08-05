@@ -189,21 +189,47 @@ values(@varEntity, 'CGONE','lookup','Framework wide lookup table','DEFAULT', 'SY
 
 
 -- Added by Jammi Dee 07/09/2025
-CREATE TABLE system_logs (
-    id             INT          AUTO_INCREMENT PRIMARY KEY,
-    user_id        INT          NULL,                          -- null if guest
-    action_type    VARCHAR(50)  NOT NULL,                      -- e.g., login, failed_login, update, delete
-    action_details TEXT         NOT NULL,                      -- more info like route, input summary
-    ip_address     VARCHAR(45)  NOT NULL,
-    user_agent     TEXT         NOT NULL,
-    created_at     DATETIME     DEFAULT CURRENT_TIMESTAMP,
-    severity       ENUM('INFO', 'WARNING', 'ERROR') DEFAULT 'INFO',
-    is_suspicious  BOOLEAN      DEFAULT FALSE
-);
+CREATE TABLE `system_logs` (
+  `id`             INT          NOT NULL AUTO_INCREMENT,
+  `entityid`       VARCHAR(50)  DEFAULT '_NA_',                  -- for multi-tenant logs
+  `user_id`        INT          DEFAULT NULL,                    -- null if guest
+  `action_type`    VARCHAR(50)  NOT NULL,                        -- e.g., login, failed_login, update, delete
+  `action_details` TEXT         NOT NULL,                        -- more info like route, input summary
+  `ip_address`     VARCHAR(45)  NOT NULL,
+  `user_agent`     TEXT         NOT NULL,
+  `created_at`     DATETIME     DEFAULT CURRENT_TIMESTAMP,
+  `severity`       ENUM('INFO', 'WARNING', 'ERROR') DEFAULT 'INFO',
+  `is_suspicious`  BOOLEAN      DEFAULT FALSE,
+
+  -- Additional system fields
+  `sstatus`        VARCHAR(36)  DEFAULT 'ACTIVE',
+  `pid`            INT          DEFAULT 0,
+  `userid`         INT          DEFAULT 0,
+  `deleted`        INT          DEFAULT 0,
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 --# Added by Jammi Dee 07/10/2015
-insert into systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
-values(@varEntity, 'CGONE','system_logs','Framework wide log table','DEFAULT', 'SYS', 'CGONE', 9, 'ACTIVE' );
+-- Added by Jammi Dee 08/27/2025
+INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
+VALUES (@varEntity, 'CGONE', 'system_logs', 'Framework wide log table', 'DEFAULT', 'SYS', 'CGONE', 13, 'ACTIVE');
+
+-- Add new fields for multi-tenancy and system metadata
+ALTER TABLE system_logs
+ADD COLUMN `entityid`   VARCHAR(50)  DEFAULT '_NA_' AFTER `id`,
+ADD COLUMN `sstatus`    VARCHAR(36)  DEFAULT 'ACTIVE' AFTER `is_suspicious`,
+ADD COLUMN `pid`        INT          DEFAULT 0 AFTER `sstatus`,
+ADD COLUMN `userid`     INT          DEFAULT 0 AFTER `pid`,
+ADD COLUMN `deleted`    INT          DEFAULT 0 AFTER `userid`,
+
+-- Modify column for consistency with your standards
+MODIFY COLUMN `severity` ENUM('INFO', 'WARNING', 'ERROR') DEFAULT 'INFO',
+
+-- Ensure character set and collation match
+CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 
 --# ====================================================================
 --# Project       : Wave ERP Framework

@@ -30,21 +30,38 @@ class Activitylogmodel extends CI_Model {
     }
 
     // GET all logs
-    public function getAllLogs($limit = null, $offset = null) {
+    public function getAllLogs($limit = null, $offset = null, $entityid = null) {
         $this->db->order_by('created_at', 'desc');
+        $this->db->where('deleted', 0);
+
+        if (!empty($entityid)) {
+            $this->db->where('entityid', $entityid);
+        }
+
         if ($limit !== null && $offset !== null) {
             $this->db->limit($limit, $offset);
         }
+
         return $this->db->get('system_logs')->result();
     }
 
     // GET single log by ID
     public function getLogById($id) {
-        return $this->db->get_where('system_logs', array('id' => $id))->row();
+        return $this->db->get_where('system_logs', ['id' => $id, 'deleted' => 0])->row();
     }
 
     // INSERT new log
     public function insertLog($data) {
+        // Ensure required system fields exist
+        $defaults = [
+            'entityid'   => $this->session->userdata('entityid') ?? '_NA_',
+            'sstatus'    => 'ACTIVE',
+            'pid'        => 0,
+            'userid'     => $this->session->userdata('user_id') ?? 0,
+            'deleted'    => 0
+        ];
+        $data = array_merge($defaults, $data);
+
         $this->db->insert('system_logs', $data);
         return $this->db->insert_id();
     }
@@ -55,27 +72,19 @@ class Activitylogmodel extends CI_Model {
         return $this->db->delete('system_logs');
     }
 
-    // COUNT total logs (with optional filters)
+    // COUNT logs (with optional filters)
     public function countLogs($filters = []) {
         if (!empty($filters)) {
-            $this->db->where($filters);
+            $this->applyFilters($filters);
         }
+        $this->db->where('deleted', 0);
         return $this->db->count_all_results('system_logs');
     }
 
-    // GET logs with filters (severity, action_type, date range, etc.)
+    // GET logs with filters (server-side)
     public function getFilteredLogs($filters = [], $limit = null, $offset = null) {
-        if (!empty($filters)) {
-            foreach ($filters as $key => $value) {
-                if ($key === 'date_from') {
-                    $this->db->where('created_at >=', $value);
-                } elseif ($key === 'date_to') {
-                    $this->db->where('created_at <=', $value);
-                } else {
-                    $this->db->where($key, $value);
-                }
-            }
-        }
+        $this->db->where('deleted', 0);
+        $this->applyFilters($filters);
         $this->db->order_by('created_at', 'desc');
         if ($limit !== null && $offset !== null) {
             $this->db->limit($limit, $offset);
@@ -83,7 +92,78 @@ class Activitylogmodel extends CI_Model {
         return $this->db->get('system_logs')->result();
     }
 
-    // LOG a system activity (helper)
+    // Server-side processing for DataTables
+    public function getPaginatedLogs($start, $length, $search = '', $dateFrom = null, $dateTo = null, $entityid = null) {
+        $this->db->select('*')->from('system_logs');
+        $this->db->where('deleted', 0);
+
+        if (!empty($search)) {
+            $this->db->group_start()
+                ->like('user_id', $search)
+                ->or_like('action_type', $search)
+                ->or_like('action_details', $search)
+                ->or_like('ip_address', $search)
+                ->or_like('user_agent', $search)
+                ->or_like('severity', $search)
+                ->group_end();
+        }
+
+        if (!empty($dateFrom)) {
+            $this->db->where('created_at >=', $dateFrom . ' 00:00:00');
+        }
+
+        if (!empty($dateTo)) {
+            $this->db->where('created_at <=', $dateTo . ' 23:59:59');
+        }
+
+        if (!empty($entityid)) {
+            $this->db->where('entityid', $entityid);
+        }
+
+        $this->db->order_by('created_at', 'desc');
+        $this->db->limit($length, $start);
+
+        return $this->db->get()->result();
+    }
+
+    public function countAllLogs($entityid = null) {
+        $this->db->from('system_logs')->where('deleted', 0);
+        if (!empty($entityid)) {
+            $this->db->where('entityid', $entityid);
+        }
+        return $this->db->count_all_results();
+    }
+
+    public function countFilteredLogs($search = '', $dateFrom = null, $dateTo = null, $entityid = null) {
+        $this->db->from('system_logs')->where('deleted', 0);
+
+        if (!empty($search)) {
+            $this->db->group_start()
+                ->like('user_id', $search)
+                ->or_like('action_type', $search)
+                ->or_like('action_details', $search)
+                ->or_like('ip_address', $search)
+                ->or_like('user_agent', $search)
+                ->or_like('severity', $search)
+                ->group_end();
+        }
+
+        if (!empty($dateFrom)) {
+            $this->db->where('created_at >=', $dateFrom . ' 00:00:00');
+        }
+
+        if (!empty($dateTo)) {
+            $this->db->where('created_at <=', $dateTo . ' 23:59:59');
+        }
+
+        if (!empty($entityid)) {
+            $this->db->where('entityid', $entityid);
+        }
+
+        return $this->db->count_all_results();
+    }
+
+    // Log a system activity
     public function logActivity($action_type, $action_details, $severity = 'INFO', $is_suspicious = false, $user_id = null) {
         $data = [
             'user_id'       => $user_id,
@@ -97,56 +177,24 @@ class Activitylogmodel extends CI_Model {
         return $this->insertLog($data);
     }
 
-    //Server Side Processing 07/24/2025
-    public function getPaginatedLogs($start, $length, $search = '')
-    {
-        $this->db->select('*')
-                 ->from('system_logs');
-
-        if (!empty($search)) {
-            $this->db->group_start()
-                ->like('user_id', $search)
-                ->or_like('action_type', $search)
-                ->or_like('action_details', $search)
-                ->or_like('ip_address', $search)
-                ->or_like('user_agent', $search)
-                ->or_like('severity', $search)
-                ->group_end();
-        }
-
-        $this->db->order_by('created_at', 'desc');
-        $this->db->limit($length, $start);
-
-        return $this->db->get()->result();
-    }
-
-    public function countAllLogs()
-    {
-        return $this->db->count_all('system_logs');
-    }
-
-    public function countFilteredLogs($search = '')
-    {
-        $this->db->from('system_logs');
-
-        if (!empty($search)) {
-            $this->db->group_start()
-                ->like('user_id', $search)
-                ->or_like('action_type', $search)
-                ->or_like('action_details', $search)
-                ->or_like('ip_address', $search)
-                ->or_like('user_agent', $search)
-                ->or_like('severity', $search)
-                ->group_end();
-        }
-
-        return $this->db->count_all_results();
-    }
-
+    // Rotate logs older than 90 days
     public function rotateOldLogs() {
-        // Optionally insert to archive table here first
         $this->db->where('created_at <', date('Y-m-d H:i:s', strtotime('-90 days')));
         $this->db->delete('system_logs');
     }
 
+    // Helper: Apply filters array (date_from, date_to, severity, etc.)
+    private function applyFilters($filters) {
+        foreach ($filters as $key => $value) {
+            if ($key === 'date_from') {
+                $this->db->where('created_at >=', $value . ' 00:00:00');
+            } elseif ($key === 'date_to') {
+                $this->db->where('created_at <=', $value . ' 23:59:59');
+            } elseif ($key === 'entityid') {
+                $this->db->where('entityid', $value);
+            } else {
+                $this->db->where($key, $value);
+            }
+        }
+    }
 }

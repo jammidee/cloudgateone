@@ -172,16 +172,10 @@
                                 Settings
                             </a>
                         <?php endif; ?>
-                        <?php
-                            $CI =& get_instance();
-                            $user_role = $CI->session->userdata('user_role');
-                            if ($user_role !== 'Superadmin' && canAccessMenu('topmenu_manage', $user_role)):
-                        ?>
-                            <a class="dropdown-item" href="/activitylog/all">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                            </a>
-                        <?php endif; ?>
+                        <a class="dropdown-item" href="/activitylog/all">
+                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Activity Log
+                        </a>
 
                         <div class="dropdown-divider"></div>
                         <!-- <a class="dropdown-item" href="/auth/logout">

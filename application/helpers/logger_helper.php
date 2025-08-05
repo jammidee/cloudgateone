@@ -35,23 +35,52 @@
  
 
 
+// function log_action($action_type, $action_details, $severity = 'INFO', $is_suspicious = false)
+// {
+//     $CI =& get_instance();
+//     $CI->load->database();
+//     $CI->load->library('session');
+
+//     $user_id = $CI->session->userdata('user_id') ?? null;
+//     $ip_address = $CI->input->ip_address();
+//     $user_agent = $CI->input->user_agent();
+
+//     $CI->db->insert('system_logs', [
+//         'user_id'       => $user_id,
+//         'action_type'   => $action_type,
+//         'action_details'=> $action_details,
+//         'ip_address'    => $ip_address,
+//         'user_agent'    => $user_agent,
+//         'severity'      => $severity,
+//         'is_suspicious' => $is_suspicious ? 1 : 0
+//     ]);
+// }
+
 function log_action($action_type, $action_details, $severity = 'INFO', $is_suspicious = false)
 {
     $CI =& get_instance();
     $CI->load->database();
     $CI->load->library('session');
 
-    $user_id = $CI->session->userdata('user_id') ?? null;
+    $user_id   = $CI->session->userdata('user_id') ?? 0;
+    $entity_id = $CI->session->userdata('user_entity') ?? '_NA_';
     $ip_address = $CI->input->ip_address();
     $user_agent = $CI->input->user_agent();
 
-    $CI->db->insert('system_logs', [
-        'user_id'       => $user_id,
-        'action_type'   => $action_type,
-        'action_details'=> $action_details,
-        'ip_address'    => $ip_address,
-        'user_agent'    => $user_agent,
-        'severity'      => $severity,
-        'is_suspicious' => $is_suspicious ? 1 : 0
-    ]);
+    $log_data = [
+        'entityid'       => $entity_id,
+        'user_id'        => $user_id,
+        'action_type'    => $action_type,
+        'action_details' => $action_details,
+        'ip_address'     => $ip_address,
+        'user_agent'     => $user_agent,
+        'severity'       => $severity,
+        'is_suspicious'  => $is_suspicious ? 1 : 0,
+        'sstatus'        => 'ACTIVE',
+        'pid'            => 0,
+        'userid'         => $user_id,
+        'deleted'        => 0
+    ];
+
+    $CI->db->insert('system_logs', $log_data);
 }
