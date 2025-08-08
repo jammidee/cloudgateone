@@ -17,6 +17,11 @@ TODO
 - jWT template
 - API key
 
+08/08/2025		- added background to the login page
+				- 
+08/05/2025		- Fixed the UI of user module
+				- 
+
 08/04/2025		- added daterangepicker in the header and footer
 				- modify the system_logs table to accomodate additional standard fields
 				- improve the system_logs UI

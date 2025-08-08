@@ -182,7 +182,9 @@ if (!function_exists('isTechGroup')) {
     function isTechGroup() {
         $ci = & get_instance(); // Get main CodeIgniter object
         $userRole = $ci->session->userdata('user_role');
-        if ($userRole == "Admin") {
+        if ($userRole == "Superadmin") {
+            return true;
+        } elseif ($userRole == "Admin") { // Fix: Use `elseif` or close `if` block
             return true;
         } elseif ($userRole == "Support") { // Fix: Use `elseif` or close `if` block
             return true;
@@ -197,7 +199,9 @@ if (!function_exists('isBizzGroup')) {
     function isBizzGroup() {
         $ci = & get_instance(); //get main CodeIgniter object
         $userRole = $ci->session->userdata('user_role');
-        if ($userRole == "Admin") {
+        if ($userRole == "Superadmin") {
+            return true;
+        } if ($userRole == "Admin") {
             return true;
         } if ($userRole == "Manager") {
             return true;

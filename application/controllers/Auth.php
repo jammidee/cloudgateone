@@ -54,7 +54,7 @@ class Auth extends CI_Controller {
                 $data['redirect_url'] = urldecode($url); // decode just in case it's encoded
             }
 
-            $this->load->view('_layout/auth-header', $data);
+            $this->load->view('_layout/auth-header-bgnd', $data);
             $this->load->view('auth/login', $data);
             $this->load->view('_layout/auth-footers', $data);
         }

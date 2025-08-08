@@ -75,6 +75,74 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM AUTO_INCREMENT=377 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+CREATE TABLE `users` (
+  `id`               INT           NOT NULL AUTO_INCREMENT,
+  `entityid`         VARCHAR(50)   DEFAULT '_NA_',               -- for multi-tenant support
+  `photo`            VARCHAR(255)  COLLATE utf8_unicode_ci DEFAULT '',
+  `name`             VARCHAR(250)  COLLATE utf8_unicode_ci NOT NULL,
+  `mobile`           VARCHAR(250)  COLLATE utf8_unicode_ci NOT NULL,
+  `package`          VARCHAR(250)  COLLATE utf8_unicode_ci DEFAULT '',
+  `area`             VARCHAR(255)  COLLATE utf8_unicode_ci DEFAULT '',
+  `staff`            VARCHAR(255)  COLLATE utf8_unicode_ci DEFAULT '',
+  `amount`           VARCHAR(250)  COLLATE utf8_unicode_ci DEFAULT '',
+  `user_id`          VARCHAR(250)  COLLATE utf8_unicode_ci NOT NULL,
+  `password`         VARCHAR(250)  COLLATE utf8_unicode_ci NOT NULL,
+  `join_date`        VARCHAR(250)  COLLATE utf8_unicode_ci DEFAULT '',
+  `advance`          VARCHAR(250)  COLLATE utf8_unicode_ci DEFAULT '',
+  `email`            VARCHAR(250)  COLLATE utf8_unicode_ci DEFAULT '',
+  `pass`             VARCHAR(255)  COLLATE utf8_unicode_ci DEFAULT '',
+  `location`         VARCHAR(250)  COLLATE utf8_unicode_ci DEFAULT '',
+  `role`             VARCHAR(255)  COLLATE utf8_unicode_ci DEFAULT '',
+  `status`           VARCHAR(250)  COLLATE utf8_unicode_ci DEFAULT '',
+  `router_id`        INT           NOT NULL DEFAULT 1,
+  `lat`              DECIMAL(10,6) NOT NULL DEFAULT 0.000000,
+  `lon`              DECIMAL(10,6) NOT NULL DEFAULT 0.000000,
+  `model`            VARCHAR(100)  COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N/A',
+  `serial_no`        VARCHAR(100)  COLLATE utf8_unicode_ci NOT NULL DEFAULT 'N/A',
+  `number_of_ports`  INT           NOT NULL DEFAULT 0,
+  `wan_bandwidth`    INT           NOT NULL DEFAULT 0,
+  `property_id`      VARCHAR(50)   COLLATE utf8_unicode_ci NOT NULL DEFAULT 'NONE',
+  `remarks`          TEXT          COLLATE utf8_unicode_ci,
+  `pppoe_name`       VARCHAR(50)   COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pppoe_password`   VARCHAR(50)   COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pppoe_service`    VARCHAR(50)   COLLATE utf8_unicode_ci DEFAULT NULL,
+  `pppoe_profile`    VARCHAR(50)   COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hotspot_server`   VARCHAR(100)  COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hotspot_name`     VARCHAR(50)   COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hotspot_pass`     VARCHAR(50)   COLLATE utf8_unicode_ci DEFAULT NULL,
+  `hotspot_profile`  VARCHAR(50)   COLLATE utf8_unicode_ci DEFAULT NULL,
+  `routerip`         VARCHAR(45)   COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'IP address of the router',
+  `routerport`       INT           DEFAULT NULL COMMENT 'The port being used by the router',
+  `routeradm`        VARCHAR(100)  COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The router admin account name',
+  `routerpass`       VARCHAR(100)  COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'The password for the router',
+  `petc_code`        VARCHAR(20)   COLLATE utf8_unicode_ci DEFAULT 'NA',
+  `search_quota`     INT           DEFAULT 100,
+  `starttime`        INT           DEFAULT 0,
+  `endtime`          INT           DEFAULT 24,
+  `search_unli`      TINYINT(1)    DEFAULT 0,
+  `time_unli`        TINYINT(1)    DEFAULT 0,
+
+  -- System fields
+  `sstatus`          VARCHAR(36)   DEFAULT 'ACTIVE',
+  `pid`              INT           DEFAULT 0,
+  `userid`           INT           DEFAULT 0,
+  `deleted`          INT           DEFAULT 0,
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Added by Jammi Dee 08/27/2025
+INSERT INTO systables (entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
+VALUES (@varEntity, 'CGONE', 'users', 'User account table', 'DEFAULT', 'SYS', 'CGONE', 50, 'ACTIVE');
+
+ALTER TABLE `users`
+  ADD COLUMN `entityid`     VARCHAR(50)  DEFAULT '_NA_' AFTER `id`,
+  ADD COLUMN `sstatus`      VARCHAR(36)  DEFAULT 'ACTIVE' AFTER `time_unli`,
+  ADD COLUMN `pid`          INT          DEFAULT 0 AFTER `sstatus`,
+  ADD COLUMN `userid`       INT          DEFAULT 0 AFTER `pid`,
+  ADD COLUMN `deleted`      INT          DEFAULT 0 AFTER `userid`;
+  
+
 --# ====================================================================
 --# Project       : Wave ERP Framework
 --# Description   : Table for handling Table information in the system
