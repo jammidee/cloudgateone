@@ -61,6 +61,36 @@ class Site extends CI_Controller {
 
 	}
 
+	public function apitest()
+	{
+
+		$cg_landingpage = $this->config->item('cg_landingpage');
+
+        if( $cg_landingpage == true){
+
+			if( isLogged() ){
+
+				redirect('dashboard?t=' . time() , 'refresh');
+
+			} else {
+
+				$data['title'] = 'API Test Page';
+
+				$this->load->view('site/_layout/auth-header', $data);
+				$this->load->view('site/apitest', $data);
+				$this->load->view('site/_layout/auth-footers', $data);
+
+			}
+
+
+		} else {
+
+			redirect('auth/login?t=' . time() , 'refresh');
+
+		}
+
+	}
+
     //Main non-logged page
 	public function main()
 	{

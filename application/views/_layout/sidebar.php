@@ -31,6 +31,26 @@
         </li>
     <?php endif; ?>
 
+    <?php if (canAccessMenu('mapmarker_manage', $this->session->userdata('user_role'))): ?>
+        <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
+        <li class="nav-item <?= is_active_menu('mapmarker', 'all'); ?>">
+            <a class="nav-link" href="<?= base_url('mapmarker/all') . '?t=' . time(); ?>">
+                <i class="fas fa-fw fa-map-marker-alt"></i>
+                <span>Manage Map Markers</span> 
+            </a>
+        </li>
+    <?php endif; ?>
+
+    <?php if (canAccessMenu('mapboundaries_manage', $this->session->userdata('user_role'))): ?>
+        <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
+        <li class="nav-item <?= is_active_menu('mapboundaries', 'all'); ?>">
+            <a class="nav-link" href="<?= base_url('mapboundaries/all') . '?t=' . time(); ?>">
+                <i class="fas fa-fw fa-draw-polygon"></i>
+                <span>Manage Map Boundaries</span> 
+            </a>
+        </li>
+    <?php endif; ?>
+
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
         Settings Menu

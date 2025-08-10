@@ -99,7 +99,23 @@ $config['menu-access'] = array(
     'user_update'           => array('super-group','admin-group'),
     'user_delete'           => array('super-group','admin-group'),
     'user_report'           => array('super-group','admin-group'),
+    
+    //Map Marker right controls
+    'mapmarker_manage'      => array('super-group','admin-group'),
+    'mapmarker_create'      => array('super-group','admin-group'),
+    'mapmarker_read'        => array('super-group','admin-group'),
+    'mapmarker_update'      => array('super-group','admin-group'),
+    'mapmarker_delete'      => array('super-group','admin-group'),
+    'mapmarker_report'      => array('super-group','admin-group'),
 
+    //Map Boundaries right controls
+    'mapboundaries_manage'  => array('super-group','admin-group'),
+    'mapboundaries_create'  => array('super-group','admin-group'),
+    'mapboundaries_read'    => array('super-group','admin-group'),
+    'mapboundaries_update'  => array('super-group','admin-group'),
+    'mapboundaries_delete'  => array('super-group','admin-group'),
+    'mapboundaries_report'  => array('super-group','admin-group'),
+    
     //Setting right controls
     'setting_manage'        => array('super-group','admin-group'),
     'setting_create'        => array('super-group','admin-group'),

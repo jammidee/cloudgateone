@@ -361,3 +361,64 @@ ALTER TABLE `settings`
   ADD COLUMN `pid` INT DEFAULT 0,
   ADD COLUMN `userid` INT DEFAULT 0,
   ADD COLUMN `deleted` INT DEFAULT 0;
+  
+  
+  -- Added by Jammi Dee 08/10/2025
+CREATE TABLE `map_markers` (
+  `id`             INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `entityid`       VARCHAR(50)  DEFAULT '_NA_',                  -- for multi-tenant data
+  `name`           VARCHAR(255) NOT NULL,                        -- Marker name (e.g., building name)
+  `description`    TEXT,                                         -- Optional description/details
+  `latitude`       DECIMAL(10,8) NOT NULL,                       -- Marker latitude
+  `longitude`      DECIMAL(11,8) NOT NULL,                       -- Marker longitude
+  `icon`           VARCHAR(255) DEFAULT NULL,                    -- Optional custom icon URL/path
+  `category`       VARCHAR(255) DEFAULT '_NA_',                  -- Optional object category if needed
+  `subcateg`       VARCHAR(255) DEFAULT '_NA_',                  -- Optional object sub category if
+  `objtype`        VARCHAR(255) DEFAULT '_NA_',                  -- Optional object type if needed
+  `classification` VARCHAR(255) DEFAULT '_NA_',                  -- Optional the classification of this boundary
+  `layer`          VARCHAR(100) DEFAULT 'default',               -- Layer/group for display control
+  `created_at`     DATETIME DEFAULT CURRENT_TIMESTAMP,           -- When marker was created
+  `updated_at`     DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Last update time
+
+  -- Additional system fields
+  `sstatus`        VARCHAR(36)  DEFAULT 'ACTIVE',                 -- ACTIVE/INACTIVE/ARCHIVED
+  `pid`            INT          DEFAULT 0,                        -- Parent ID if hierarchical
+  `userid`         INT          DEFAULT 0,                        -- Creator user ID
+  `deleted`        INT          DEFAULT 0,                        -- Soft delete flag (0 = active)
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--# Added by Jammi Dee 08/10/2025
+INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
+VALUES (@varEntity, 'CGONE', 'map_markers', 'Stores map point data like buildings or assets', 'MAP', 'APP', 'CGONE', 13, 'ACTIVE');
+
+
+
+-- Added by Jammi Dee 08/10/2025
+CREATE TABLE `map_boundaries` (
+  `id`             INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `entityid`       VARCHAR(50)  DEFAULT '_NA_',                  -- for multi-tenant data
+  `name`           VARCHAR(255) NOT NULL,                        -- Boundary name (e.g., district, zone)
+  `description`    TEXT,                                         -- Optional description/details
+  `geojson`        JSON NOT NULL,                                -- Polygon/Multipolygon as GeoJSON
+  `layer`          VARCHAR(100) DEFAULT 'default',               -- Layer/group for display control
+  `category`       VARCHAR(255) DEFAULT '_NA_',                  -- Optional object category if needed
+  `subcateg`       VARCHAR(255) DEFAULT '_NA_',                  -- Optional object sub category if needed
+  `objtype`        VARCHAR(255) DEFAULT '_NA_',                  -- Optional object type if needed
+  `classification` VARCHAR(255) DEFAULT '_NA_',                  -- Optional the classification of this boundary
+  `created_at`     DATETIME DEFAULT CURRENT_TIMESTAMP,           -- When boundary was created
+  `updated_at`     DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Last update time
+
+  -- Additional system fields
+  `sstatus`        VARCHAR(36)  DEFAULT 'ACTIVE',                 -- ACTIVE/INACTIVE/ARCHIVED
+  `pid`            INT          DEFAULT 0,                        -- Parent ID if hierarchical
+  `userid`         INT          DEFAULT 0,                        -- Creator user ID
+  `deleted`        INT          DEFAULT 0,                        -- Soft delete flag (0 = active)
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--# Added by Jammi Dee 08/10/2025
+INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
+VALUES (@varEntity, 'CGONE', 'map_boundaries', 'Stores map boundaries for area classification', 'MAP', 'APP', 'CGONE', 12, 'ACTIVE');

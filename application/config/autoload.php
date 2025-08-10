@@ -91,7 +91,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'file', 'cloudgate', 'logger', 'rbac', 'menu', 'global');
+$autoload['helper'] = array('url', 'file', 'cloudgate', 'logger', 'rbac', 'menu', 'global', 'jwt');
 
 /*
 | -------------------------------------------------------------------
@@ -107,7 +107,7 @@ $autoload['helper'] = array('url', 'file', 'cloudgate', 'logger', 'rbac', 'menu'
 */
 // $autoload['config'] = array();
 // Add Cloudgate Config 06/28/2025
-$autoload['config'] = array('cloudgate', 'access');
+$autoload['config'] = array('cloudgate', 'access', 'jwt');
 
 /*
 | -------------------------------------------------------------------

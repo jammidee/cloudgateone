@@ -17,29 +17,18 @@
  * AUTHOR       : Jammi Dee (Joel M. Damaso)
  * LOCATION     : Manila, Philippines
  * EMAIL        : jammi_dee@yahoo.com
- * CREATED DATE : Aug. 10, 2025
+ * CREATED DATE : Aug 10, 2025
  * ------------------------------------------------------------------------
  */
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller
-{
-    public function __construct()
-    {
-        parent::__construct();
-        isLogin();
-    }
-
-    public function index()
-    {
-        $data['title'] = 'Dashboard';
-
-        $this->load->view('_layout/header', $data);
-        $this->load->view('_layout/sidebar', $data);
-        $this->load->view('_layout/topbar', $data);
-        $this->load->view('dashboard/index', $data);
-        $this->load->view('_layout/footer');
-
-    }
-}
+/*
+|--------------------------------------------------------------------------
+| JWT Secret Key
+|--------------------------------------------------------------------------
+| Change this key before deploying to production.
+| Keep it secure and private. You can also store it in environment variables.
+|--------------------------------------------------------------------------
+*/
+$config['jwt_secret'] = 'AD MAJOREM DEI GLORIAM';
