@@ -17,6 +17,8 @@ TODO
 - jWT template
 - API key
 
+08/12/2025		- added a page template
+				-
 08/10/2025		- added JWT scripts
 				- added JWT test page
 				- added map_markers table, model

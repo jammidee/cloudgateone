@@ -66,8 +66,8 @@
                     </div>
 
                     <!-- Right: Button -->
-                    <?php if (canAccessMenu('marker_create', $this->session->userdata('user_role'))): ?>
-                        <a href="<?= site_url('markers/create'); ?>" class="btn btn-sm btn-primary ml-auto">
+                    <?php if (canAccessMenu('mapmarker_create', $this->session->userdata('user_role'))): ?>
+                        <a href="<?= site_url('mapmarker/create'); ?>" class="btn btn-sm btn-primary ml-auto">
                             <i class="fas fa-plus mr-1"></i> Add Marker
                         </a>
                     <?php endif; ?>

@@ -188,6 +188,37 @@ class Site extends CI_Controller {
 
     }
 
+	//Added by Jammi Dee 08/12/2025
+	public function fullmap()
+	{
+
+		$cg_landingpage = $this->config->item('cg_landingpage');
+
+        if( $cg_landingpage == true){
+
+			if( isLogged() ){
+
+				redirect('dashboard?t=' . time() , 'refresh');
+
+			} else {
+
+				$data['title'] = 'Full Flyer Page';
+
+				$this->load->view('site/_layout/auth-header', $data);
+				$this->load->view('site/fullmap', $data);
+				$this->load->view('site/_layout/auth-footers', $data);
+
+			}
+
+
+		} else {
+
+			redirect('auth/login?t=' . time() , 'refresh');
+
+		}
+
+    }
+	
 
 }
 

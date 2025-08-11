@@ -30,16 +30,22 @@
                                     <i class="fas fa-sign-in-alt"></i> Visit Sidebar Main Page
                                 </a>
                             </div>
-                            
+
                             <div class="text-center mt-4">
                                 <a href="<?php echo base_url('site/flyer'); ?>" class="btn btn-primary btn-lg btn-block">
-                                    <i class="fas fa-sign-in-alt"></i> Visit Flyer With Sidebar Page
+                                    <i class="fas fa-file-alt"></i> Visit Flyer With Sidebar Page
                                 </a>
                             </div>
-                            
+
                             <div class="text-center mt-4">
                                 <a href="<?php echo base_url('site/fullflyer'); ?>" class="btn btn-primary btn-lg btn-block">
-                                    <i class="fas fa-sign-in-alt"></i> Visit Full Flyer Page
+                                    <i class="fas fa-file"></i> Visit Full Flyer Page
+                                </a>
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <a href="<?php echo base_url('site/fullmap'); ?>" class="btn btn-primary btn-lg btn-block">
+                                    <i class="fas fa-map-marked-alt"></i> Visit Full Map Page
                                 </a>
                             </div>
 
