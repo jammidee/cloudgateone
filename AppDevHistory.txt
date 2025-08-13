@@ -18,7 +18,10 @@ TODO
 - API key
 
 08/12/2025		- added a page template
-				-
+				- added mapview in the pages
+				- added a functional map with built in toolbar
+				- 
+
 08/10/2025		- added JWT scripts
 				- added JWT test page
 				- added map_markers table, model

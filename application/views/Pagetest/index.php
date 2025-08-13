@@ -17,3 +17,9 @@
 
 </div>
 <!---Container Fluid-->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Customized scripts
+    });
+</script>

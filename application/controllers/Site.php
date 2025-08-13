@@ -204,9 +204,9 @@ class Site extends CI_Controller {
 
 				$data['title'] = 'Full Flyer Page';
 
-				$this->load->view('site/_layout/auth-header', $data);
+				$this->load->view('site/_layout/header-map', $data);
 				$this->load->view('site/fullmap', $data);
-				$this->load->view('site/_layout/auth-footers', $data);
+				$this->load->view('site/_layout/footer-map', $data);
 
 			}
 

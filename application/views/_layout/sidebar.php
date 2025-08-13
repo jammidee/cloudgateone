@@ -51,6 +51,16 @@
         </li>
     <?php endif; ?>
 
+    <?php if (canAccessMenu('mapboundaries_manage', $this->session->userdata('user_role'))): ?>
+        <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
+        <li class="nav-item <?= is_active_menu('mapworkbench', 'mapview'); ?>">
+            <a class="nav-link" href="<?= base_url('mapworkbench/mapview') . '?t=' . time(); ?>">
+                <i class="fas fa-fw fa-draw-polygon"></i>
+                <span>Map View</span> 
+            </a>
+        </li>
+    <?php endif; ?>
+
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
         Settings Menu
