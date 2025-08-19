@@ -19,7 +19,9 @@ TO FIX
 -
 
 08/19/2025		- added global map with customized icons and load/save capabilities
-				- 
+				- completed the configuration module
+				-
+
 08/18/2025		- added a header and footer for calendar
 				- added global calendar module
 				- 

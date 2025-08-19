@@ -106,6 +106,16 @@
         </li>
     <?php endif; ?>
 
+    <?php if (canAccessMenu('settings_manage', $this->session->userdata('user_role'))): ?>
+    <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?> -->
+        <li class="nav-item <?= is_active_menu('configdb', 'system'); ?>">
+            <a class="nav-link" href="<?= base_url('configdb/system') . '?t=' . time(); ?>">
+                <i class="fas fa-fw fa-cogs"></i>
+                <span>Configuration</span>
+            </a>
+        </li>
+    <?php endif; ?>
+
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
         Test Menu
