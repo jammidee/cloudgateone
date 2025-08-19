@@ -60,8 +60,22 @@ class Mapworkbench extends CI_Controller {
 
         // Load the layout with our map page
         $this->load->view('_layout/header-map',  $data);
-        $this->load->view('_layout/sidebar', $data);
+        // $this->load->view('_layout/sidebar', $data);
         $this->load->view('mapworkbench/mapviewv2', $data); // Map page
+        $this->load->view('_layout/footer-map');
+    }
+    
+    /**
+     * ------------------------------------------------------------------------
+     * Default method to load the map view page.
+     * ------------------------------------------------------------------------
+     */
+    public function mapeditor() {
+        $data['title'] = 'Map Workbench';
+
+        // Load the layout with our map page
+        $this->load->view('_layout/header-map',  $data);
+        $this->load->view('mapworkbench/mapeditor', $data); // Map page
         $this->load->view('_layout/footer-map');
     }
     

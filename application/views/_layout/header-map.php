@@ -28,6 +28,9 @@
             margin-bottom: 20px;
         }
     </style>
+    <!-- Leaflet.draw CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+
 
 </head>
 

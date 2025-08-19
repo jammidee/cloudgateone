@@ -61,6 +61,26 @@
         </li>
     <?php endif; ?>
 
+    <?php if (canAccessMenu('mapboundaries_manage', $this->session->userdata('user_role'))): ?>
+        <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
+        <li class="nav-item <?= is_active_menu('mapworkbench', 'mapeditor'); ?>">
+            <a class="nav-link" href="<?= base_url('mapworkbench/mapeditor') . '?t=' . time(); ?>">
+                <i class="fas fa-fw fa-draw-polygon"></i>
+                <span>Map Editor</span> 
+            </a>
+        </li>
+    <?php endif; ?>
+
+    <?php if (canAccessMenu('calendar_manage', $this->session->userdata('user_role'))): ?>
+        <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
+        <li class="nav-item <?= is_active_menu('calendarbench', 'calview'); ?>">
+            <a class="nav-link" href="<?= base_url('calendarbench/calview') . '?t=' . time(); ?>">
+                <i class="fas fa-fw fa-calendar-alt"></i>
+                <span>Calendar</span> 
+            </a>
+        </li>
+    <?php endif; ?>
+
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
         Settings Menu
@@ -86,6 +106,11 @@
         </li>
     <?php endif; ?>
 
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Test Menu
+    </div>
+    
     <?php if (canAccessMenu('page_test', $this->session->userdata('user_role'))): ?>
     <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'user-group')): ?> -->
         <li class="nav-item">

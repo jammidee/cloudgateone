@@ -117,6 +117,10 @@ document.addEventListener("DOMContentLoaded", function () {
             var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-exit');
             container.title = "Exit Map";
             container.innerHTML = "&#10006;";
+            container.style.width = "32px";
+            container.style.textAlign = "center";
+            container.style.fontWeight = "bold";
+            container.style.fontSize = "14px";
             L.DomEvent.on(container, 'click', function () {
                 window.location.href = "<?= base_url('dashboard') ?>";
             });

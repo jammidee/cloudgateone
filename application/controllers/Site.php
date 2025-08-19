@@ -218,7 +218,38 @@ class Site extends CI_Controller {
 		}
 
     }
-	
+
+	//Added by Jammi Dee 08/14/2025
+	public function fullcalendar()
+	{
+
+		$cg_landingpage = $this->config->item('cg_landingpage');
+
+        if( $cg_landingpage == true){
+
+			if( isLogged() ){
+
+				redirect('dashboard?t=' . time() , 'refresh');
+
+			} else {
+
+				$data['title'] = 'Full Flyer Page';
+
+				$this->load->view('site/_layout/header-cal', $data);
+				$this->load->view('site/fullcalendar', $data);
+				$this->load->view('site/_layout/footer-cal', $data);
+
+			}
+
+
+		} else {
+
+			redirect('auth/login?t=' . time() , 'refresh');
+
+		}
+
+    }
+
 
 }
 

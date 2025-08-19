@@ -17,10 +17,6 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
-
 <script src="<?= base_url('assets/'); ?>vendor/jquery/jquery.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -39,6 +35,9 @@
 <script src="<?= base_url('assets/'); ?>vendor/sweetalert2/sweetalert2.all.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/daterangepicker/moment.min.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/daterangepicker/daterangepicker.js"></script>
+
+<!-- Calendar Library -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
 <script src="<?= base_url('assets/'); ?>js/cg-admin.js"></script>
 <script src="<?= base_url('assets/'); ?>vendor/chart.js/Chart.min.js"></script>

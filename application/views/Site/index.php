@@ -49,6 +49,12 @@
                                 </a>
                             </div>
 
+                            <div class="text-center mt-4">
+                                <a href="<?php echo base_url('site/fullcalendar'); ?>" class="btn btn-primary btn-lg btn-block">
+                                    <i class="fas fa-map-marked-alt"></i> Visit Full Calendar Page
+                                </a>
+                            </div>
+
                             <div class="text-center mt-3">
                                 <small class="text-muted">Need help? Check the documentation or contact support.</small>
                             </div>

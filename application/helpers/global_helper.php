@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
 
 /**
  * ------------------------------------------------------------------------
@@ -21,9 +21,35 @@
  * ------------------------------------------------------------------------
  */
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 if (!function_exists('esc')) {
     function esc($string) {
         return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+}
+
+/**
+ * Get a variable value from configdb
+ * Returns $default if not found
+ */
+if (!function_exists('get_configdb')) {
+    function get_configdb($entityid, $userid, $key, $default = null) {
+        $CI =& get_instance();
+        $CI->load->model('Configdbmodel');
+        return $CI->Configdbmodel->readVar($entityid, $userid, $key, $default);
+    }
+}
+
+/**
+ * Set a variable value into configdb
+ * If entity + user + key exists → update, else → insert
+ */
+if (!function_exists('set_configdb')) {
+    function set_configdb($entityid, $userid, $key, $value, $type = 'string', $description = null) {
+        $CI =& get_instance();
+        $CI->load->model('Configdbmodel');
+        return $CI->Configdbmodel->writeVar($entityid, $userid, $key, $value, $type, $description);
     }
 }
 

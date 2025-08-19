@@ -63,6 +63,11 @@ class Pagetest extends CI_Controller
 
         $data['title'] = 'All Pages';
 
+        // Write variable
+        $entityid = $this->session->userdata('user_entity') ?? '_NA_';
+        $userid   = $this->session->userdata('user_id') ?? 0;
+        set_configdb($entityid, $userid, 'maxusers', $maxUserCap, 'integer', 'Maximum number of users allowed');
+        
         $this->load->view('_layout/header',     $data);
         $this->load->view('_layout/sidebar',    $data);
         $this->load->view('_layout/topbar',     $data);

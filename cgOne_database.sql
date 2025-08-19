@@ -422,3 +422,35 @@ CREATE TABLE `map_boundaries` (
 --# Added by Jammi Dee 08/10/2025
 INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
 VALUES (@varEntity, 'CGONE', 'map_boundaries', 'Stores map boundaries for area classification', 'MAP', 'APP', 'CGONE', 12, 'ACTIVE');
+
+CREATE TABLE `configdb` (
+
+  `entityid`     VARCHAR(50)   DEFAULT '_NA_',
+  `appid`        VARCHAR(50)   DEFAULT NULL,
+  `userid`       INT           DEFAULT 0,
+
+  `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `var_key`      VARCHAR(100)  NOT NULL UNIQUE,                     -- Variable name (unique)
+  `var_value`    TEXT          NOT NULL,                            -- Variable value (any format: string/JSON)
+  `var_type`     VARCHAR(50)   DEFAULT 'string',                    -- Type hint: string, int, json, bool, etc.
+  `description`  VARCHAR(255)  DEFAULT NULL,                        -- Optional description of the variable
+  `status`       ENUM('active', 'inactive', 'archived') DEFAULT 'active',
+
+  -- System metadata
+  `vversion`     VARCHAR(20)   DEFAULT NULL,
+  `pid`          INT           DEFAULT 0,
+  `sstatus`      VARCHAR(36)   DEFAULT 'ACTIVE',
+  `deleted`      INT           DEFAULT 0,
+
+  `created_at`   DATETIME      DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`   DATETIME      DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_by`   INT           DEFAULT NULL,
+  `updated_by`   INT           DEFAULT NULL,
+
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Added by Jammi Dee 08/19/2025
+INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
+VALUES (@varEntity, 'CGONE', 'configdb', 'Configuration Variables Store', 'SYSTEM', 'APP', 'CGONE', 12, 'ACTIVE');
+

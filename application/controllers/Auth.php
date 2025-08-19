@@ -89,6 +89,7 @@ class Auth extends CI_Controller {
                 'user_email'    => $matchedSuperadmin['email'],
                 'user_role'     => 'Superadmin',
                 'user_entity'   => $this->config->item('appentity'),
+                'user_appid'    => $this->config->item('appid'),
                 'logged_in'     => TRUE,
             );
 

@@ -31,6 +31,15 @@
     <!-- Leaflet.draw CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
 
+    <style>
+
+        /* Extra light placeholder text */
+        ::placeholder {
+            color: #ccc !important; /* softer gray */
+            opacity: 0.3; /* faint visibility */
+        }
+
+    </style>
 
 </head>
 

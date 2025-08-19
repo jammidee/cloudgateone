@@ -14,6 +14,9 @@
     <link href="<?= base_url('assets/'); ?>vendor/datatables/responsive.dataTables.min.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/'); ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/'); ?>vendor/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
+
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+
     <link href="<?= base_url('assets/'); ?>css/ruang-admin.min.css" rel="stylesheet">
 
     <style>

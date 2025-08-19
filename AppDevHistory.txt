@@ -13,14 +13,28 @@ Developed / Programmed by : Joel Margate Damaso aka Jammi Dee
 Tested / QA by:				Jammi Dee
 
 TODO
-- Map page template
-- jWT template
-- API key
+
+TO FIX
+- make sure the lookup have entity and appid
+-
+
+08/19/2025		- added global map with customized icons and load/save capabilities
+				- 
+08/18/2025		- added a header and footer for calendar
+				- added global calendar module
+				- 
+
+08/16/2025		- added a css for placeholder transparency
+				-
+
+08/14/2025		- added a full map editor MVP
+				- added calendar page
+				-
 
 08/12/2025		- added a page template
 				- added mapview in the pages
 				- added a functional map with built in toolbar
-				- 
+				-
 
 08/10/2025		- added JWT scripts
 				- added JWT test page

@@ -115,7 +115,15 @@ $config['menu-access'] = array(
     'mapboundaries_update'  => array('super-group','admin-group'),
     'mapboundaries_delete'  => array('super-group','admin-group'),
     'mapboundaries_report'  => array('super-group','admin-group'),
-    
+
+    //Calendar right controls
+    'calendar_manage'       => array('super-group','admin-group'),
+    'calendar_create'       => array('super-group','admin-group'),
+    'calendar_read'         => array('super-group','admin-group'),
+    'calendar_update'       => array('super-group','admin-group'),
+    'calendar_delete'       => array('super-group','admin-group'),
+    'calendar_report'       => array('super-group','admin-group'),
+
     //Setting right controls
     'setting_manage'        => array('super-group','admin-group'),
     'setting_create'        => array('super-group','admin-group'),
