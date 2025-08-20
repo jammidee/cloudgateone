@@ -11,7 +11,7 @@
 
     <div class="text-center">
         <!-- Centered title and icon -->
-        <img src="<?= base_url('assets/'); ?>img/think.svg" style="max-height: 90px">
+        <img src="<?= base_url('assets/'); ?>img/settings.svg" style="max-height: 90px">
         <h4 class="pt-3"><b>Settings Module</b></h4>
     </div>
 

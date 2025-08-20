@@ -29,7 +29,7 @@
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/markers/index">Map Markers</a></li>
+            <li class="breadcrumb-item"><a href="/mapmarker/index">Map Markers</a></li>
             <li class="breadcrumb-item active" aria-current="page">All Markers</li>
         </ol>
     </div>
@@ -40,7 +40,7 @@
 
     <div class="col-lg-12">
         <div class="card mb-4">
-            
+
             <?php if ($isDesktop): ?>
                 <!-- Desktop / Large Display Layout -->
                 <div class="card-header py-3 d-flex align-items-center justify-content-between flex-wrap">

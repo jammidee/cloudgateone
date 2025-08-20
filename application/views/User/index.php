@@ -22,7 +22,7 @@
 
             <div class="text-center">
                 <!-- Centered title and icon -->
-                <img src="<?= base_url('assets/'); ?>img/think.svg" style="max-height: 90px">
+                <img src="<?= base_url('assets/'); ?>img/users.svg" style="max-height: 90px">
                 <h4 class="pt-3"><b>User Management Module</b></h4>
             </div>
 
