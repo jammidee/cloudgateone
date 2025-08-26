@@ -51,6 +51,46 @@ class Configdbmodel extends CI_Model {
     }
 
     /**
+     * Read a variable by entity + user + key
+     * Increments it by 1, saves, and returns new value
+     * Returns $default if not found
+     */
+    public function readVarInc($entityid, $userid, $key, $default = null) {
+        $query = $this->db
+            ->where('entityid', $entityid)
+            ->where('userid', $userid)
+            ->where('var_key', $key)
+            ->where('deleted', 0)
+            ->where('status', 'active')
+            ->get($this->table);
+
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            $newValue = (int)$row->var_value + 1;
+
+            // update the table with incremented value
+            $this->db->where('id', $row->id)
+                    ->update($this->table, ['var_value' => $newValue]);
+
+            return $newValue;
+        }
+
+        // If not found, initialize with default (if provided), otherwise start at 1
+        $newValue = ($default !== null) ? $default : 1;
+
+        $this->db->insert($this->table, [
+            'entityid'  => $entityid,
+            'userid'    => $userid,
+            'var_key'   => $key,
+            'var_value' => $newValue,
+            'status'    => 'active',
+            'deleted'   => 0
+        ]);
+
+        return $newValue;
+    }
+    
+    /**
      * Write or update a variable (entity + user + key)
      */
     public function writeVar($entityid, $userid, $key, $value, $type = 'string', $description = null) {

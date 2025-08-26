@@ -61,6 +61,7 @@
 <!-- API Test Script -->
 <script>
 document.getElementById('btnLogin').addEventListener('click', function() {
+
     fetch('<?php echo base_url("jwtapi/login"); ?>', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,7 +78,9 @@ document.getElementById('btnLogin').addEventListener('click', function() {
 });
 
 document.getElementById('btnSecureData').addEventListener('click', function() {
+    
     const token = document.getElementById('jwtToken').value;
+
     fetch('<?php echo base_url("jwtapi/secure_data"); ?>', {
         method: 'GET',
         headers: { 'Authorization': 'Bearer ' + token }

@@ -21,6 +21,15 @@
  * ------------------------------------------------------------------------
  */
 
+/**
+ * For the API to work, it requires:
+ *
+ * 	    # Special Notes for header
+ *      SetEnvIfNoCase Authorization "^(.*)$" HTTP_AUTHORIZATION=$1
+ *
+ *      Place this in the apache server virtual host config
+ */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jwtapi extends CI_Controller
@@ -104,5 +113,5 @@ class Jwtapi extends CI_Controller
             show_error('Invalid or expired token', 401);
         }
     }
-    
+
 }
