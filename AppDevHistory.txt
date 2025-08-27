@@ -18,6 +18,9 @@ TO FIX
 - make sure the lookup have entity and appid
 -
 
+08/28/2025		- added phpqrcode library
+				-
+
 08/27/2024		- completed the API module
 				-
 
