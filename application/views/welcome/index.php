@@ -51,6 +51,12 @@
                             </div>
 
                             <div class="text-center mt-4">
+                                <a href="<?php echo base_url('authclient/login'); ?>" class="btn btn-primary btn-lg btn-block">
+                                    <i class="fas fa-sign-in-alt"></i> Get Started – Login as Client
+                                </a>
+                            </div>
+
+                            <div class="text-center mt-4">
                                 <a href="<?php echo base_url('site/index'); ?>" class="btn btn-primary btn-lg btn-block">
                                     <i class="fas fa-sign-in-alt"></i> Get Started – Visit Site
                                 </a>
