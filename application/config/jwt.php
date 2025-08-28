@@ -31,4 +31,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Keep it secure and private. You can also store it in environment variables.
 |--------------------------------------------------------------------------
 */
-$config['jwt_secret'] = 'AD MAJOREM DEI GLORIAM';
+// $config['jwt_secret'] = 'AD MAJOREM DEI GLORIAM';
+$config['jwt_secret'] = 'P@$$w0rd!';

@@ -19,6 +19,8 @@ TO FIX
 -
 
 08/28/2025		- added phpqrcode library
+				- added client auth library for client and offline access.
+				- completed the client authentication module
 				-
 
 08/27/2024		- completed the API module
