@@ -186,6 +186,8 @@ class Jwtapi extends CI_Controller
         $sort    = isset($input['sort']) ? $input['sort'] : [];
         $limit   = isset($input['limit']) ? intval($input['limit']) : null;
         $offset  = isset($input['offset']) ? intval($input['offset']) : null;
+        $draw    = isset($input['draw']) ? intval($input['draw']) : 1;
+        $search  = isset($input['search']) ? trim($input['search']) : '';
 
         if (empty($table)) {
             echo json_encode([
@@ -195,13 +197,53 @@ class Jwtapi extends CI_Controller
             return;
         }
 
-        // Build Query
+        // 🔹 Step 1: Get total count (no filters, no search)
+        $total_count = $this->db->count_all($table);
+
+        // 🔹 Step 2: Apply filters + search for filtered count
         $this->db->from($table);
 
         if (!empty($filters)) {
             foreach ($filters as $col => $val) {
                 $this->db->where($col, $val);
             }
+        }
+
+        if (!empty($search)) {
+            $this->db->group_start(); // ( ... )
+            $fields = $this->db->list_fields($table);
+            foreach ($fields as $i => $field) {
+                if ($i === 0) {
+                    $this->db->like($field, $search);
+                } else {
+                    $this->db->or_like($field, $search);
+                }
+            }
+            $this->db->group_end(); // end ( ... )
+        }
+
+        $filtered_count = $this->db->count_all_results();
+
+        // 🔹 Step 3: Fetch actual data with filters, search, sort, pagination
+        $this->db->from($table);
+
+        if (!empty($filters)) {
+            foreach ($filters as $col => $val) {
+                $this->db->where($col, $val);
+            }
+        }
+
+        if (!empty($search)) {
+            $this->db->group_start();
+            $fields = $this->db->list_fields($table);
+            foreach ($fields as $i => $field) {
+                if ($i === 0) {
+                    $this->db->like($field, $search);
+                } else {
+                    $this->db->or_like($field, $search);
+                }
+            }
+            $this->db->group_end();
         }
 
         if (!empty($sort)) {
@@ -217,9 +259,12 @@ class Jwtapi extends CI_Controller
         $query  = $this->db->get();
         $result = $query->result();
 
+        // 🔹 Step 4: Return DataTables compatible JSON
         echo json_encode([
-            'status' => 'success',
-            'data'   => $result
+            'draw' => $draw,
+            'recordsTotal' => $total_count,
+            'recordsFiltered' => $filtered_count,
+            'data' => $result
         ]);
     }
 
