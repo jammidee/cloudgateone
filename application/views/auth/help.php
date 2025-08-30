@@ -52,6 +52,13 @@
                     Use the <b>Login</b> form to enter your credentials. Upon successful authentication, you will be redirected 
                     to your dashboard where you can explore the services available to you.
                 </p>
+
+                <!-- Login button -->
+                <div class="text-center mt-4">
+                    <a href="/auth/login" class="btn btn-primary btn-lg">
+                        Go to Login
+                    </a>
+                </div>
             </div>
         </div>
     </div>

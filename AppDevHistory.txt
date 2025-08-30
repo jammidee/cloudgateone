@@ -27,7 +27,7 @@ TO FIX
 				- added login module.
 				- Added help in the login page.
 				- Improve login help Page
-				-
+				- Added link button to the Login Help
 
 08/28/2025		- added phpqrcode library
 				- added client auth library for client and offline access.
