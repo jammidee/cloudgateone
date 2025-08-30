@@ -66,6 +66,9 @@
                             <div class="text-center">
                                 <a class="small" href="<?php echo base_url('auth/forgotpassword'); ?>">Forgot Password?</a>
                             </div>
+                            <div class="text-center">
+                                <a class="small" href="<?php echo base_url('auth/help'); ?>">Login Module Help</a>
+                            </div>
                         </div>
                     </div>
                 </div>

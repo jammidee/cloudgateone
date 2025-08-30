@@ -300,6 +300,23 @@ class Authclient extends CI_Controller {
 
     }
 
+    //Added by Jammi Dee 08/30/2025
+    public function help()
+    {
+        // Redirect to dashboard if already logged in
+        if (isLogged()) {
+
+            redirect('dashboard?t=' . time(), 'refresh');
+
+        } else {
+
+            $data['title'] = 'Client Login Module Help';
+
+            $this->load->view('_layout/authclient-header-bgnd', $data);
+            $this->load->view('authclient/help', $data);
+            $this->load->view('_layout/authclient-footers', $data);
+        }
+    }
 
 
 }

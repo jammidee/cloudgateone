@@ -4,7 +4,7 @@
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/authclient/login">Client Login</a></li>
+            <li class="breadcrumb-item"><a href="/auth/login">Auth</a></li>
             <li class="breadcrumb-item active" aria-current="page">Help</li>
         </ol>
     </div>
@@ -15,13 +15,13 @@
             <div class="text-center">
                 <!-- Centered title and icon -->
                 <img src="<?= base_url('assets/'); ?>img/think.svg" style="max-height: 90px">
-                <h4 class="pt-3"><b>Client Login Access</b></h4>
+                <h4 class="pt-3"><b>Login Access</b></h4>
             </div>
 
             <!-- Left-aligned explanatory content -->
             <div class="px-4 pt-3">
                 <p>
-                    The <b>Client Login Module</b> is designed to provide secure access exclusively for registered clients. 
+                    The <b>Login Module</b> is designed to provide secure access exclusively for registered clients. 
                     Through this portal, clients can access their personalized dashboard, review account details, and interact 
                     with available services.
                 </p>

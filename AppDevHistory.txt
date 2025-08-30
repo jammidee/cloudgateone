@@ -26,7 +26,8 @@ TO FIX
 				- create a client sample API table retrieval
 				- added login module.
 				- Added help in the login page.
-				- 
+				- Improve login help Page
+				-
 
 08/28/2025		- added phpqrcode library
 				- added client auth library for client and offline access.
