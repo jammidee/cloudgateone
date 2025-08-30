@@ -16,7 +16,7 @@
                                 <div class="form-group">
                                     <label>Email Address <span class="text-danger">*</span></label>
                                     <!-- <input type="email" class="form-control" name="email" placeholder="Enter Email Address" required> -->
-                                    <input type="email" name="email" class="form-control" placeholder="Email" value="<?= isset($client_remember_email) ? $client_remember_email : '' ?>" required>
+                                    <input type="email" name="username" class="form-control" placeholder="Email" value="<?= isset($client_remember_email) ? $client_remember_email : '' ?>" required>
                                 </div>
 
                                 <!-- <div class="form-group"> -->

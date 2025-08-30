@@ -28,7 +28,7 @@ class Clientdash extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        isLogin();
+        isClientLoginRedirect();
     }
 
     public function index()

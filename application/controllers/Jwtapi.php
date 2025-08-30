@@ -45,25 +45,44 @@ class Jwtapi extends CI_Controller
     {
         $input = json_decode($this->input->raw_input_stream, true);
 
-        // Read username/password from JSON body
-        $email    = isset($input['username']) ? $input['username'] : null;
-        $password = isset($input['password']) ? md5($input['password']) : null; // Same hash style as DB
+        // echo "Raw: " . $this->input->raw_input_stream;
+        // $input = json_decode($this->input->raw_input_stream, true);
+        // var_dump($input);
+        // exit;
 
-        if (empty($email) || empty($password)) {
+        // Read username/password from JSON body
+        $username       = isset($input['username']) ? $input['username'] : null;
+        $password       = isset($input['password']) ? $input['password'] : null; // Same hash style as DB
+
+        // var_dump($username, $password );
+        // exit;
+
+        if (empty($username) || empty($password)) {
             echo json_encode([
                 'status'  => 'error',
-                'message' => 'Email and password are required'
+                'message' => 'Username and password are required'
             ]);
             return;
         }
 
+        // var_dump($username, $password);
+        // exit;
+
         // Check database users
         $query = $this->db->get_where('users', [
-            'email' => $email,
+            'email' => $username,
             'pass'  => $password
         ]);
 
+        // echo $this->db->last_query();
+        // var_dump($query->num_rows());
+        // exit;
+
         if ($query->num_rows() > 0) {
+
+            // var_dump($query->num_rows());
+            // exit;
+
             $row = $query->row();
 
             // Payload for JWT
@@ -73,6 +92,9 @@ class Jwtapi extends CI_Controller
                 'email'  => $row->email,
                 'role'   => $row->role
             ];
+
+            // var_dump($payload);
+            // exit;
 
             // Get secret from config
             $secret = $this->config->item('jwt_secret');
@@ -84,6 +106,7 @@ class Jwtapi extends CI_Controller
                 'status' => 'success',
                 'token'  => $token
             ]);
+            
         } else {
             echo json_encode([
                 'status'  => 'error',
@@ -113,5 +136,92 @@ class Jwtapi extends CI_Controller
             show_error('Invalid or expired token', 401);
         }
     }
+    
+    
+    /**
+     * -------------------------------
+     * GENERIC QUERY API
+     * -------------------------------
+     * Expects JSON body:
+     * {
+     *   "table": "users",
+     *   "filters": {"status": "active"},
+     *   "sort": {"column": "id", "direction": "desc"},
+     *   "limit": 10,
+     *   "offset": 0
+     * }
+     */
+    /**
+     * -------------------------------
+     * GENERIC QUERY API
+     * -------------------------------
+     * Expects JSON body:
+     * {
+     *   "table": "users",
+     *   "filters": {"status": "active"},
+     *   "sort": {"column": "id", "direction": "desc"},
+     *   "limit": 10,
+     *   "offset": 0
+     * }
+     */
+    public function query()
+    {
+        // JWT Validation
+        $auth_header = $this->input->get_request_header('Authorization');
+        if (!$auth_header || strpos($auth_header, 'Bearer ') !== 0) {
+            show_error('Unauthorized', 401);
+        }
+
+        $token   = substr($auth_header, 7);
+        $decoded = decode_jwt($token);
+        if (!$decoded) {
+            show_error('Invalid or expired token', 401);
+        }
+
+        // Get request body
+        $input = json_decode($this->input->raw_input_stream, true);
+
+        $table   = isset($input['table']) ? $input['table'] : null;
+        $filters = isset($input['filters']) ? $input['filters'] : [];
+        $sort    = isset($input['sort']) ? $input['sort'] : [];
+        $limit   = isset($input['limit']) ? intval($input['limit']) : null;
+        $offset  = isset($input['offset']) ? intval($input['offset']) : null;
+
+        if (empty($table)) {
+            echo json_encode([
+                'status'  => 'error',
+                'message' => 'Table name is required'
+            ]);
+            return;
+        }
+
+        // Build Query
+        $this->db->from($table);
+
+        if (!empty($filters)) {
+            foreach ($filters as $col => $val) {
+                $this->db->where($col, $val);
+            }
+        }
+
+        if (!empty($sort)) {
+            $col = isset($sort['column']) ? $sort['column'] : 'id';
+            $dir = isset($sort['direction']) ? $sort['direction'] : 'asc';
+            $this->db->order_by($col, $dir);
+        }
+
+        if (!empty($limit)) {
+            $this->db->limit($limit, $offset ?? 0);
+        }
+
+        $query  = $this->db->get();
+        $result = $query->result();
+
+        echo json_encode([
+            'status' => 'success',
+            'data'   => $result
+        ]);
+    }
+
 
 }

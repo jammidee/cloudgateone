@@ -37,6 +37,8 @@ class Authclient extends CI_Controller {
         $this->load->library('session');
         $this->jwt_secret = $this->config->item('jwt_secret') ?? 'SuperSecretKey123';
 
+        $this->load->driver('cache', ['adapter' => 'file']);
+
     }
 
     public function login()
@@ -48,32 +50,47 @@ class Authclient extends CI_Controller {
 
         } else {
 
-            $data['title'] = 'Login';
+            $cachedData = $this->cache->get('user_creds');
+            if ($cachedData !== FALSE) {
 
-            // Load saved email and password from cookies
-            $data['client_remember_email']    = get_cookie('client_remember_email');
-            $data['client_remember_password'] = get_cookie('client_remember_password');
+                $this->session->set_userdata($cachedData);
+                redirect('clientdash?t=' . time(), 'refresh');
 
-            // Pass redirect URL to the view, if provided
-            $url = $this->input->get('redirect');
-            if (!empty($url)) {
-                $data['redirect_url'] = urldecode($url); // decode just in case it's encoded
+            } else {
+
+                //If no cache credentials, normal login
+                $data['title'] = 'Login';
+
+                // Load saved email and password from cookies
+                $data['client_remember_email']    = get_cookie('client_remember_email');
+                $data['client_remember_password'] = get_cookie('client_remember_password');
+
+                // Pass redirect URL to the view, if provided
+                $url = $this->input->get('redirect');
+                if (!empty($url)) {
+                    $data['redirect_url'] = urldecode($url); // decode just in case it's encoded
+                }
+
+                $this->load->view('_layout/authclient-header-bgnd', $data);
+                $this->load->view('authclient/login', $data);
+                $this->load->view('_layout/auth-footers', $data);
+
             }
 
-            $this->load->view('_layout/authclient-header-bgnd', $data);
-            $this->load->view('authclient/login', $data);
-            $this->load->view('_layout/auth-footers', $data);
         }
     }
 
     //Added by Jammi Dee 08/28/2025
     function checkinguser() {
-        $email          = $this->input->post('email');
-        $password       = md5($this->input->post('password'));
-        $selectedRouter = $this->input->post('router');
+        $username           = $this->input->post('username');
+        $password           = md5($this->input->post('password'));
+        $selectedRouter     = $this->input->post('router');
 
-        if (empty($email) || empty($password)) {
-            $this->session->set_flashdata('error', 'Login name or password is missing!');
+        // var_dump($password);
+        // exit;
+
+        if (empty($username) || empty($password)) {
+            $this->session->set_flashdata('error', 'Username or password is missing!');
             redirect('authclient/login?t=' . time(), 'refresh');
             return;
         }
@@ -87,7 +104,7 @@ class Authclient extends CI_Controller {
         $matchedSuperadmin = null;
 
         foreach ($superadmins as $admin) {
-            if ($admin['email'] === $email && $admin['password'] === $password) {
+            if ($admin['email'] === $username && $admin['password'] === $password) {
                 $matchedSuperadmin = $admin;
                 break;
             }
@@ -107,10 +124,13 @@ class Authclient extends CI_Controller {
 
             $this->session->set_userdata($newdata);
 
+            //Remove any cache credentials, if any, for superadmins
+            $this->cache->delete('user_creds');
+
             // Set Remember Me cookie (optional)
             $remember = $this->input->post('remember');
             if ($remember) {
-                set_cookie('client_remember_email', $email, 86400 * 30);
+                set_cookie('client_remember_email', $username, 86400 * 30);
                 set_cookie('client_remember_password', $password, 86400 * 30);
             } else {
                 delete_cookie('client_remember_email');
@@ -136,22 +156,35 @@ class Authclient extends CI_Controller {
             return;
         }
 
-        // Step 2: Check for cache account and use if available
-        
         // Step 3: Check against database users via API
         
-        $api_url = "http://localhost:8340/jwtapi/login";
-        $postData = [
-            'username' => $email,
+        // $api_url        = "http://localhost:8340/jwtapi/login";
+        $parent_api     = $this->config->item('parent_api_url') ?? 'http://localhost:8340';
+        $api_url        = $parent_api . "/jwtapi/login";
+        
+        $postData = array(
+            'username' => $username,
             'password' => $password
-        ];
+        );
+
+        $postdata = json_encode($postData);
+        // var_dump($postdata);
+        // exit;
 
         $ch = curl_init($api_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($postdata)
+        ));
+
         $response = curl_exec($ch);
         curl_close($ch);
+
+        // var_dump($response);
+        // exit;
 
         if (!$response) {
 
@@ -162,6 +195,9 @@ class Authclient extends CI_Controller {
         }
 
         $result = json_decode($response, true);
+
+        // var_dump($result);
+        // exit;
 
         //Token check
         if (!isset($result['token'])) {
@@ -183,7 +219,7 @@ class Authclient extends CI_Controller {
             $userData = [
                 'user_id'     => $decoded->data->user_id ?? null,
                 'user_name'   => $decoded->data->user_name ?? null,
-                'user_email'  => $decoded->data->user_email ?? $email,
+                'user_email'  => $decoded->data->user_email ?? null,
                 'user_role'   => $decoded->data->user_role ?? null,
                 'user_entity' => $decoded->data->entity ?? $this->config->item('appentity'),
                 'logged_in'   => TRUE,
@@ -192,10 +228,13 @@ class Authclient extends CI_Controller {
 
             $this->session->set_userdata($userData);
 
+            //Write the current logged user to cache
+            $this->cache->save('user_creds', $userData, 0); //forever
+
             // ---- 3. Remember me cookies ----
             $remember = $this->input->post('remember');
             if ($remember) {
-                set_cookie('client_remember_email', $email, 86400 * 30);
+                set_cookie('client_remember_email', $username, 86400 * 30);
                 set_cookie('client_remember_password', $password, 86400 * 30);
             } else {
                 delete_cookie('client_remember_email');
@@ -218,6 +257,49 @@ class Authclient extends CI_Controller {
         }
 
     }
+
+    function logout() {
+
+        //===============================
+        // Added by Jammi Dee 08/30/2025
+        // Log login
+        //===============================
+        try {
+
+            log_action('logout', 'User logged out');
+
+            $loguserid  = $this->session->userdata('user_id');
+            $logemail   = $this->session->userdata('user_email');
+
+            // writeToUserLogs(
+            //     $loguserid,
+            //     $logemail,
+            //     'Logged out of the system',
+            //     'Success', // Success, Failed, Pending
+            //     $_SERVER['REMOTE_ADDR'],
+            //     $_SERVER['HTTP_USER_AGENT'],
+            //     ['module' => 'authentication', 'details' => 'Login attempt']
+            // );
+
+        } catch (Exception $e) {
+
+            // Handle the exception or log it
+            error_log('Error writing to user logs: ' . $e->getMessage());
+            var_dump($e);
+            exit;
+        }
+
+        $this->session->unset_userdata('user_email');
+        $this->session->unset_userdata('logged_in', FALSE);
+
+        //On logout, remove cache data
+        $this->cache->delete('user_creds');
+
+        $this->session->set_flashdata('success', 'User Successfully Updated');
+        redirect('welcome?t=' . time(), 'refresh');
+
+    }
+
 
 
 }

@@ -182,7 +182,7 @@
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
                         </a> -->
-                        <a class="dropdown-item logout-btn" href="#" data-href="/auth/logout">
+                        <a class="dropdown-item logout-btn" href="#" data-href="/authclient/logout">
                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                             Logout
                         </a>

@@ -179,7 +179,7 @@ class Auth extends CI_Controller {
         try {
 
             log_action('logout', 'User logged out');
-            
+
             $loguserid  = $this->session->userdata('user_id');
             $logemail   = $this->session->userdata('user_email');
 
