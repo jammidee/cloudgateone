@@ -25,7 +25,8 @@ TO FIX
 				- fixed the issues with the logout
 				- create a client sample API table retrieval
 				- added login module.
-				-
+				- Added help in the login page.
+				- 
 
 08/28/2025		- added phpqrcode library
 				- added client auth library for client and offline access.
