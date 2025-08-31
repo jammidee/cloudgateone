@@ -89,6 +89,7 @@ class Configdbmodel extends CI_Model {
 
         return $newValue;
     }
+
     
     /**
      * Write or update a variable (entity + user + key)
@@ -117,13 +118,15 @@ class Configdbmodel extends CI_Model {
             return $this->db->affected_rows() > 0;
         } else {
             // create new
-            $data['entityid']   = $entityid;
-            $data['userid']     = $userid;
-            $data['var_key']    = $key;
-            $data['created_at'] = date('Y-m-d H:i:s');
-            $data['created_by'] = $userid;
+            $data['entityid']       = $entityid;
+            $data['userid']         = $userid;
+            $data['var_key']        = $key;
+            $data['created_at']     = date('Y-m-d H:i:s');
+            $data['created_by']     = $userid;
             $this->db->insert($this->table, $data);
             return $this->db->insert_id();
         }
     }
+
+
 }

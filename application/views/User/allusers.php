@@ -160,12 +160,98 @@
                 lengthMenu: [ [5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "All"] ],
                 order: [],
                 dom: '<"text-center mb-2"B><"d-flex justify-content-between align-items-center mb-2"l f>rt<"text-center"p>i',
-                buttons: canAccessbuttons ? ['copy', 'csv', 'excel', 'pdf', 'print'] : [],
+                buttons: canAccessbuttons ? [
+                    'copy', 
+                    'csv', 
+                    'excel', 
+                    {
+                        text: 'PDF',
+                        action: function (e, dt, node, config) {
+                            const { jsPDF } = window.jspdf;
+                            const doc = new jsPDF('l', 'pt', 'a4'); // landscape
+
+                            const pageWidth = doc.internal.pageSize.getWidth();
+
+                            // --- HEADER SECTION ---
+                            const logoUrl               = "<?= base_url('assets/img/report/header.png'); ?>"; // <-- replace with your logo path
+
+                            const companyName    = "<?= esc($company_name); ?>";
+                            const companyAddress = "<?= esc($company_address); ?>";
+                            const companyContact = "<?= esc($company_contact); ?>";
+                            const companyEmail   = "<?= esc($company_email); ?>";
+                            const companySite    = "<?= esc($company_site); ?>";
+                            const qrcode         = "<?= $qrcode; ?>";
+
+                            console.log("data:image/png;base64," + qrcode);
+                            // return;
+
+                            // Add logo (left)
+                            doc.addImage(logoUrl, 'PNG', 40, 20, 60, 60); // (image, format, x, y, width, height)
+                            doc.addImage("data:image/png;base64," + qrcode, "PNG", 90, 20, 60, 60);
+
+                            // Add company details (right aligned)
+                            doc.setFontSize(14);
+                            doc.text(companyName, pageWidth - 40, 50, { align: "right" });
+                            doc.setFontSize(10);
+                            doc.text(companyAddress, pageWidth - 40, 60, { align: "right" });
+                            doc.text(companyContact, pageWidth - 40, 70, { align: "right" });
+                            doc.text(companyEmail, pageWidth - 40, 80, { align: "right" });
+                            doc.text(companySite, pageWidth - 40, 90, { align: "right" });
+
+                            // Title
+                            doc.setFontSize(16);
+                            doc.text("Users Report", doc.internal.pageSize.getWidth() / 2, 30, { align: "center" });
+
+                            // Extract table data (excluding sensitive/system fields)
+                            // We'll only include relevant user-facing columns
+                            const data = dt.rows({ search: 'applied' }).data().toArray().map(row => [
+                                row.id,
+                                row.name,
+                                row.mobile,
+                                row.email,
+                                row.package,
+                                row.area,
+                                row.staff,
+                                row.amount,
+                                row.join_date,
+                                row.status,
+                            ]);
+
+                            // Headers
+                            const headers = [["ID", "Name", "Mobile", "Email", "Package", "Area", "Staff", "Amount", "Join Date", "Status"]];
+
+                            // Add table with autoTable
+                            doc.autoTable({
+                                head: headers,
+                                body: data,
+                                startY: 120,
+                                theme: 'grid',
+                                headStyles: { fillColor: [0, 123, 255] }
+                            });
+
+                            // Footer with page numbers
+                            doc.setFontSize(12);
+                            const pageCount = doc.internal.getNumberOfPages();
+                            for (let i = 1; i <= pageCount; i++) {
+                                doc.setPage(i);
+                                doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.getWidth() - 50, doc.internal.pageSize.getHeight() - 20, { align: "right" });
+                            }
+
+                            // Option 1: Save PDF
+                            // doc.save('users-report.pdf');
+
+                            // Option 2: Open in new tab instead of downloading
+                            window.open(doc.output('bloburl'), '_blank');
+                        }
+                    },
+                    'print'
+                ] : [],
                 columnDefs: [{
                     targets: 'nosort',
                     orderable: false
                 }]
             });
+
         } else {
             console.warn("#dataTableHolder table not found.");
         }

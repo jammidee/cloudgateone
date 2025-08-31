@@ -23,6 +23,10 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use chillerlan\QRCode\{QRCode, QROptions};
+
 class User extends CI_Controller
 {
     public function __construct()
@@ -87,7 +91,7 @@ class User extends CI_Controller
         $this->load->view('user/userview', $data);
         $this->load->view('_layout/footer');
     }
-    
+
     //Added by Jammi Dee 07/20/2025
     public function create()
     {
@@ -185,6 +189,31 @@ class User extends CI_Controller
 
     public function all() {
 
+        // Prepare QR data
+        $qrlink = site_url('user/all/');
+        $options = new QROptions(['outputType' => QRCode::OUTPUT_IMAGE_PNG, 'scale'  => 5, ]);
+        // File path (make sure the folder exists and is writable)
+        $filepath = FCPATH . 'assets/img/temp/qrcode.png';
+        // Render directly to file
+        (new QRCode($options))->render($qrlink, $filepath);
+        // if you also want to embed in <img>, you can still read and encode it
+        $data['qrcode'] = base64_encode(file_get_contents($filepath));
+        
+        $entityid = $this->session->userdata('user_entity') ?? '_NA_';
+        $userid   = $this->session->userdata('user_id') ?? 0;
+
+        $newDefaults = [
+            // ✅ New company constants
+            'company_name'      => esc(get_configdb($entityid, $userid, 'company_name', "Watercraft Venture Corporation")),
+            'company_address'   => esc(get_configdb($entityid, $userid, 'company_address', "Lot A-7, (Bldg. 1031), Rizal Highway, Subic Bay Freeport Zone")),
+            'company_contact'   => esc(get_configdb($entityid, $userid, 'company_contact', "Tel. Nos. (047) 252-1739, 252-1740   Fax No.: (047) 252-1738")),
+            'company_email'     => esc(get_configdb($entityid, $userid, 'company_email', "watercraftventure@gmail.com")),
+            'company_site'      => esc(get_configdb($entityid, $userid, 'company_site', "www.watercraftventure.com")),
+        ];
+
+        // Merge without overwriting existing keys
+        $data = array_merge($newDefaults, $data ?? []);
+        
         //Setup pagination
         $this->load->library('pagination');
         $limit = $this->input->get('limit') ?? 10;
@@ -231,7 +260,7 @@ class User extends CI_Controller
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
         $data['users'] = $this->usermodel->get_users($config['per_page'], $page);
         $data['pagination_links'] = $this->pagination->create_links();
-        
+
         //$data['users']      = $this->usermodel->getAllUsers();
 
         $maxUserCap = $this->config->item('max_user_cap');

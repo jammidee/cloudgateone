@@ -1,3 +1,28 @@
+<?php
+
+/**
+ * ------------------------------------------------------------------------
+ * Copyright (C) 2025 Lalulla OPC. All rights reserved.
+ *
+ * Copyright (c) 2017 - Jammi Dee (Joel M. Damaso) <jammi_dee@yahoo.com>
+ * This file is part of the Lalulla System.
+ *
+ * Lalulla System is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * ------------------------------------------------------------------------
+ * PRODUCT NAME : CloudGate PHP Framework
+ * AUTHOR       : Jammi Dee (Joel M. Damaso)
+ * LOCATION     : Manila, Philippines
+ * EMAIL        : jammi_dee@yahoo.com
+ * CREATED DATE : August 20, 2025
+ * ------------------------------------------------------------------------
+ */
+
+?>
+
 <!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -16,16 +41,18 @@
 
     <!-- Editable Config Variables -->
     <div class="card mt-4 shadow">
-        <!-- <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">System Configuration</h6>
-        </div> -->
+        </div>
         <div class="card-body">
             <form action="<?= base_url('configdb/saveconfig') ?>" method="post">
-
-                <h6 class="m-0 font-weight-bold text-primary">Company Settings</h6>
-                <br>
                 <table class="table table-bordered table-striped">
                     <tbody>
+                        
+                        <tr>
+                            <th><h6 class="m-0 font-weight-bold text-primary">Module Series</h6></th>
+                            <td>--</td>
+                        </tr>
                         <tr>
                             <th>Company Name</th>
                             <td><input type="text" name="company_name" class="form-control" value="<?= $company_name; ?>"></td>
@@ -46,14 +73,6 @@
                             <th>Company Website</th>
                             <td><input type="text" name="company_site" class="form-control" value="<?= $company_site; ?>"></td>
                         </tr>
-                    </tbody>
-                </table>
-
-                <br>
-                <h6 class="m-0 font-weight-bold text-primary">System Settings</h6>
-                <br>
-                <table class="table table-bordered table-striped">
-                    <tbody>
 
                         <tr>
                             <th>Maximum Users</th>
@@ -120,8 +139,6 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <br>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>

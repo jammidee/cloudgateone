@@ -57,6 +57,18 @@ if (!function_exists('get_configdb_inc')) {
 }
 
 /**
+ * Get a variable value from configdb
+ * Returns $default if not found
+ */
+if (!function_exists('get_configdb_inc')) {
+    function get_configdb_inc($entityid, $userid, $key, $default = null) {
+        $CI =& get_instance();
+        $CI->load->model('Configdbmodel');
+        return $CI->Configdbmodel->readVarInc($entityid, $userid, $key, $default);
+    }
+}
+
+/**
  * Set a variable value into configdb
  * If entity + user + key exists → update, else → insert
  */

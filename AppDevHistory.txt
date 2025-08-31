@@ -18,6 +18,9 @@ TO FIX
 - make sure the lookup have entity and appid
 -
 
+08/31/2025		- improve the configdb data
+				-
+
 08/30/2025		- write current user login information to cache
 				- added parent API in the config.
 				- fixed issues with the client login

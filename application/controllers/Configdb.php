@@ -53,15 +53,23 @@ class Configdb extends CI_Controller {
 
         $newDefaults = [
             'maxusers'          => get_configdb($entityid, $userid, 'maxusers', "100"),
-            'site_name'         => get_configdb($entityid, $userid, 'site_name', "My Watercraft System"),
+            'site_name'         => get_configdb($entityid, $userid, 'site_name', "My Cloudgate System"),
             'default_timezone'  => get_configdb($entityid, $userid, 'default_timezone', "UTC"),
             'theme'             => get_configdb($entityid, $userid, 'theme', "dark"),
             'session_timeout'   => get_configdb($entityid, $userid, 'session_timeout', "30"),
             'default_language'  => get_configdb($entityid, $userid, 'default_language', "en"),
-            'support_email'     => get_configdb($entityid, $userid, 'support_email', "support@watercraft.com"),
+            'support_email'     => get_configdb($entityid, $userid, 'support_email', "support@lalullacom"),
             'maintenance_mode'  => get_configdb($entityid, $userid, 'maintenance_mode', "0"),
             'currency_symbol'   => get_configdb($entityid, $userid, 'currency_symbol', "₱"),
             'records_per_page'  => get_configdb($entityid, $userid, 'records_per_page', "20"),
+
+            // ✅ New company constants
+            'company_name'      => get_configdb($entityid, $userid, 'company_name', "ClodGate Corporation"),
+            'company_address'   => get_configdb($entityid, $userid, 'company_address', "Lot A-7, (Bldg. 3033), Rizal Highway, Makati Metro Manila"),
+            'company_contact'   => get_configdb($entityid, $userid, 'company_contact', "Tel. Nos. (042) 253-1539, 253-1747   Fax No.: (042) 252-1338"),
+            'company_email'     => get_configdb($entityid, $userid, 'company_email', "cgone@gmail.com"),
+            'company_site'      => get_configdb($entityid, $userid, 'company_site', "www.cgone.com"),
+
         ];
 
         // Merge without overwriting existing keys
@@ -91,6 +99,14 @@ class Configdb extends CI_Controller {
             'maintenance_mode' => ['value' => $this->input->post('maintenance_mode'),'type' => 'boolean', 'desc' => 'Is application in maintenance mode?'],
             'currency_symbol'  => ['value' => $this->input->post('currency_symbol'), 'type' => 'string',  'desc' => 'Currency symbol used in the system'],
             'records_per_page' => ['value' => $this->input->post('records_per_page'),'type' => 'integer', 'desc' => 'Number of records shown per page'],
+
+            // ✅ New company constants
+            'company_name'     => ['value' => $this->input->post('company_name'),   'type' => 'string',  'desc' => 'Company legal name'],
+            'company_address'  => ['value' => $this->input->post('company_address'),'type' => 'string',  'desc' => 'Company address'],
+            'company_contact'  => ['value' => $this->input->post('company_contact'),'type' => 'string',  'desc' => 'Company contact numbers'],
+            'company_email'    => ['value' => $this->input->post('company_email'),  'type' => 'string',  'desc' => 'Company email address'],
+            'company_site'     => ['value' => $this->input->post('company_site'),   'type' => 'string',  'desc' => 'Company website'],
+
         ];
 
         // Save all configs
