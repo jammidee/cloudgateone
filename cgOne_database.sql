@@ -454,3 +454,152 @@ CREATE TABLE `configdb` (
 INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
 VALUES (@varEntity, 'CGONE', 'configdb', 'Configuration Variables Store', 'SYSTEM', 'APP', 'CGONE', 12, 'ACTIVE');
 
+
+--DEMO Tables
+
+CREATE TABLE `lab` (
+  `id`                     INT UNSIGNED NOT NULL AUTO_INCREMENT,
+
+  -- Metadata
+  `entityid`               VARCHAR(20)  DEFAULT '_NA_',          -- Entity the record belongs
+  `appid`                  VARCHAR(20)  DEFAULT '_NA_',            -- the current appliction ID
+  `userid`                 INT          NOT NULL,                -- user creating the lab record
+
+  -- Patient & Doctor Details
+  `patient_id`             INT UNSIGNED DEFAULT NULL,            
+  `patient_name`           VARCHAR(255) DEFAULT NULL,
+  `patient_phone`          VARCHAR(50)  DEFAULT NULL,
+  `patient_address`        VARCHAR(255) DEFAULT NULL,
+  `patient_email`          VARCHAR(255) DEFAULT NULL,
+  `doctor_id`              INT UNSIGNED DEFAULT NULL,            
+  `doctor_name`            VARCHAR(255) DEFAULT NULL,
+  `doctor_phone`          VARCHAR(50)  DEFAULT NULL,
+  `doctor_address`        VARCHAR(255) DEFAULT NULL,
+  `doctor_email`          VARCHAR(255) DEFAULT NULL,
+
+  -- Lab Request Details
+  `category_id`            INT UNSIGNED DEFAULT NULL,            
+  `category_name`          VARCHAR(255) DEFAULT NULL,
+  `report`                 LONGTEXT     DEFAULT NULL,            -- lab report details
+  `invoice_id`             INT UNSIGNED DEFAULT NULL,            
+  `hospital_id`            VARCHAR(50)  DEFAULT NULL,
+  `alloted_bed_id`         VARCHAR(50)  DEFAULT NULL,
+  `bed_diagnostic_id`      VARCHAR(50)  DEFAULT NULL,
+
+  -- Workflow / Status
+  `lab_status`             ENUM('queued','in_progress','completed','error') DEFAULT 'queued',
+  `test_status`            VARCHAR(50)  DEFAULT NULL,
+  `test_status_date`       DATETIME     DEFAULT NULL,
+  `delivery_status`        VARCHAR(50)  DEFAULT NULL,
+  `delivery_status_date`   DATETIME     DEFAULT NULL,
+  `receiver_name`          VARCHAR(255) DEFAULT NULL,
+  `machine_status_message` TEXT         DEFAULT NULL,             -- optional machine status/error
+
+  -- Assigned Resources
+  `assigned_clinic_id`     VARCHAR(50)  DEFAULT NULL,
+  `assigned_machine_id`    VARCHAR(50)  DEFAULT NULL,
+  `assigned_technician_id` VARCHAR(50)  DEFAULT NULL,
+  `integration_ref_id`     VARCHAR(100) DEFAULT NULL,
+
+  -- Timeline
+  `lab_request_received`   DATETIME     DEFAULT NULL,
+  `lab_start_time`         DATETIME     DEFAULT NULL,
+  `lab_end_time`           DATETIME     DEFAULT NULL,
+
+  -- Signatories
+  `reported_by`            VARCHAR(255) DEFAULT NULL,
+  `done_by`                VARCHAR(255) DEFAULT NULL,
+  `signed_by`              VARCHAR(255) DEFAULT NULL,
+
+  -- Notes / Remarks
+  `remarks`                TEXT         DEFAULT NULL,
+
+  -- System metadata
+  `tag_id`                 VARCHAR(50)  DEFAULT NULL,
+  `vversion`               VARCHAR(20)  DEFAULT NULL,
+  `pid`                    INT          DEFAULT 0,
+  `sstatus`                VARCHAR(36)  DEFAULT 'ACTIVE',
+  `deleted`                INT          DEFAULT 0,
+
+  `created_at`             DATETIME     DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`             DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `update_by`              INT          DEFAULT NULL,
+
+  PRIMARY KEY (`id`),
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- Register in systables
+INSERT INTO systables(entityid, dbname, tabname, tabdesc, tablegrp, tabletype, appowner, colcount, sstatus)
+VALUES (@varEntity, 'CGONE', 'lab', 'Laboratory Tests & Reports', 'WATERCRAFT', 'APP', 'CGONE', 33, 'ACTIVE');
+
+
+CREATE TABLE lab (
+  id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+
+  -- Metadata
+  entityid                TEXT DEFAULT '_NA_',       -- Entity the record belongs
+  appid                   TEXT DEFAULT '_NA_',       -- Application ID
+  userid                  INTEGER NOT NULL,          -- user creating the lab record
+
+  -- Patient & Doctor Details
+  patient_id              INTEGER,
+  patient_name            TEXT,
+  patient_phone           TEXT,
+  patient_address         TEXT,
+  patient_email           TEXT,
+  doctor_id               INTEGER,
+  doctor_name             TEXT,
+  doctor_phone            TEXT,
+  doctor_address          TEXT,
+  doctor_email            TEXT,
+
+  -- Lab Request Details
+  category_id             INTEGER,
+  category_name           TEXT,
+  report                  TEXT,                      -- lab report details
+  invoice_id              INTEGER,
+  hospital_id             TEXT,
+  alloted_bed_id          TEXT,
+  bed_diagnostic_id       TEXT,
+
+  -- Workflow / Status
+  lab_status              TEXT DEFAULT 'queued' CHECK(lab_status IN ('queued','in_progress','completed','error')),
+  test_status             TEXT,
+  test_status_date        TEXT,                      -- store as ISO8601 string
+  delivery_status         TEXT,
+  delivery_status_date    TEXT,
+  receiver_name           TEXT,
+  machine_status_message  TEXT,                      -- optional machine status/error
+
+  -- Assigned Resources
+  assigned_clinic_id      TEXT,
+  assigned_machine_id     TEXT,
+  assigned_technician_id  TEXT,
+  integration_ref_id      TEXT,
+
+  -- Timeline
+  lab_request_received    TEXT,
+  lab_start_time          TEXT,
+  lab_end_time            TEXT,
+
+  -- Signatories
+  reported_by             TEXT,
+  done_by                 TEXT,
+  signed_by               TEXT,
+
+  -- Notes / Remarks
+  remarks                 TEXT,
+
+  -- System metadata
+  tag_id                  TEXT,
+  vversion                TEXT,
+  pid                     INTEGER DEFAULT 0,
+  sstatus                 TEXT DEFAULT 'ACTIVE',
+  deleted                 INTEGER DEFAULT 0,
+
+  created_at              TEXT DEFAULT (datetime('now')),
+  updated_at              TEXT DEFAULT (datetime('now')),
+  update_by               INTEGER
+);

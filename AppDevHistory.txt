@@ -20,7 +20,10 @@ TO FIX
 
 08/31/2025		- improve the configdb data
 				- added function to log events on file
-				- 
+				- added sqlitcfg page to config sqlite
+				- added sqlite in the database.php
+				- improve Sqlite Config page adding functons like initialization, reset, backup and optimized
+				-
 
 08/30/2025		- write current user login information to cache
 				- added parent API in the config.

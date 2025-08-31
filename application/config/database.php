@@ -119,3 +119,29 @@ $db['emission'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+
+// Added by Jammi Dee 08/31/2025
+// Connection to the lab SQLite database
+$db['lab'] = array(
+    'dsn'      => '',
+    'hostname' => '',                                // not used in SQLite
+    'username' => '',                                // not used in SQLite
+    'password' => '',                                // not used in SQLite
+    'database' => APPPATH . 'database/lab.db',       // full path to your SQLite file
+    'dbdriver' => 'sqlite3',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    //'db_debug' => (ENVIRONMENT !== 'production'),
+    'db_debug' => TRUE,
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt'  => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);

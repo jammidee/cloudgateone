@@ -268,7 +268,7 @@ class Authclient extends CI_Controller {
                 delete_cookie('client_remember_password');
             }
 
-            log_action('login', 'Remote User logged in successfully');
+            log_action2file('login', 'Remote User logged in successfully');
 
             // ---- 4. Redirect ----
             if (!empty($redirect_url)) {

@@ -28,6 +28,8 @@ class Configdb extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
+        $this->db_path = APPPATH . 'database/cgone.db';
+
         // Check user login session
         $uri = uri_string();
         isLoginRedirect($uri);
@@ -123,5 +125,81 @@ class Configdb extends CI_Controller {
         // Redirect back to system settings page
         redirect('configdb/system?t=' . time());
     }
+    
+    public function sqlitecfg() {
+        $data['title'] = 'SQLite Configuration/Settings';
+
+        // Load the layout with our calendar page
+        $this->load->view('_layout/header',         $data);
+        $this->load->view('_layout/sidebar',        $data);
+        $this->load->view('_layout/topbar',         $data);
+        $this->load->view('configdb/sqlitecfg',     $data); // Calendar page
+        $this->load->view('_layout/footer');
+    }
+    
+    // Initialize DB (create file + tables)
+    public function initialize()
+    {
+        if (!file_exists($this->db_path)) {
+            $db = new SQLite3($this->db_path);
+        } else {
+            $db = new SQLite3($this->db_path);
+        }
+
+        // Example: Create a simple table
+        $sql = "CREATE TABLE IF NOT EXISTS users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT,
+                    email TEXT,
+                    created_at TEXT DEFAULT (datetime('now'))
+                );";
+        $db->exec($sql);
+
+        $db->close();
+        $this->session->set_flashdata('success', 'Database initialized successfully.');
+        redirect('configdb/index');
+    }
+    
+    // Reset DB (drop + recreate tables)
+    public function reset()
+    {
+        if (file_exists($this->db_path)) {
+            unlink($this->db_path); // delete file
+        }
+        $this->initialize(); // recreate
+        $this->session->set_flashdata('success', 'Database reset successfully.');
+        redirect('configdb/index');
+    }
+    
+    // Backup DB
+    public function backup()
+    {
+        if (file_exists($this->db_path)) {
+            $backup_path = APPPATH . 'database/lab_backup_' . date('Ymd_His') . '.db';
+            copy($this->db_path, $backup_path);
+            $this->session->set_flashdata('success', 'Database backup created: ' . basename($backup_path));
+        } else {
+            $this->session->set_flashdata('error', 'Database file not found.');
+        }
+        redirect('configdb/index');
+    }
+    
+    // Optimize DB
+    public function optimize()
+    {
+        if (file_exists($this->db_path)) {
+            $db = new SQLite3($this->db_path);
+            $db->exec("VACUUM;");
+            $db->exec("ANALYZE;");
+            $db->close();
+            $this->session->set_flashdata('success', 'Database optimized successfully.');
+        } else {
+            $this->session->set_flashdata('error', 'Database file not found.');
+        }
+        redirect('configdb/index');
+    }
+    
+
+
 
 }

@@ -124,7 +124,9 @@
                 <br>
                 <div class="text-right">
                     <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <a href="<?= base_url('configdb/sqlitecfg') ?>" class="btn btn-secondary ml-2">SQLite Config</a>
                 </div>
+
             </form>
         </div>
     </div>
