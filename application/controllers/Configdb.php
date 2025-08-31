@@ -28,7 +28,7 @@ class Configdb extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-        $this->db_path = APPPATH . 'database/cgone.db';
+        $this->db_path = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'cgone.db';
 
         // Check user login session
         $uri = uri_string();
@@ -140,49 +140,96 @@ class Configdb extends CI_Controller {
     // Initialize DB (create file + tables)
     public function initialize()
     {
-        if (!file_exists($this->db_path)) {
+        try {
+            // Try opening existing DB or creating it if it does not exist
             $db = new SQLite3($this->db_path);
-        } else {
-            $db = new SQLite3($this->db_path);
+
+            if (!$db) {
+                throw new Exception("Failed to open or create database at: " . $this->db_path);
+            }
+
+            // Example: Create a simple table
+            $sql = "CREATE TABLE IF NOT EXISTS users (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT,
+                        email TEXT,
+                        created_at TEXT DEFAULT (datetime('now'))
+                    );";
+
+            if (!$db->exec($sql)) {
+                throw new Exception("Failed to execute SQL: " . $db->lastErrorMsg());
+            }
+
+            $db->close();
+
+            // Flash success message
+            $this->session->set_flashdata('success', 'Database initialized successfully.');
+
+        } catch (Exception $e) {
+            // Handle failure
+            log_message('error', 'SQLite Initialization Error: ' . $e->getMessage());
+            $this->session->set_flashdata('error', 'Database initialization failed. Please check logs.');
         }
 
-        // Example: Create a simple table
-        $sql = "CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT,
-                    email TEXT,
-                    created_at TEXT DEFAULT (datetime('now'))
-                );";
-        $db->exec($sql);
-
-        $db->close();
-        $this->session->set_flashdata('success', 'Database initialized successfully.');
-        redirect('configdb/index');
+        // Redirect back to configuration page
+        redirect('configdb/sqlitecfg');
     }
+
     
     // Reset DB (drop + recreate tables)
     public function reset()
     {
-        if (file_exists($this->db_path)) {
-            unlink($this->db_path); // delete file
+        try {
+            if (file_exists($this->db_path)) {
+                if (!unlink($this->db_path)) {
+                    throw new Exception("Failed to delete database file: " . $this->db_path);
+                }
+            }
+
+            // Attempt re-initialization
+            $this->initialize();
+
+            // If initialize() succeeds, success message will be set there already
+            $this->session->set_flashdata('success', 'Database reset successfully.');
+        } catch (Exception $e) {
+            log_message('error', 'Database reset error: ' . $e->getMessage());
+            $this->session->set_flashdata('error', 'Database reset failed: ' . $e->getMessage());
         }
-        $this->initialize(); // recreate
-        $this->session->set_flashdata('success', 'Database reset successfully.');
-        redirect('configdb/index');
+
+        redirect('configdb/sqlitecfg');
     }
+
     
-    // Backup DB
+    // Backup
     public function backup()
     {
-        if (file_exists($this->db_path)) {
-            $backup_path = APPPATH . 'database/lab_backup_' . date('Ymd_His') . '.db';
-            copy($this->db_path, $backup_path);
-            $this->session->set_flashdata('success', 'Database backup created: ' . basename($backup_path));
-        } else {
-            $this->session->set_flashdata('error', 'Database file not found.');
+        try {
+            if (file_exists($this->db_path)) {
+                $backup_dir = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR;
+
+                // Ensure backup directory exists
+                if (!is_dir($backup_dir)) {
+                    mkdir($backup_dir, 0755, true);
+                }
+
+                $backup_path = $backup_dir . 'cgone_backup_' . date('Ymd_His') . '.db';
+
+                if (!copy($this->db_path, $backup_path)) {
+                    throw new Exception('Failed to create database backup.');
+                }
+
+                $this->session->set_flashdata('success', 'Database backup created: ' . basename($backup_path));
+            } else {
+                $this->session->set_flashdata('error', 'Database file not found.');
+            }
+        } catch (Exception $e) {
+            log_message('error', 'Backup failed: ' . $e->getMessage());
+            $this->session->set_flashdata('error', 'Backup failed: ' . $e->getMessage());
         }
-        redirect('configdb/index');
+
+        redirect('configdb/sqlitecfg');
     }
+
     
     // Optimize DB
     public function optimize()
@@ -196,7 +243,7 @@ class Configdb extends CI_Controller {
         } else {
             $this->session->set_flashdata('error', 'Database file not found.');
         }
-        redirect('configdb/index');
+        redirect('configdb/sqlitecfg');
     }
     
 

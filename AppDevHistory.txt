@@ -23,7 +23,8 @@ TO FIX
 				- added sqlitcfg page to config sqlite
 				- added sqlite in the database.php
 				- improve Sqlite Config page adding functons like initialization, reset, backup and optimized
-				-
+				- Improve the Configdb script especially on the sqlite handling.
+				- 
 
 08/30/2025		- write current user login information to cache
 				- added parent API in the config.
