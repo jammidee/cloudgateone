@@ -84,3 +84,60 @@ function log_action($action_type, $action_details, $severity = 'INFO', $is_suspi
 
     $CI->db->insert('system_logs', $log_data);
 }
+
+// function log_action2file($action_type, $action_details, $severity = 'INFO', $is_suspicious = false)
+// {
+//     This function logs user/system actions into a FILE instead of the database.  
+//     Each log entry is saved in JSON format for easy readability and parsing.  
+//     A new log file is created daily under `application/logs/` with the name pattern:  
+//     `actions-YYYY-MM-DD.log`
+//
+//     Parameters:
+//         $action_type    : String  - Type of action being performed (e.g., 'LOGIN', 'DELETE', 'UPDATE').
+//         $action_details : String  - Detailed description of the action (e.g., which record was updated).
+//         $severity       : String  - Log level (default: 'INFO'). Can be 'INFO', 'WARNING', 'ERROR', etc.
+//         $is_suspicious  : Boolean - Flag for marking suspicious activities (default: false).
+//
+//     Captured automatically from the session/environment:
+//         - user_id       : ID of the logged-in user (0 if guest).
+//         - entity_id     : The entity/organization ID if available (defaults to '_NA_').
+//         - ip_address    : The client’s IP address.
+//         - user_agent    : Browser/Client user agent string.
+//
+//     Behavior:
+//         - Encodes all log data as JSON.
+//         - Appends each log line to the appropriate daily log file.
+//         - Uses file locking (LOCK_EX) to prevent simultaneous write collisions.
+// }
+// Added by Jammi Dee 08/31/2025
+function log_action2file($action_type, $action_details, $severity = 'INFO', $is_suspicious = false)
+{
+    $CI =& get_instance();
+    $CI->load->library('session');
+
+    $user_id    = $CI->session->userdata('user_id') ?? 0;
+    $entity_id  = $CI->session->userdata('user_entity') ?? '_NA_';
+    $ip_address = $CI->input->ip_address();
+    $user_agent = $CI->input->user_agent();
+
+    $log_data = [
+        'timestamp'      => date('Y-m-d H:i:s'),
+        'entityid'       => $entity_id,
+        'user_id'        => $user_id,
+        'action_type'    => $action_type,
+        'action_details' => $action_details,
+        'ip_address'     => $ip_address,
+        'user_agent'     => $user_agent,
+        'severity'       => $severity,
+        'is_suspicious'  => $is_suspicious ? 1 : 0
+    ];
+
+    // Encode as JSON so it's structured in the log file
+    $log_line = json_encode($log_data) . PHP_EOL;
+
+    // File path (daily rotating log file inside application/logs/)
+    $log_file = APPPATH . 'logs/actions-' . date('Y-m-d') . '.log';
+
+    // Append to file
+    file_put_contents($log_file, $log_line, FILE_APPEND | LOCK_EX);
+}

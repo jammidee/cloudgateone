@@ -114,6 +114,9 @@ class Configdb extends CI_Controller {
             set_configdb($entityid, $userid, $key, $config['value'], $config['type'], $config['desc']);
         }
 
+        //Update the logs
+        log_action('update', 'Updated configuration DB information');
+
         // Flash success message
         $this->session->set_flashdata('success', 'System configuration saved successfully!');
 

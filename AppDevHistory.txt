@@ -19,7 +19,8 @@ TO FIX
 -
 
 08/31/2025		- improve the configdb data
-				-
+				- added function to log events on file
+				- 
 
 08/30/2025		- write current user login information to cache
 				- added parent API in the config.

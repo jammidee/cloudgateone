@@ -72,6 +72,15 @@ class Authclient extends CI_Controller {
             if ($cachedData !== FALSE) {
 
                 $this->session->set_userdata($cachedData);
+                
+                try {
+                    log_action('login', 'User logged in successfully using cache credentials');
+                } catch (Exception $e) {
+                    error_log('Error writing to user logs: ' . $e->getMessage());
+                    var_dump($e);
+                    exit;
+                }
+                
                 redirect('clientdash?t=' . time(), 'refresh');
 
             } else {
