@@ -24,6 +24,8 @@ TO FIX
 				- added sqlite in the database.php
 				- improve Sqlite Config page adding functons like initialization, reset, backup and optimized
 				- Improve the Configdb script especially on the sqlite handling.
+				- Added constant for local DB name
+				- Added labmodel for local db testing table.
 				- 
 
 08/30/2025		- write current user login information to cache

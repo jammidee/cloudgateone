@@ -123,12 +123,12 @@ $db['emission'] = array(
 
 // Added by Jammi Dee 08/31/2025
 // Connection to the lab SQLite database
-$db['lab'] = array(
+$db['localdb'] = array(
     'dsn'      => '',
     'hostname' => '',                                // not used in SQLite
     'username' => '',                                // not used in SQLite
     'password' => '',                                // not used in SQLite
-    'database' => APPPATH . 'database/lab.db',       // full path to your SQLite file
+    'database' => FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . LOCAL_DB_NAME,       // full path to your SQLite file
     'dbdriver' => 'sqlite3',
     'dbprefix' => '',
     'pconnect' => FALSE,
