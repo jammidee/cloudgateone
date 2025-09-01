@@ -17,6 +17,34 @@
     <link href="<?= base_url('assets/'); ?>vendor/daterangepicker/daterangepicker.css" rel="stylesheet" type="text/css">
 
     <link href="<?= base_url('assets/'); ?>css/ruang-admin.min.css" rel="stylesheet">
+    
+    <style>
+        .dt-buttons .dt-button {
+            padding: 4px 10px !important; 
+            font-size: 0.85rem !important; 
+            line-height: 1.2 !important;   
+        }
+
+        table.dataTable tbody td {
+            padding: 4px 8px !important;
+            font-size: 0.875rem;
+            vertical-align: middle !important;
+        }
+
+        table.dataTable thead th {
+            padding: 6px 8px !important;
+            font-size: 0.9rem;
+            vertical-align: middle !important;
+        }
+
+        /* Extra light placeholder text */
+        ::placeholder {
+            color: #ccc !important; /* softer gray */
+            opacity: 0.3; /* faint visibility */
+        }
+
+    </style>
+    
 </head>
 
 <body id="page-top">

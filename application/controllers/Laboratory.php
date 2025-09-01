@@ -41,10 +41,10 @@ class Laboratory extends CI_Controller {
     // --------------------------------------------------------------------
     public function index() {
         $data['title'] = 'Laboratory Records';
-        $this->load->view('_layout/header',  $data);
-        $this->load->view('_layout/sidebar', $data);
-        $this->load->view('_layout/topbar',  $data);
-        $this->load->view('laboratory/index', $data);
+        $this->load->view('_layout/header',     $data);
+        $this->load->view('_layout/sidebar',    $data);
+        $this->load->view('_layout/topbar',     $data);
+        $this->load->view('laboratory/index',   $data);
         $this->load->view('_layout/footer');
     }
 
@@ -134,16 +134,17 @@ class Laboratory extends CI_Controller {
     // Create form
     // --------------------------------------------------------------------
     public function create() {
+    
         $data['title'] = 'New Laboratory Record';
 
         // Generate unique tag_id
-        $data['tag_id'] = generate_verified_unique_code($this, 'LAB', 'lab', 'tag_id');
+        // $data['tag_id'] = generate_verified_unique_code($this, 'LAB', 'lab', 'tag_id');
 
-        $this->load->view('_layout/header',  $data);
-        $this->load->view('_layout/sidebar', $data);
-        $this->load->view('_layout/topbar',  $data);
-        $this->load->view('laboratory/create', $data);
-        $this->load->view('_layout/footer');
+        $this->load->view('_layout/client-header',  $data);
+        $this->load->view('_layout/client-sidebar', $data);
+        $this->load->view('_layout/client-topbar',  $data);
+        $this->load->view('laboratory/create',      $data);
+        $this->load->view('_layout/client-footer');
     }
 
     // --------------------------------------------------------------------
@@ -151,26 +152,63 @@ class Laboratory extends CI_Controller {
     // --------------------------------------------------------------------
     public function store() {
         if ($this->input->post()) {
-            $entityid = $this->session->userdata('user_entity');
-            $appid    = $this->session->userdata('user_appid');
-            $userid   = $this->session->userdata('user_id');
+            // ---- Get metadata from session (fallback to hidden form fields if missing) ----
+            $entityid = $this->session->userdata('user_entity') ?? $this->input->post('entityid') ?? '_NA_';
+            $appid    = $this->session->userdata('user_appid')  ?? $this->input->post('appid') ?? '_NA_';
+            $userid   = $this->session->userdata('user_id')     ?? $this->input->post('userid') ?? 0;
 
+            // ---- Collect form data safely (null coalescing + trim) ----
             $data = [
-                'entityid'      => $entityid,
-                'appid'         => $appid,
-                'userid'        => $userid,
-                'patient_name'  => $this->input->post('patient_name'),
-                'doctor_name'   => $this->input->post('doctor_name'),
-                'category_name' => $this->input->post('category_name'),
-                'lab_status'    => $this->input->post('lab_status'),
-                'remarks'       => $this->input->post('remarks'),
-                'tag_id'        => $this->input->post('tag_id'),
+                'entityid'              => $entityid,
+                'appid'                 => $appid,
+                'userid'                => $userid,
+                'patient_name'          => trim($this->input->post('patient_name') ?? ''),
+                'patient_email'         => trim($this->input->post('patient_email') ?? ''),
+                'patient_phone'         => trim($this->input->post('patient_phone') ?? ''),
+                'patient_address'       => trim($this->input->post('patient_address') ?? ''),
+                'doctor_name'           => trim($this->input->post('doctor_name') ?? ''),
+                'doctor_email'          => trim($this->input->post('doctor_email') ?? ''),
+                'doctor_phone'          => trim($this->input->post('doctor_phone') ?? ''),
+                'doctor_address'        => trim($this->input->post('doctor_address') ?? ''),
+                'category_name'         => trim($this->input->post('category_name') ?? ''),
+                'category_id'           => $this->input->post('category_id') ?? null,
+                'report'                => trim($this->input->post('report') ?? ''),
+                'invoice_id'            => $this->input->post('invoice_id') ?? null,
+                'hospital_id'           => trim($this->input->post('hospital_id') ?? ''),
+                'alloted_bed_id'        => trim($this->input->post('alloted_bed_id') ?? ''),
+                'bed_diagnostic_id'     => trim($this->input->post('bed_diagnostic_id') ?? ''),
+                'lab_status'            => $this->input->post('lab_status') ?? 'queued',
+                'test_status'           => trim($this->input->post('test_status') ?? ''),
+                'test_status_date'      => $this->input->post('test_status_date') ?? null,
+                'delivery_status'       => trim($this->input->post('delivery_status') ?? ''),
+                'delivery_status_date'  => $this->input->post('delivery_status_date') ?? null,
+                'receiver_name'         => trim($this->input->post('receiver_name') ?? ''),
+                'machine_status_message'=> trim($this->input->post('machine_status_message') ?? ''),
+                'assigned_clinic_id'    => trim($this->input->post('assigned_clinic_id') ?? ''),
+                'assigned_machine_id'   => trim($this->input->post('assigned_machine_id') ?? ''),
+                'assigned_technician_id'=> trim($this->input->post('assigned_technician_id') ?? ''),
+                'integration_ref_id'    => trim($this->input->post('integration_ref_id') ?? ''),
+                'lab_request_received'  => $this->input->post('lab_request_received') ?? null,
+                'lab_start_time'        => $this->input->post('lab_start_time') ?? null,
+                'lab_end_time'          => $this->input->post('lab_end_time') ?? null,
+                'reported_by'           => trim($this->input->post('reported_by') ?? ''),
+                'done_by'               => trim($this->input->post('done_by') ?? ''),
+                'signed_by'             => trim($this->input->post('signed_by') ?? ''),
+                'remarks'               => trim($this->input->post('remarks') ?? ''),
+                'tag_id'                => trim($this->input->post('tag_id') ?? ''),
+                'vversion'              => trim($this->input->post('vversion') ?? ''), // hidden field
+                'pid'                   => $this->input->post('pid') ?? 0,            // hidden field
+                'sstatus'               => $this->input->post('sstatus') ?? 'ACTIVE', // hidden field
             ];
 
+            // ---- Save to DB ----
             $this->labmodel->insert($data);
+
+            // ---- Redirect with cache-busting timestamp ----
             redirect('laboratory/all?t=' . time());
         }
     }
+
 
     // --------------------------------------------------------------------
     // Edit form
