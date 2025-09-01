@@ -290,13 +290,15 @@ if (!function_exists('roleBelongsTo')) {
 if (!function_exists('getUsername')) {
     function getUsername() {
         $ci = & get_instance();
-        $ci->load->library('session');
+        // load the default DB, but don't replace $ci->db
+        $db = $ci->load->database('default', TRUE); 
 
-        $userName = $ci->session->userdata('user_name');
+        $userID   = $ci->session->userdata('user_id');
         $userRole = $ci->session->userdata('user_role');
 
-        if (!empty($userName)) {
-            return $userName;
+        $query = $db->get_where('users', array('id' => $userID));
+        if ($query->num_rows() > 0) {
+            return $query->row()->name;
         } else {
             if ($userRole == 'Superadmin') {
                 return "**Superadmin**";

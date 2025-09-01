@@ -77,6 +77,12 @@
                             </td>
                             <td>Runs `VACUUM` and `ANALYZE` on the SQLite database to optimize performance.</td>
                         </tr>
+                        <tr>
+                            <td>
+                                <a href="<?= base_url('configdb/create_lab_table') ?>" class="btn btn-warning btn-block">Create Lab Table</a>
+                            </td>
+                            <td>Runs a script to create the laboratory table in the database.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

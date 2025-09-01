@@ -242,12 +242,15 @@ class Authclient extends CI_Controller {
             $secret = $this->config->item('jwt_secret') ?? 'SuperSecretKey123'; // must match issuer
             $decoded = JWT::decode($jwt_token, new Key($secret, 'HS256'));
 
+            // var_dump($decoded);
+            // exit;
+            
             // Extract user data from token
             $userData = [
-                'user_id'     => $decoded->data->user_id ?? null,
-                'user_name'   => $decoded->data->user_name ?? null,
-                'user_email'  => $decoded->data->user_email ?? null,
-                'user_role'   => $decoded->data->user_role ?? null,
+                'user_id'     => $decoded->data->id ?? null,
+                'user_name'   => $decoded->data->name ?? null,
+                'user_email'  => $decoded->data->email ?? null,
+                'user_role'   => $decoded->data->role ?? null,
                 'user_entity' => $decoded->data->entity ?? $this->config->item('appentity'),
                 'logged_in'   => TRUE,
                 'jwt_token'   => $jwt_token
@@ -255,6 +258,9 @@ class Authclient extends CI_Controller {
 
             $this->session->set_userdata($userData);
 
+            // var_dump($userData);
+            // exit;
+            
             //Write the current logged user to cache
             $this->cache->save('user_creds', $userData, 0); //forever
 

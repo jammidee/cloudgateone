@@ -152,6 +152,27 @@
                         <!-- <span class="ml-2 d-none d-lg-inline text-white small">Remote User</span> -->
                     </a>
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+
+                        <?php
+                            $CI =& get_instance();
+                            $user_role = $CI->session->userdata('user_role');
+                            if ($user_role !== 'Superadmin' && canAccessMenu('topmenu_manage', $user_role)):
+                        ?>
+                            <a class="dropdown-item" href="/profile/edit">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Profile
+                            </a>
+                        <?php endif; ?>
+                        <?php
+                            $CI =& get_instance();
+                            $user_role = $CI->session->userdata('user_role');
+                            if ($user_role !== 'Superadmin' && canAccessMenu('topmenu_manage', $user_role)):
+                        ?>
+                            <a class="dropdown-item" href="/settings/edit">
+                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Settings
+                            </a>
+                        <?php endif; ?>
                         <a class="dropdown-item" href="/activitylog/all">
                             <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                             Activity Log

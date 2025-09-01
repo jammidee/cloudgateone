@@ -78,6 +78,14 @@ $config['cg-roles'] = array(
 //Define menu that can be access by a group
 $config['menu-access'] = array(
 
+    //Laboratory Right controls
+    'laboratory_manage'         => array('admin-group','support-group','business-group','user-group'),
+    'laboratory_create'         => array('admin-group','support-group'),
+    'laboratory_read'           => array('admin-group','support-group','business-group','user-group'),
+    'laboratory_update'         => array('admin-group','support-group'),
+    'laboratory_delete'         => array('admin-group','support-group'),
+    'laboratory_report'         => array('admin-group','support-group'),
+    
     //Top Menu controls
     'topmenu_manage'         => array('admin-group','support-group','business-group','user-group'),
     'topmenu_create'         => array('admin-group','support-group'),

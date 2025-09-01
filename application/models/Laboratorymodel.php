@@ -23,7 +23,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Labmodel extends CI_Model {
+class Laboratorymodel extends CI_Model {
 
     protected $table = 'lab';
     protected $localdb; // SQLite connection

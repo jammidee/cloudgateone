@@ -13,14 +13,28 @@
             <span>Client Dashboard</span></a>
     </li>
 
-
-    <!-- Sample Pages -->
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
-        AdminLTE Sample Pages
+        Main Menu
     </div>
 
-    <li class="nav-item">
+    <!-- <!php if (canAccessMenu('laboratory_manage', $this->session->userdata('user_role'))): ?> -->
+    <!-- <!php if (roleBelongsTo($this->session->userdata('user_role'), 'support-group')): ?> -->
+        <li class="nav-item <?= is_active_menu('laboratory', 'all'); ?>">
+            <a class="nav-link" href="<?= base_url('laboratory/all') . '?t=' . time(); ?>">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Manage Laboratory Test</span>
+            </a>
+        </li>
+    <!-- <!php endif; ?> -->
+
+    <!-- Sample Pages -->
+    <!-- <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        AdminLTE Sample Pages
+    </div> -->
+
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap" aria-expanded="true" aria-controls="collapseBootstrap">
             <i class="far fa-fw fa-window-maximize"></i>
             <span>Bootstrap UI</span>
@@ -28,22 +42,22 @@
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Bootstrap UI</h6>
-                <a class="collapse-item" href="<?= base_url('element/alert'); ?>">Alerts</a>
-                <a class="collapse-item" href="<?= base_url('element/button'); ?>">Buttons</a>
-                <a class="collapse-item" href="<?= base_url('element/dropdown'); ?>">Dropdowns</a>
-                <a class="collapse-item" href="<?= base_url('element/modal'); ?>">Modals</a>
-                <a class="collapse-item" href="<?= base_url('element/popovers'); ?>">Popovers</a>
-                <a class="collapse-item" href="<?= base_url('element/progressbar'); ?>">Progress Bars</a>
+                <a class="collapse-item" href="<!= base_url('element/alert'); ?>">Alerts</a>
+                <a class="collapse-item" href="<!= base_url('element/button'); ?>">Buttons</a>
+                <a class="collapse-item" href="<!= base_url('element/dropdown'); ?>">Dropdowns</a>
+                <a class="collapse-item" href="<!= base_url('element/modal'); ?>">Modals</a>
+                <a class="collapse-item" href="<!= base_url('element/popovers'); ?>">Popovers</a>
+                <a class="collapse-item" href="<!= base_url('element/progressbar'); ?>">Progress Bars</a>
             </div>
         </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('element/form'); ?>">
+    </li> -->
+    <!-- <li class="nav-item">
+        <a class="nav-link" href="<!= base_url('element/form'); ?>">
             <i class="fab fa-fw fa-wpforms"></i>
             <span>Forms</span>
         </a>
-    </li>
-    <li class="nav-item">
+    </li> -->
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true" aria-controls="collapseTable">
             <i class="fas fa-fw fa-table"></i>
             <span>Tables</span>
@@ -51,22 +65,22 @@
         <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Tables</h6>
-                <a class="collapse-item" href="<?= base_url('element/simpletable'); ?>">Simple Tables</a>
-                <a class="collapse-item" href="<?= base_url('element/datatable'); ?>">DataTables</a>
+                <a class="collapse-item" href="<!= base_url('element/simpletable'); ?>">Simple Tables</a>
+                <a class="collapse-item" href="<!= base_url('element/datatable'); ?>">DataTables</a>
             </div>
         </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('element/uicolors'); ?>">
+    </li> -->
+    <!-- <li class="nav-item">
+        <a class="nav-link" href="<!= base_url('element/uicolors'); ?>">
             <i class="fas fa-fw fa-palette"></i>
             <span>UI Colors</span>
         </a>
-    </li>
-    <hr class="sidebar-divider">
+    </li> -->
+    <!-- <hr class="sidebar-divider">
     <div class="sidebar-heading">
         Examples
-    </div>
-    <li class="nav-item">
+    </div> -->
+    <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePage" aria-expanded="true" aria-controls="collapsePage">
             <i class="fas fa-fw fa-columns"></i>
             <span>Pages</span>
@@ -74,19 +88,19 @@
         <div id="collapsePage" class="collapse" aria-labelledby="headingPage" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Example Pages</h6>
-                <a class="collapse-item" href="<?= base_url('element/login'); ?>">Login</a>
-                <a class="collapse-item" href="<?= base_url('element/register'); ?>">Register</a>
-                <a class="collapse-item" href="<?= base_url('element/error_page'); ?>">404 Page</a>
-                <a class="collapse-item" href="<?= base_url('element/blank'); ?>">Blank Page</a>
+                <a class="collapse-item" href="<!= base_url('element/login'); ?>">Login</a>
+                <a class="collapse-item" href="<!= base_url('element/register'); ?>">Register</a>
+                <a class="collapse-item" href="<!= base_url('element/error_page'); ?>">404 Page</a>
+                <a class="collapse-item" href="<!= base_url('element/blank'); ?>">Blank Page</a>
             </div>
         </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('element/charts'); ?>">
+    </li> -->
+    <!-- <li class="nav-item">
+        <a class="nav-link" href="<!= base_url('element/charts'); ?>">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Charts</span>
         </a>
-    </li>
+    </li> -->
     <hr class="sidebar-divider">
     <div class="version" id="version-cgone">
         Version <?= $this->config->item('appversion'); ?>

@@ -28,7 +28,7 @@ class Configdb extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-        $this->db_path = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'cgone.db';
+        $this->db_path = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . LOCAL_DB_NAME;
 
         // Check user login session
         $uri = uri_string();
@@ -246,6 +246,103 @@ class Configdb extends CI_Controller {
         redirect('configdb/sqlitecfg');
     }
     
+    // Create LAB table
+    public function create_lab_table()
+    {
+        try {
+            if (!file_exists($this->db_path)) {
+                throw new Exception("Database file not found at: " . $this->db_path);
+            }
+
+            $db = new SQLite3($this->db_path);
+
+            // ✅ Full lab table schema with comments
+            $sql = <<<SQL
+                CREATE TABLE IF NOT EXISTS lab (
+                id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+
+                -- Metadata
+                entityid                TEXT DEFAULT '_NA_',       -- Entity the record belongs
+                appid                   TEXT DEFAULT '_NA_',       -- Application ID
+                userid                  INTEGER NOT NULL,          -- user creating the lab record
+
+                -- Patient & Doctor Details
+                patient_id              INTEGER,
+                patient_name            TEXT,
+                patient_phone           TEXT,
+                patient_address         TEXT,
+                patient_email           TEXT,
+                doctor_id               INTEGER,
+                doctor_name             TEXT,
+                doctor_phone            TEXT,
+                doctor_address          TEXT,
+                doctor_email            TEXT,
+
+                -- Lab Request Details
+                category_id             INTEGER,
+                category_name           TEXT,
+                report                  TEXT,                      -- lab report details
+                invoice_id              INTEGER,
+                hospital_id             TEXT,
+                alloted_bed_id          TEXT,
+                bed_diagnostic_id       TEXT,
+
+                -- Workflow / Status
+                lab_status              TEXT DEFAULT 'queued' CHECK(lab_status IN ('queued','in_progress','completed','error')),
+                test_status             TEXT,
+                test_status_date        TEXT,                      -- store as ISO8601 string
+                delivery_status         TEXT,
+                delivery_status_date    TEXT,
+                receiver_name           TEXT,
+                machine_status_message  TEXT,                      -- optional machine status/error
+
+                -- Assigned Resources
+                assigned_clinic_id      TEXT,
+                assigned_machine_id     TEXT,
+                assigned_technician_id  TEXT,
+                integration_ref_id      TEXT,
+
+                -- Timeline
+                lab_request_received    TEXT,
+                lab_start_time          TEXT,
+                lab_end_time            TEXT,
+
+                -- Signatories
+                reported_by             TEXT,
+                done_by                 TEXT,
+                signed_by               TEXT,
+
+                -- Notes / Remarks
+                remarks                 TEXT,
+
+                -- System metadata
+                tag_id                  TEXT,
+                vversion                TEXT,
+                pid                     INTEGER DEFAULT 0,
+                sstatus                 TEXT DEFAULT 'ACTIVE',
+                deleted                 INTEGER DEFAULT 0,
+
+                created_at              TEXT DEFAULT (datetime('now')),
+                updated_at              TEXT DEFAULT (datetime('now')),
+                update_by               INTEGER
+                );
+                SQL;
+
+            if (!$db->exec($sql)) {
+                throw new Exception("Failed to create 'lab' table: " . $db->lastErrorMsg());
+            }
+
+            $db->close();
+
+            $this->session->set_flashdata('success', "Table 'lab' created (if not exists).");
+        } catch (Exception $e) {
+            log_message('error', 'SQLite Lab Table Creation Error: ' . $e->getMessage());
+            $this->session->set_flashdata('error', 'Lab table creation failed. Please check logs.');
+        }
+
+        redirect('configdb/sqlitecfg');
+    }
+
 
 
 
