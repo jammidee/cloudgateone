@@ -220,55 +220,88 @@ class Laboratory extends CI_Controller {
 
         if (!$data['lab']) show_404();
 
-        $this->load->view('_layout/header',  $data);
-        $this->load->view('_layout/sidebar', $data);
-        $this->load->view('_layout/topbar',  $data);
+        $this->load->view('_layout/client-header',  $data);
+        $this->load->view('_layout/client-sidebar', $data);
+        $this->load->view('_layout/client-topbar',  $data);
         $this->load->view('laboratory/edit', $data);
-        $this->load->view('_layout/footer');
+        $this->load->view('_layout/client-footer');
     }
 
     // --------------------------------------------------------------------
     // Update handler
     // --------------------------------------------------------------------
-    public function update($id) {
+    public function update($id)
+    {
         $entityid = $this->session->userdata('user_entity');
         $userid   = $this->session->userdata('user_id');
 
-        $data = $this->input->post();
+        // get all POST data safely
+        $data = $this->input->post(NULL, TRUE);
 
         $updateData = [
-            'patient_name'  => $data['patient_name'],
-            'doctor_name'   => $data['doctor_name'],
-            'category_name' => $data['category_name'],
-            'lab_status'    => $data['lab_status'],
-            'remarks'       => $data['remarks'],
-            'updated_at'    => date('Y-m-d H:i:s'),
-            'update_by'     => $userid
+            // Patient details
+            'patient_name'      => $data['patient_name'] ?? null,
+            'patient_email'     => $data['patient_email'] ?? null,
+            'patient_phone'     => $data['patient_phone'] ?? null,
+            'patient_address'   => $data['patient_address'] ?? null,
+
+            // Doctor details
+            'doctor_name'       => $data['doctor_name'] ?? null,
+            'doctor_email'      => $data['doctor_email'] ?? null,
+            'doctor_phone'      => $data['doctor_phone'] ?? null,
+            'doctor_address'    => $data['doctor_address'] ?? null,
+
+            // Lab request details
+            'category_name'     => $data['category_name'] ?? null,
+            'category_id'       => $data['category_id'] ?? null,
+            'report'            => $data['report'] ?? null,
+            'invoice_id'        => $data['invoice_id'] ?? null,
+            'hospital_id'       => $data['hospital_id'] ?? null,
+            'alloted_bed_id'    => $data['alloted_bed_id'] ?? null,
+            'bed_diagnostic_id' => $data['bed_diagnostic_id'] ?? null,
+
+            // Workflow / status
+            'lab_status'        => $data['lab_status'] ?? null,
+            'test_status'       => $data['test_status'] ?? null,
+            'test_status_date'  => $data['test_status_date'] ?? null,
+            'delivery_status'   => $data['delivery_status'] ?? null,
+            'delivery_status_date' => $data['delivery_status_date'] ?? null,
+            'receiver_name'     => $data['receiver_name'] ?? null,
+            'machine_status_message' => $data['machine_status_message'] ?? null,
+
+            // Assigned resources
+            'assigned_clinic_id'    => $data['assigned_clinic_id'] ?? null,
+            'assigned_machine_id'   => $data['assigned_machine_id'] ?? null,
+            'assigned_technician_id'=> $data['assigned_technician_id'] ?? null,
+            'integration_ref_id'    => $data['integration_ref_id'] ?? null,
+
+            // Timeline
+            'lab_request_received'  => $data['lab_request_received'] ?? null,
+            'lab_start_time'        => $data['lab_start_time'] ?? null,
+            'lab_end_time'          => $data['lab_end_time'] ?? null,
+
+            // Signatories
+            'reported_by'       => $data['reported_by'] ?? null,
+            'done_by'           => $data['done_by'] ?? null,
+            'signed_by'         => $data['signed_by'] ?? null,
+
+            // Notes
+            'remarks'           => $data['remarks'] ?? null,
+
+            // Audit
+            'updated_at'        => date('Y-m-d H:i:s'),
+            'update_by'         => $userid
         ];
 
+        // filter out nulls if you want to avoid overwriting with null
+        $updateData = array_filter($updateData, fn($v) => $v !== null);
+
         $this->labmodel->update($id, $updateData, $entityid);
+
+        $this->session->set_flashdata('success', 'Lab request updated successfully.');
         redirect('laboratory/all?t=' . time());
     }
 
-    // --------------------------------------------------------------------
-    // Soft delete
-    // --------------------------------------------------------------------
-    public function delete($id) {
-        $entityid = $this->session->userdata('user_entity');
-        $this->labmodel->deleteSoft($id, $entityid);
-        redirect('laboratory/all?t=' . time());
-    }
 
-    // --------------------------------------------------------------------
-    // Hard delete
-    // --------------------------------------------------------------------
-    public function deletehard($id) {
-        $entityid = $this->session->userdata('user_entity');
-        $lab = $this->labmodel->getById($id, $entityid);
 
-        if (!$lab) show_404();
-
-        $this->labmodel->deleteHard($id, $entityid);
-        redirect('laboratory/all?t=' . time());
-    }
 }
