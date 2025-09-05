@@ -18,11 +18,14 @@ TO FIX
 - make sure the lookup have entity and appid
 -
 
+09/05/2025		- create a separate database cloudgatedb
+				-
+
 09/01/2025		- fixed the issue of the getusername()
 				- Added laboratory all.php and create.php files
 				- added CSS in the header
 				- added edit.php
-				- 
+				-
 
 08/31/2025		- improve the configdb data
 				- added function to log events on file
