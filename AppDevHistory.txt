@@ -22,7 +22,8 @@ TO FIX
 				- improved the user ID module
 				- improve the user module and tight integration with datatable
 				- Clean up user module.
-
+				- fixed the password MD5 generation issue
+				-
 
 09/05/2025		- create a separate database cloudgatedb
 				-

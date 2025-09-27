@@ -269,7 +269,7 @@ class User extends CI_Controller
         $data['user_id']   = $email; // mapped to user_id
         $data['email']     = $email;
         $data['password']  = md5($password); // keep original if needed
-        // $data['pass']      = md5($password); // hashed version
+        $data['pass']      = md5($password); // hashed version
         $data['name']      = $this->input->post('name') ?? 'NA';
         $data['mobile']    = $this->input->post('mobile') ?? 'NA';
         $data['role']      = $this->input->post('role') ?? 'User';
@@ -499,6 +499,11 @@ class User extends CI_Controller
             $data['password'] = $this->input->post('password');
         }
 
+        //CloudgateOne password
+        if(!empty($this->input->post('password'))){
+            $data['pass'] = md5($this->input->post('password'));
+        }
+
         if(!empty($this->input->post('mobile'))){
             $data['mobile'] = $this->input->post('mobile');
         }
@@ -533,10 +538,6 @@ class User extends CI_Controller
 
         if(!empty($this->input->post('advance'))){
             $data['advance'] = " ";
-        }
-
-        if(!empty($this->input->post('accpass'))){
-            $data['pass'] = md5($this->input->post('accpass'));
         }
 
         if(!empty($this->input->post('role'))){
