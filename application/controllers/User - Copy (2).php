@@ -202,111 +202,92 @@ class User extends CI_Controller
     //Added by Jammi Dee 07/20/2025
     public function create()
     {
-        $data = [];
+        $data = array();
 
-        /* Upload Photo */
+        /* Uploading Profile Images */
         $imagePath = realpath(APPPATH . '../assets/images/');
-        if (!empty($_FILES['photo']['tmp_name'])) {
+        $photo = $_FILES['photo']['tmp_name'];
+        if ($photo !== "") {
             $config['upload_path']      = $imagePath;
             $config['allowed_types']    = 'jpg|png|jpeg|gif';
-            $config['file_name']        = date('Ymd_His_') . rand(100, 999);
+            $config['file_name']        = date('Ymd_his_') . rand(100, 999) . rand(100, 999);
             $this->load->library('upload', $config);
-
             if ($this->upload->do_upload('photo')) {
-                $uploadData   = $this->upload->data();
+                $uploadData = $this->upload->data();
                 $data['photo'] = $uploadData['file_name'];
 
-                // Crop square first
-                $configCrop = [
-                    'image_library'   => 'gd2',
-                    'source_image'    => $uploadData['full_path'],
-                    'new_image'       => $imagePath . '/crop',
-                    'quality'         => '100%',
-                    'maintain_ratio'  => FALSE
-                ];
+                $config['image_library']    = 'gd2';
+                $config['source_image']     = $uploadData['full_path'];
+                $config['new_image']        = $imagePath . '/crop';
+                $config['quality']          = '100%';
+                $config['maintain_ratio']   = FALSE;
 
                 if ($uploadData['image_width'] > $uploadData['image_height']) {
-                    $configCrop['width']  = $uploadData['image_height'];
-                    $configCrop['height'] = $uploadData['image_height'];
-                    $configCrop['x_axis'] = ($uploadData['image_width'] / 2) - ($configCrop['width'] / 2);
+                    $config['width']    = $uploadData['image_height'];
+                    $config['height']   = $uploadData['image_height'];
+                    $config['x_axis']   = (($uploadData['image_width'] / 2) - ($config['width'] / 2));
                 } else {
-                    $configCrop['width']  = $uploadData['image_width'];
-                    $configCrop['height'] = $uploadData['image_width'];
-                    $configCrop['y_axis'] = ($uploadData['image_height'] / 2) - ($configCrop['height'] / 2);
+                    $config['height']   = $uploadData['image_width'];
+                    $config['width']    = $uploadData['image_width'];
+                    $config['y_axis']   = (($uploadData['image_height'] / 2) - ($config['height'] / 2));
                 }
 
                 $this->image_lib->clear();
-                $this->image_lib->initialize($configCrop);
+                $this->image_lib->initialize($config);
                 $this->image_lib->crop();
 
-                // Resize to 250x250
-                $configResize = [
-                    'image_library' => 'gd2',
-                    'source_image'  => $imagePath . '/crop/' . $uploadData['file_name'],
-                    'new_image'     => $imagePath . '/final',
-                    'width'         => 250,
-                    'height'        => 250
-                ];
+                $config['source_image']     = $imagePath . '/crop/' . $uploadData['file_name'];
+                $config['new_image']        = $imagePath . '/final';
+                $config['width']            = 250;
+                $config['height']           = 250;
+
                 $this->image_lib->clear();
-                $this->image_lib->initialize($configResize);
+                $this->image_lib->initialize($config);
                 $this->image_lib->resize();
 
                 unlink($uploadData['full_path']);
             }
         }
 
-        // Required fields
-        $email      = trim($this->input->post('email'));
-        $password   = trim($this->input->post('password'));
-        $passConfirm= trim($this->input->post('password_confirm'));
+        // Sanitize and gather input data
+        $fields = [
+            'name', 'mobile', 'package', 'area', 'staff', 'user_id',
+            'password', 'join_date', 'role', 'status', 'location',
+            'lat', 'lon', 'model', 'serial_no', 'number_of_ports',
+            'wan_bandwidth', 'property_id', 'remarks', 'petc_code',
+            'starttime', 'endtime'
+        ];
 
-        if ($password !== $passConfirm) {
-            $this->session->set_flashdata('error', 'Passwords do not match.');
-            redirect('user/add?t=' . time(), 'refresh');
-            return;
+        foreach ($fields as $field) {
+            $value = $this->input->post($field);
+            if (!empty($value)) {
+                $data[$field] = $value;
+            }
         }
 
-        $data['user_id']   = $email; // mapped to user_id
-        $data['email']     = $email;
-        $data['password']  = md5($password); // keep original if needed
-        // $data['pass']      = md5($password); // hashed version
-        $data['name']      = $this->input->post('name') ?? 'NA';
-        $data['mobile']    = $this->input->post('mobile') ?? 'NA';
-        $data['role']      = $this->input->post('role') ?? 'User';
-        $data['join_date'] = $this->input->post('join_date') ?? date('Y-m-d');
-        $data['status']    = $this->input->post('status') ?? 'Inactive';
-        $data['location']  = $this->input->post('location') ?? '';
-        $data['lat']       = $this->input->post('lat') ?: 0.000000;
-        $data['lon']       = $this->input->post('lon') ?: 0.000000;
-        $data['remarks']   = $this->input->post('remarks') ?? '';
+        $data['email']  = $this->input->post('user_id');
+        $data['pass']   = md5($this->input->post('password'));
 
-        // Hidden / default values
-        $data['entityid']  = $this->input->post('entityid') ?? '_NA_';
-        $data['amount']    = '';
-        $data['advance']   = '';
-        $data['model']     = 'N/A';
-        $data['serial_no'] = 'N/A';
-        $data['number_of_ports'] = 0;
-        $data['wan_bandwidth']   = 0;
-        $data['property_id']     = 'NONE';
-        $data['petc_code']       = 'NA';
-        $data['search_quota']    = 100;
-        $data['search_unli']     = 0;
-        $data['time_unli']       = 0;
-        $data['starttime']       = 0;
-        $data['endtime']         = 24;
+        // Fields requiring special handling
+        $data['amount'] = " ";
+        $data['advance'] = " ";
 
-        // System fields
-        $data['sstatus']   = 'ACTIVE';
-        $data['pid']       = 0;
-        $data['userid']    = $this->session->userdata('user_id') ?? 0;
-        $data['deleted']   = 0;
+        if (!empty($this->input->post('accpass'))) {
+            $data['pass'] = md5($this->input->post('accpass'));
+        }
 
-        // Log
-        log_action('create', 'Created new user: ' . $email);
+        $data['search_quota'] = $this->input->post('search_quota') !== null
+            ? $this->input->post('search_quota') : 100;
 
-        // Insert
-        if ($this->db->insert('users', $data)) {
+        $data['search_unli'] = $this->input->post('search_unli') ? 1 : 0;
+        $data['time_unli']   = $this->input->post('time_unli') ? 1 : 0;
+
+        //Log user creation
+        log_action('create', 'Created new user');
+
+        // Insert into database
+        $insert_true = $this->db->insert('users', $data);
+        if ($insert_true) {
             $this->session->set_flashdata('success', 'User Successfully Created');
             redirect('user/all?t=' . time(), 'refresh');
         } else {
@@ -314,6 +295,7 @@ class User extends CI_Controller
             redirect('user/add?t=' . time(), 'refresh');
         }
     }
+
 
     public function all() {
 
