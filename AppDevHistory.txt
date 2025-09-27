@@ -21,7 +21,7 @@ TO FIX
 09/27/2025		- updated the profile UI
 				- improved the user ID module
 				- improve the user module and tight integration with datatable
-				-
+				- Clean up user module.
 
 
 09/05/2025		- create a separate database cloudgatedb

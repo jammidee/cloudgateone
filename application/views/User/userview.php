@@ -4,94 +4,81 @@
         <h1 class="h3 mb-0 text-gray-800"><?= $title; ?></h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/user/all">Users</a></li>
+            <li class="breadcrumb-item"><a href="<?= site_url('user/all'); ?>">Users</a></li>
             <li class="breadcrumb-item active" aria-current="page">View</li>
         </ol>
     </div>
 
-    <div class="col-lg-12">
-        <div class="card mb-4">
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div class="d-flex align-items-center">
-                    <h6 class="m-0 font-weight-bold text-primary mr-3 text-nowrap">
-                        <i class="fas fa-fw fa-user"></i> View User
-                    </h6>
-                </div>
-            </div>
-            <div class="card-body">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div class="container-fluid">
                 <?php foreach ($view_user as $user): ?>
-                <!-- View User Info -->
-                <div class="row">
-                    <!-- ID -->
-                    <div class="col-md-6 mb-3">
-                        <label>User ID</label>
-                        <p class="form-control-plaintext"><?= $user->id; ?></p>
-                    </div>
 
-                    <!-- Name -->
-                    <div class="col-md-6 mb-3">
-                        <label>Full Name</label>
-                        <p class="form-control-plaintext"><?= $user->name; ?></p>
-                    </div>
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <h2 class="font-weight-bold">User Profile</h2>
+                    <p class="text-muted">User ID: <?= esc($user->id) ?></p>
+                    <hr>
+                </div>
 
-                    <!-- Email -->
-                    <div class="col-md-6 mb-3">
-                        <label>Email</label>
-                        <p class="form-control-plaintext"><?= $user->email; ?></p>
-                    </div>
+                <!-- Basic Information -->
+                <h5 class="mb-2"><strong>Basic Information</strong></h5>
+                <table class="table table-bordered table-sm">
+                    <tr>
+                        <th width="20%">Full Name</th>
+                        <td><?= esc($user->name) ?></td>
+                        <th width="20%">Email</th>
+                        <td><?= esc($user->email) ?></td>
+                    </tr>
+                    <tr>
+                        <th>Password</th>
+                        <td class="text-muted">••••••••</td>
+                        <th>Mobile</th>
+                        <td><?= esc($user->mobile) ?></td>
+                    </tr>
+                </table>
 
-                    <!-- Password -->
-                    <div class="col-md-6 mb-3">
-                        <label>Password</label>
-                        <p class="form-control-plaintext text-muted">••••••••</p>
-                    </div>
+                <!-- Membership -->
+                <h5 class="mt-4 mb-2"><strong>Membership</strong></h5>
+                <table class="table table-bordered table-sm">
+                    <tr>
+                        <th width="20%">Join Date</th>
+                        <td><?= esc($user->join_date) ?></td>
+                        <th>Role</th>
+                        <td><?= esc($user->role) ?></td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td colspan="3">
+                            <span class="badge
+                                <?= $user->status == 'Active' ? 'badge-success' : '' ?>
+                                <?= $user->status == 'Inactive' ? 'badge-secondary' : '' ?>">
+                                <?= esc($user->status) ?>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
 
-                    <!-- Mobile -->
-                    <div class="col-md-6 mb-3">
-                        <label>Mobile</label>
-                        <p class="form-control-plaintext"><?= $user->mobile; ?></p>
-                    </div>
-
-                    <!-- Join Date -->
-                    <div class="col-md-6 mb-3">
-                        <label>Join Date</label>
-                        <p class="form-control-plaintext"><?= $user->join_date; ?></p>
-                    </div>
-
-                    <!-- Role -->
-                    <div class="col-md-6 mb-3">
-                        <label>Role</label>
-                        <p class="form-control-plaintext"><?= $user->role; ?></p>
-                    </div>
-
-                    <!-- Status -->
-                    <div class="col-md-6 mb-3">
-                        <label>Status</label>
-                        <p class="form-control-plaintext"><?= $user->status; ?></p>
-                    </div>
-
-                    <!-- Remarks -->
-                    <div class="col-md-12 mb-12">
-                        <label>Remarks</label>
-                        <p class="form-control-plaintext"><?= $user->remarks; ?></p>
-                    </div>
+                <!-- Remarks -->
+                <h5 class="mt-4 mb-2"><strong>Remarks</strong></h5>
+                <div class="border p-2">
+                    <?= !empty($user->remarks) ? nl2br(esc($user->remarks)) : 'None' ?>
                 </div>
 
                 <br>
-                <div class="text-right">
-                    <a href="<?= base_url('user/all'); ?>" class="btn btn-secondary">
+                <!-- Actions -->
+                <div class="mt-4 d-print-none text-right">
+                    <a href="<?= site_url('user/all?t=') . time(); ?>" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Back to List
                     </a>
+                    <a href="<?= site_url('user/edit/' . $user->id) . '?t=' . time(); ?>" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
                 </div>
+
                 <?php endforeach; ?>
             </div>
         </div>
     </div>
 </div>
-<!---Container Fluid-->
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Put your customized page scripts
-});
-</script>
+<!-- End of Container Fluid -->

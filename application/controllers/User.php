@@ -491,6 +491,14 @@ class User extends CI_Controller
             $data['name'] = $this->input->post('name');
         }
 
+        if(!empty($this->input->post('email'))){
+            $data['email'] = $this->input->post('email');
+        }
+
+        if(!empty($this->input->post('password'))){
+            $data['password'] = $this->input->post('password');
+        }
+
         if(!empty($this->input->post('mobile'))){
             $data['mobile'] = $this->input->post('mobile');
         }
@@ -517,10 +525,6 @@ class User extends CI_Controller
 
         if(!empty($this->input->post('user_id'))){
             $data['user_id'] = $this->input->post('user_id');
-        }
-
-        if(!empty($this->input->post('password'))){
-            $data['password'] = $this->input->post('password');
         }
 
         if(!empty($this->input->post('join_date'))){

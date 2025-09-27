@@ -34,20 +34,25 @@
 
                         <!-- Email, User Password, User Password -->
                         <div class="col-md-4 mb-3">
+                            <label><b>Name <span class="text-danger">*</span></b></label>
+                            <input class="form-control" name="name" value="<?= $row->name; ?>"
+                                   type="text" placeholder="User name required" >
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <label><b>Email <span class="text-danger">*</span></b></label>
-                            <input class="form-control" name="email" value="<?= $row->user_id; ?>"
+                            <input class="form-control" name="email" value="<?= $row->email; ?>"
                                    type="text" placeholder="Email Address" required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label><b>User Password <span class="text-danger">*</span></b></label>
-                            <input class="form-control" name="password" value="<?= $row->password; ?>"
-                                   type="text" placeholder="Leave blank to use old password" required>
+                            <input class="form-control" name="password" value=""
+                                   type="text" placeholder="Leave blank to use old password">
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <!-- <div class="col-md-4 mb-3">
                             <label><b>User Password (Confirm)</b></label>
                             <input class="form-control" name="password_confirm"
                                    type="text" placeholder="Re-enter password">
-                        </div>
+                        </div> -->
 
                         <!-- Role, Join Date, Status -->
                         <div class="col-md-4 mb-3">
@@ -80,7 +85,7 @@
                         <div class="col-md-4 mb-3">
                             <label><b>Location</b></label>
                             <input class="form-control" name="location" value="<?= $row->location; ?>"
-                                   type="text" placeholder="Enter Location" required>
+                                   type="text" placeholder="Please enter user location" required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label><b>Latitude</b></label>
