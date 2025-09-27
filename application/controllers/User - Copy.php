@@ -92,113 +92,6 @@ class User extends CI_Controller
         $this->load->view('_layout/footer');
     }
 
-
-    /**
-     * AJAX fetch for DataTables
-     */
-    public function fetchAllAjax()
-    {
-        $entityid   = $this->input->post('entityid') ?? null;
-        $search     = $this->input->post('search')['value'] ?? '';
-        $limit      = $this->input->post('length') ?? 10;
-        $offset     = $this->input->post('start') ?? 0;
-        $date_from  = $this->input->post('date_from') ?? null;
-        $date_to    = $this->input->post('date_to') ?? null;
-
-        $data  = $this->usermodel->getAll($entityid, 0, $limit, $offset, $search, $date_from, $date_to);
-        $total = $this->usermodel->countAll($entityid, 0, $search, $date_from, $date_to);
-
-        echo json_encode([
-            "draw" => intval($this->input->post("draw")),
-            "recordsTotal" => $total,
-            "recordsFiltered" => $total,
-            "data" => $data
-        ]);
-    }
-
-    /**
-     * PDF export with QR code
-     */
-    public function pdf($id)
-    {
-        $qrdata             = $id;
-        $qrlink             = site_url('user/view/') . $qrdata;
-        $qrcode             = (new QRCode)->render($qrlink);
-        $data['qrcode']     = $qrcode;
-
-        $data['user'] = $this->usermodel->getUserByID($id);
-
-        if (!$data['user']) {
-            show_error('User not found', 404);
-        }
-
-        $entityid = $this->session->userdata('user_entity') ?? '_NA_';
-        $userid   = $this->session->userdata('user_id') ?? 0;
-
-        $newDefaults = [
-            'company_name'    => esc(get_configdb($entityid, $userid, 'company_name', "Lalulla OPC")),
-            'company_address' => esc(get_configdb($entityid, $userid, 'company_address', "Manila, Philippines")),
-            'company_contact' => esc(get_configdb($entityid, $userid, 'company_contact', "Tel. Nos. (02) 123-4567")),
-            'company_email'   => esc(get_configdb($entityid, $userid, 'company_email', "info@lalulla.com")),
-            'company_site'    => esc(get_configdb($entityid, $userid, 'company_site', "www.lalulla.com")),
-        ];
-
-        $data = array_merge($newDefaults, $data ?? []);
-
-        $html = $this->load->view('user/pdf_user_template', $data, TRUE);
-
-        $options = new Options();
-        $options->set('isRemoteEnabled', TRUE);
-        $dompdf = new Dompdf($options);
-
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $dompdf->stream("user_{$id}.pdf", array("Attachment" => false));
-    }
-
-    /**
-     * Store handler (separate from create form)
-     */
-    public function store()
-    {
-        if ($this->input->post()) {
-            $entityid   = $this->session->userdata('user_entity');
-            $appid      = $this->session->userdata('user_appid');
-            $userid     = $this->session->userdata('user_id');
-
-            $user_id    = $this->input->post('user_id');
-
-            $data = [
-                'entityid'  => $entityid,
-                'appid'     => $appid,
-                'userid'    => $userid,
-                'user_id'   => $user_id,
-                'name'      => $this->input->post('name'),
-                'mobile'    => $this->input->post('mobile'),
-                'role'      => $this->input->post('role'),
-                'status'    => $this->input->post('status'),
-                'created_at'=> date('Y-m-d H:i:s'),
-            ];
-
-            if (!empty($this->input->post('accpass'))) {
-                $data['pass'] = md5($this->input->post('accpass'));
-            }
-
-            $insert = $this->db->insert('users', $data);
-
-            if ($insert) {
-                log_action('create', 'Created new user via store()');
-                $this->session->set_flashdata('success', 'User successfully created');
-                redirect('user/all?t=' . time(), 'refresh');
-            } else {
-                $this->session->set_flashdata('error', 'Failed to create user');
-                redirect('user/add?t=' . time(), 'refresh');
-            }
-        }
-    }
-
-
     //Added by Jammi Dee 07/20/2025
     public function create()
     {
@@ -308,7 +201,7 @@ class User extends CI_Controller
         (new QRCode($options))->render($qrlink, $filepath);
         // if you also want to embed in <img>, you can still read and encode it
         $data['qrcode'] = base64_encode(file_get_contents($filepath));
-    
+        
         $entityid = $this->session->userdata('user_entity') ?? '_NA_';
         $userid   = $this->session->userdata('user_id') ?? 0;
 
@@ -402,7 +295,7 @@ class User extends CI_Controller
         $data['packages']   = $this->mainmodel->getAllPackages();
         $data['area']       = $this->mainmodel->getAllAreas();
         $data['staff']      = $this->mainmodel->getAllStaffs();
-
+        
         $data['sites']  = $this->emissionmodel->getAllSites();
 
         $data['title'] = 'Edit';
@@ -417,7 +310,7 @@ class User extends CI_Controller
 
 
     public function update() {
-
+        
         $id     = $this->input->post('id');
         $data   = array();
 

@@ -100,7 +100,30 @@
             sessionStorage.removeItem("flashdata"); // clear flashdata so it doesn't show again
         }
 
+        //Search Event - JMD 09/06/2025
+        $(document).on('click', '#navbarSearch .btn', function() {
+            let query = $('#navbarSearch input[type="text"]').val().trim();
+            if (query) {
+                console.log("Searching for:", query);
+            } else {
+                alert("Please enter a search term.");
+            }
+        });
 
+        //Search Event - JMD 09/06/2025
+        $(document).on('submit', '#navbarSearch', function(e) {
+            e.preventDefault(); // prevent page reload
+            let query = $('#navbarSearch input[type="text"]').val().trim();
+
+            if (query) {
+                console.log("Searching for:", query);
+                // 👉 Call your API / redirect / filter etc.
+                // Example:
+                // window.location.href = '/search?q=' + encodeURIComponent(query);
+            } else {
+                alert("Please enter a search term.");
+            }
+        });
 
 
     });

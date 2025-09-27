@@ -9,72 +9,89 @@
         </ol>
     </div>
 
-    <!-- <div class="text-center mb-4">
-        <img src="<1= base_url('assets/'); ?>img/think.svg" style="max-height: 90px">
-        <h4 class="pt-3">Save your <b>imagination</b> On Blank Canvas!</h4>
-    </div> -->
-
-    <div class="row justify-content-center">
-        <div class="col-lg-12">
-            <?php foreach ($view_user as $user): ?>
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">
-                            <i class="fas fa-fw fa-edit"></i> Vew User | <?= $user->name; ?>
-                        </h6>
+    <div class="col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary mr-3 text-nowrap">
+                        <i class="fas fa-fw fa-user"></i> View User
+                    </h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <?php foreach ($view_user as $user): ?>
+                <!-- View User Info -->
+                <div class="row">
+                    <!-- ID -->
+                    <div class="col-md-6 mb-3">
+                        <label>User ID</label>
+                        <p class="form-control-plaintext"><?= $user->id; ?></p>
                     </div>
-                    <div class="card-body">
 
-                        <div class="text-center mb-4">
-                            <?php if (!empty($user->photo)): ?>
-                                <img class="img-profile rounded-circle" width="120" src="<?= base_url('assets/images/final/' . $user->photo); ?>">
-                            <?php else: ?>
-                                <img class="img-profile rounded-circle" width="120" src="<?= base_url('assets/img/default-avatar.png'); ?>">
-                            <?php endif; ?>
-                        </div>
+                    <!-- Name -->
+                    <div class="col-md-6 mb-3">
+                        <label>Full Name</label>
+                        <p class="form-control-plaintext"><?= $user->name; ?></p>
+                    </div>
 
-                        <table class="table table-bordered">
-                            <tr><th>Name</th><td><?= $user->name; ?></td></tr>
-                            <tr><th>Mobile</th><td><?= $user->mobile; ?></td></tr>
-                            <tr><th>Connection ID</th><td><?= $user->user_id; ?></td></tr>
-                            <tr><th>Join Date</th><td><?= $user->join_date; ?></td></tr>
-                            <tr><th>Role</th><td><?= $user->role; ?></td></tr>
-                            <tr><th>Status</th><td><?= $user->status; ?></td></tr>
-                            <?php if (isTechGroup()): ?>
-                                <tr><th>Location</th><td><?= $user->location; ?></td></tr>
-                                <tr><th>Latitude</th><td><?= $user->lat; ?></td></tr>
-                                <tr><th>Longitude</th><td><?= $user->lon; ?></td></tr>
-                                <tr><th>PETC Code</th><td><?= $user->petc_code; ?></td></tr>
-                                <tr><th>Search Quota</th><td><?= $user->search_quota; ?></td></tr>
-                                <tr><th>Search Unlimited</th><td><?= $user->search_unli ? 'Yes' : 'No'; ?></td></tr>
-                                <tr><th>Time Unlimited</th><td><?= $user->time_unli ? 'Yes' : 'No'; ?></td></tr>
-                                <tr><th>Start Time</th><td><?= $user->starttime; ?></td></tr>
-                                <tr><th>End Time</th><td><?= $user->endtime; ?></td></tr>
-                            <?php endif; ?>
-                            <tr><th>Remarks</th><td><?= $user->remarks; ?></td></tr>
-                        </table>
+                    <!-- Email -->
+                    <div class="col-md-6 mb-3">
+                        <label>Email</label>
+                        <p class="form-control-plaintext"><?= $user->email; ?></p>
+                    </div>
 
-                        <div class="mt-4 text-center">
-                            <a href="<?= base_url('user/edit/' . $user->id); ?>" class="btn btn-warning">
-                                <i class="fas fa-edit"></i> Edit User
-                            </a>
-                            <a href="<?= base_url('user/all'); ?>" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Back to List
-                            </a>
-                        </div>
+                    <!-- Password -->
+                    <div class="col-md-6 mb-3">
+                        <label>Password</label>
+                        <p class="form-control-plaintext text-muted">••••••••</p>
+                    </div>
 
+                    <!-- Mobile -->
+                    <div class="col-md-6 mb-3">
+                        <label>Mobile</label>
+                        <p class="form-control-plaintext"><?= $user->mobile; ?></p>
+                    </div>
+
+                    <!-- Join Date -->
+                    <div class="col-md-6 mb-3">
+                        <label>Join Date</label>
+                        <p class="form-control-plaintext"><?= $user->join_date; ?></p>
+                    </div>
+
+                    <!-- Role -->
+                    <div class="col-md-6 mb-3">
+                        <label>Role</label>
+                        <p class="form-control-plaintext"><?= $user->role; ?></p>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-6 mb-3">
+                        <label>Status</label>
+                        <p class="form-control-plaintext"><?= $user->status; ?></p>
+                    </div>
+
+                    <!-- Remarks -->
+                    <div class="col-md-12 mb-12">
+                        <label>Remarks</label>
+                        <p class="form-control-plaintext"><?= $user->remarks; ?></p>
                     </div>
                 </div>
-            <?php endforeach; ?>
+
+                <br>
+                <div class="text-right">
+                    <a href="<?= base_url('user/all'); ?>" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </div>
 <!---Container Fluid-->
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        //Put your customized page scripts
-
-    });
+document.addEventListener("DOMContentLoaded", function () {
+    // Put your customized page scripts
+});
 </script>

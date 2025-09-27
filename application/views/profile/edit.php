@@ -38,6 +38,12 @@
                             <input type="email" class="form-control" name="email" id="email" placeholder="<?= $user->email ?? ''; ?>">
                         </div>
 
+                        <!-- Password -->
+                        <div class="col-md-6 mb-3">
+                            <label for="password">Password <small class="text-muted">(leave blank to keep current)</small></label>
+                            <input type="password" class="form-control" name="password" id="password">
+                        </div>
+
                         <!-- Mobile -->
                         <div class="col-md-6 mb-3">
                             <label for="mobile">Mobile</label>
@@ -63,18 +69,14 @@
                         </div>
 
                         <!-- Remarks -->
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-12">
                             <label for="remarks">Remarks</label>
                             <textarea class="form-control" name="remarks" id="remarks" placeholder="<?= $user->remarks ?? ''; ?>"></textarea>
                         </div>
 
-                        <!-- Password -->
-                        <div class="col-md-6 mb-3">
-                            <label for="password">Password <small class="text-muted">(leave blank to keep current)</small></label>
-                            <input type="password" class="form-control" name="password" id="password">
-                        </div>
                     </div>
 
+                    <br>
                     <div class="text-right">
                         <button type="submit" class="btn btn-primary">Update Profile</button>
                     </div>

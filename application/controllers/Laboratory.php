@@ -134,7 +134,7 @@ class Laboratory extends CI_Controller {
     // Create form
     // --------------------------------------------------------------------
     public function create() {
-    
+
         $data['title'] = 'New Laboratory Record';
 
         // Generate unique tag_id

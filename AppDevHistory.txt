@@ -18,6 +18,10 @@ TO FIX
 - make sure the lookup have entity and appid
 -
 
+09/27/2025		- updated the profile UI
+				- improved the user ID module
+				-
+
 09/05/2025		- create a separate database cloudgatedb
 				-
 

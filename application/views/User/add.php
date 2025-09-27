@@ -32,7 +32,7 @@
                         <input type="text" name="user_id" class="form-control" placeholder="Enter User ID" required>
                     </div>
                     <div class="form-group">
-                        <label><b>Connection Pass</b> <span class="text-danger">*</span></label>
+                        <label><b>User Password</b> <span class="text-danger">*</span></label>
                         <input type="text" name="password" class="form-control" placeholder="Set user connection password" required>
                     </div>
                     <div class="form-group">
