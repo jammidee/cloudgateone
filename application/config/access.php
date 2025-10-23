@@ -67,12 +67,12 @@ $config['superadmins'] = array(
 
 //Define group that can be accessed by roles.
 $config['cg-roles'] = array(
-    'super-group'       => array('Superadmin'),
-    'admin-group'       => array('Superadmin', 'Admin'),
-    'support-group'     => array('Superadmin', 'Admin','Support'),
-    'business-group'    => array('Superadmin', 'Admin','Manager', 'User', 'Client'),
-    'user-group'        => array('Superadmin', 'Admin','Support','Manager','Guest', 'Visitor'),
-    'guest-group'       => array('Superadmin', 'Admin','Support','Manager','Guest', 'Visitor')
+    'super-group'               => array('Superadmin'),
+    'admin-group'               => array('Superadmin', 'Admin'),
+    'support-group'             => array('Superadmin', 'Admin','Support'),
+    'business-group'            => array('Superadmin', 'Admin','Manager', 'User', 'Client'),
+    'user-group'                => array('Superadmin', 'Admin','Support','Manager','Guest', 'Visitor'),
+    'guest-group'               => array('Superadmin', 'Admin','Support','Manager','Guest', 'Visitor')
 );
 
 //Define menu that can be access by a group
@@ -87,69 +87,69 @@ $config['menu-access'] = array(
     'laboratory_report'         => array('admin-group','support-group'),
     
     //Top Menu controls
-    'topmenu_manage'         => array('admin-group','support-group','business-group','user-group'),
-    'topmenu_create'         => array('admin-group','support-group'),
-    'topmenu_read'           => array('admin-group','support-group','business-group','user-group'),
-    'topmenu_update'         => array('admin-group','support-group'),
-    'topmenu_delete'         => array('admin-group','support-group'),
+    'topmenu_manage'            => array('admin-group','support-group','business-group','user-group'),
+    'topmenu_create'            => array('admin-group','support-group'),
+    'topmenu_read'              => array('admin-group','support-group','business-group','user-group'),
+    'topmenu_update'            => array('admin-group','support-group'),
+    'topmenu_delete'            => array('admin-group','support-group'),
 
     //Lookup right controls
-    'lookup_manage'         => array('admin-group','support-group','business-group','user-group'),
-    'lookup_create'         => array('admin-group','support-group'),
-    'lookup_read'           => array('admin-group','support-group','business-group','user-group'),
-    'lookup_update'         => array('admin-group','support-group'),
-    'lookup_delete'         => array('admin-group','support-group'),
+    'lookup_manage'             => array('admin-group','support-group','business-group','user-group'),
+    'lookup_create'             => array('admin-group','support-group'),
+    'lookup_read'               => array('admin-group','support-group','business-group','user-group'),
+    'lookup_update'             => array('admin-group','support-group'),
+    'lookup_delete'             => array('admin-group','support-group'),
 
     //User right controls
-    'user_manage'           => array('super-group','admin-group'),
-    'user_create'           => array('super-group','admin-group'),
-    'user_read'             => array('super-group','admin-group'),
-    'user_update'           => array('super-group','admin-group'),
-    'user_delete'           => array('super-group','admin-group'),
-    'user_report'           => array('super-group','admin-group'),
+    'user_manage'               => array('super-group','admin-group'),
+    'user_create'               => array('super-group','admin-group'),
+    'user_read'                 => array('super-group','admin-group'),
+    'user_update'               => array('super-group','admin-group'),
+    'user_delete'               => array('super-group','admin-group'),
+    'user_report'               => array('super-group','admin-group'),
     
     //Map Marker right controls
-    'mapmarker_manage'      => array('super-group','admin-group'),
-    'mapmarker_create'      => array('super-group','admin-group'),
-    'mapmarker_read'        => array('super-group','admin-group'),
-    'mapmarker_update'      => array('super-group','admin-group'),
-    'mapmarker_delete'      => array('super-group','admin-group'),
-    'mapmarker_report'      => array('super-group','admin-group'),
+    'mapmarker_manage'          => array('super-group','admin-group'),
+    'mapmarker_create'          => array('super-group','admin-group'),
+    'mapmarker_read'            => array('super-group','admin-group'),
+    'mapmarker_update'          => array('super-group','admin-group'),
+    'mapmarker_delete'          => array('super-group','admin-group'),
+    'mapmarker_report'          => array('super-group','admin-group'),
 
     //Map Boundaries right controls
-    'mapboundaries_manage'  => array('super-group','admin-group'),
-    'mapboundaries_create'  => array('super-group','admin-group'),
-    'mapboundaries_read'    => array('super-group','admin-group'),
-    'mapboundaries_update'  => array('super-group','admin-group'),
-    'mapboundaries_delete'  => array('super-group','admin-group'),
-    'mapboundaries_report'  => array('super-group','admin-group'),
+    'mapboundaries_manage'      => array('super-group','admin-group'),
+    'mapboundaries_create'      => array('super-group','admin-group'),
+    'mapboundaries_read'        => array('super-group','admin-group'),
+    'mapboundaries_update'      => array('super-group','admin-group'),
+    'mapboundaries_delete'      => array('super-group','admin-group'),
+    'mapboundaries_report'      => array('super-group','admin-group'),
 
     //Calendar right controls
-    'calendar_manage'       => array('super-group','admin-group'),
-    'calendar_create'       => array('super-group','admin-group'),
-    'calendar_read'         => array('super-group','admin-group'),
-    'calendar_update'       => array('super-group','admin-group'),
-    'calendar_delete'       => array('super-group','admin-group'),
-    'calendar_report'       => array('super-group','admin-group'),
+    'calendar_manage'           => array('super-group','admin-group'),
+    'calendar_create'           => array('super-group','admin-group'),
+    'calendar_read'             => array('super-group','admin-group'),
+    'calendar_update'           => array('super-group','admin-group'),
+    'calendar_delete'           => array('super-group','admin-group'),
+    'calendar_report'           => array('super-group','admin-group'),
 
     //Setting right controls
-    'setting_manage'        => array('super-group','admin-group'),
-    'setting_create'        => array('super-group','admin-group'),
-    'setting_read'          => array('super-group','admin-group'),
-    'setting_update'        => array('super-group','admin-group'),
-    'setting_delete'        => array('super-group','admin-group'),
-    'setting_report'        => array('super-group','admin-group'),
+    'setting_manage'            => array('super-group','admin-group'),
+    'setting_create'            => array('super-group','admin-group'),
+    'setting_read'              => array('super-group','admin-group'),
+    'setting_update'            => array('super-group','admin-group'),
+    'setting_delete'            => array('super-group','admin-group'),
+    'setting_report'            => array('super-group','admin-group'),
 
     //Setting right controls
-    'superadmin_manage'     => array('super-group'),
-    'superadmin_create'     => array('super-group'),
-    'superadmin_read'       => array('super-group'),
-    'superadmin_update'     => array('super-group'),
-    'superadmin_delete'     => array('super-group'),
-    'superadmin_report'     => array('super-group'),
+    'superadmin_manage'         => array('super-group'),
+    'superadmin_create'         => array('super-group'),
+    'superadmin_read'           => array('super-group'),
+    'superadmin_update'         => array('super-group'),
+    'superadmin_delete'         => array('super-group'),
+    'superadmin_report'         => array('super-group'),
 
-    'settings_manage'       => array('super-group','admin-group', 'support-group'),
+    'settings_manage'           => array('super-group','admin-group', 'support-group'),
 
-    'support_dashboard'     => array('super-group','support-group'),
-    'page_test'             => array('super-group','admin-group', 'support-group', 'business-group', 'user-group'),
+    'support_dashboard'         => array('super-group','support-group'),
+    'page_test'                 => array('super-group','admin-group', 'support-group', 'business-group', 'user-group'),
 );

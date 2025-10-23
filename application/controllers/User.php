@@ -38,7 +38,7 @@ class User extends CI_Controller
 
         $this->load->model('mainmodel');
         $this->load->model('usermodel');
-        $this->load->model('emissionmodel');
+        // $this->load->model('emissionmodel');
 
     }
 
@@ -61,7 +61,7 @@ class User extends CI_Controller
         $data['area']       = $this->mainmodel->getAllAreas();
         $data['staff']      = $this->mainmodel->getAllStaffs();
 
-        $data['sites']  = $this->emissionmodel->getAllSites();
+        // $data['sites']  = $this->emissionmodel->getAllSites();
 
         $data['title'] = 'Add';
 
@@ -421,7 +421,7 @@ class User extends CI_Controller
         $data['area']       = $this->mainmodel->getAllAreas();
         $data['staff']      = $this->mainmodel->getAllStaffs();
 
-        $data['sites']  = $this->emissionmodel->getAllSites();
+        // $data['sites']  = $this->emissionmodel->getAllSites();
 
         $data['title'] = 'Edit';
 
