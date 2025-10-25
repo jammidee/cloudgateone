@@ -18,6 +18,9 @@ TO FIX
 - make sure the lookup have entity and appid
 -
 
+10/25/2025		- fixed the issue of updating global variables in configdb model.
+				-
+
 09/27/2025		- updated the profile UI
 				- improved the user ID module
 				- improve the user module and tight integration with datatable

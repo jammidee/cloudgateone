@@ -36,13 +36,17 @@ class Configdbmodel extends CI_Model {
      * Returns $default if not found
      */
     public function readVar($entityid, $userid, $key, $default = null) {
-        $query = $this->db
-            ->where('entityid', $entityid)
-            ->where('userid', $userid)
-            ->where('var_key', $key)
-            ->where('deleted', 0)
-            ->where('status', 'active')
-            ->get($this->table);
+
+        $this->db->where('entityid', $entityid)
+                ->where('var_key', $key)
+                ->where('deleted', 0)
+                ->where('status', 'active');
+
+        // if (!is_null($userid)) {
+        //     $this->db->where('userid', $userid);
+        // }
+
+        $query = $this->db->get($this->table);
 
         if ($query->num_rows() > 0) {
             return $query->row()->var_value;
@@ -56,13 +60,17 @@ class Configdbmodel extends CI_Model {
      * Returns $default if not found
      */
     public function readVarInc($entityid, $userid, $key, $default = null) {
-        $query = $this->db
-            ->where('entityid', $entityid)
-            ->where('userid', $userid)
-            ->where('var_key', $key)
-            ->where('deleted', 0)
-            ->where('status', 'active')
-            ->get($this->table);
+        
+        $this->db->where('entityid', $entityid)
+                ->where('var_key', $key)
+                ->where('deleted', 0)
+                ->where('status', 'active');
+
+        // if (!is_null($userid)) {
+        //     $this->db->where('userid', $userid);
+        // }
+
+        $query = $this->db->get($this->table);
 
         if ($query->num_rows() > 0) {
             $row = $query->row();
@@ -105,14 +113,14 @@ class Configdbmodel extends CI_Model {
 
         $exists = $this->db->get_where($this->table, [
             'entityid' => $entityid,
-            'userid'   => $userid,
+            // 'userid'   => $userid,
             'var_key'  => $key
         ])->row();
 
         if ($exists) {
             // update existing
             $this->db->where('entityid', $entityid)
-                     ->where('userid', $userid)
+                    //  ->where('userid', $userid)
                      ->where('var_key', $key)
                      ->update($this->table, $data);
             return $this->db->affected_rows() > 0;
