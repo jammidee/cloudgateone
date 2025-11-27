@@ -151,7 +151,9 @@ class Auth extends CI_Controller {
                     'user_name'     => $row->name,
                     'user_email'    => $row->email,
                     'user_role'     => $row->role,
-                    'user_entity'   => $this->config->item('appentity'),
+                    // 'user_entity'   => $this->config->item('appentity'),
+                    'user_entity'   => $row->entityid,
+                    'user_appid'    => $this->config->item('appid'),
                     'logged_in'     => TRUE,
                 );
             }
