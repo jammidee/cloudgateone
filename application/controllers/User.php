@@ -295,6 +295,7 @@ class User extends CI_Controller
         $data['time_unli']       = 0;
         $data['starttime']       = 0;
         $data['endtime']         = 24;
+        $data['entityid']        = $this->session->userdata('user_entity');
 
         // System fields
         $data['sstatus']   = 'ACTIVE';
@@ -606,6 +607,8 @@ class User extends CI_Controller
 
         $data['search_unli']    = $this->input->post('search_unli') ? 1 : 0;
         $data['time_unli']      = $this->input->post('time_unli') ? 1 : 0;
+
+        $data['entityid']        = $this->session->userdata('user_entity');
 
         //Log profile update here
         log_action('update', 'Updated profile information');
