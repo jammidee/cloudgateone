@@ -63,6 +63,8 @@
                                 <option value="Admin">Admin</option>
                                 <option value="Manager">Manager</option>
                                 <option value="Support">Support</option>
+                                <option value="Reviewer">Reviewer</option>
+                                <option value="Approver">Approver</option>
                                 <option value="User">User</option>
                             </select>
                         </div>
